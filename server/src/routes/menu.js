@@ -23,7 +23,7 @@ const options = {
 
     // Optional depending on the providers
     // fetch: customFetchImplementation,
-    apiKey: 'AIzaSyCPYrCj9NVMMoxXd-DYQTQnN80NQGyj2z8', // for Mapquest, OpenCage, Google Premier
+    apiKey: '', // for Mapquest, OpenCage, Google Premier
     formatter: null // 'gpx', 'string', ...
 };
 

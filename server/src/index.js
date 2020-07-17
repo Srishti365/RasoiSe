@@ -96,6 +96,7 @@ app.use(bodyParser.json());
 //Routes
 app.use('/admin', adminRouter)
 app.use('', require('./routes/authRoutes'));
+app.use('/chef', require('./routes/chefRoutes'));
 app.use('/home', require('./routes/menu'));
 app.use('/payment', require('./routes/paypal'));
 app.use('', require('./routes/unauthRoutes'));

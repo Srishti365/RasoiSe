@@ -4,6 +4,15 @@ const bcrypt = require("bcryptjs");
 
 const chefSchema = new Schema({
     name: String,
+    email: {
+        type:String,
+        unique: true,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
     location: String,
     geometry: {
         type: {
@@ -47,9 +56,39 @@ const cartSchema = new Schema({
     isDelivered: Boolean
 })
 
+
+chefSchema.methods.comparePassword = function(candidatePassword){
+    const chef = this;
+
+    return new Promise((resolve, reject) => {
+        bcrypt.compare(candidatePassword, chef.password, (err, isMatch) => {
+            if(err){
+                return reject(err);
+            }
+            if(!isMatch) {
+                return reject(false);
+            }
+
+            resolve(true);
+        });
+    });
+
+}
+
+
 const Chef = mongoose.model("chef", chefSchema);
 const Menu = mongoose.model("menu", menuItemSchema);
 const OrderItem = mongoose.model("orderItem", orderItemSchema);
 const Cart = mongoose.model("cart", cartSchema);
 
 module.exports = { chef: Chef, menu: Menu, orderItem: OrderItem, cart: Cart };
+
+
+module.exports.hashPassword = async function(password) {
+    try {
+      const salt = await bcrypt.genSalt(10);
+      return await bcrypt.hash(password, salt);
+    } catch (error) {
+      throw new Error("Hashing failed", error);
+    }
+};
