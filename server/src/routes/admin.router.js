@@ -38,7 +38,13 @@ const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
         }
         return null
     }
-})
+
+}
+    , null, {
+    resave: false,
+    saveUninitialized: true,
+}
+)
 
 module.exports = router
 
