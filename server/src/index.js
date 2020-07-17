@@ -44,6 +44,8 @@ const mongoose = require('mongoose');
 const requireAuth = require('./middlewares/requireAuth');
 const engines = require("consolidate");
 
+const adminRouter = require('./routes/admin.router')
+
 Chef = models.chef;
 Menu = models.menu;
 
@@ -92,6 +94,7 @@ app.set("view engine", "ejs");
 app.use(bodyParser.json());
 
 //Routes
+app.use('/admin', adminRouter)
 app.use('', require('./routes/authRoutes'));
 app.use('/home', require('./routes/menu'));
 app.use('/payment', require('./routes/paypal'));
