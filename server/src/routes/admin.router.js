@@ -3,6 +3,7 @@ const AdminBroExpress = require('admin-bro-expressjs')
 const AdminBroMongoose = require('admin-bro-mongoose')
 
 const mongoose = require('mongoose')
+const { verify } = require('jsonwebtoken')
 
 AdminBro.registerAdapter(AdminBroMongoose)
 
@@ -40,3 +41,5 @@ const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
 })
 
 module.exports = router
+
+// admin panel for our app
