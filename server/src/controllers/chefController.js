@@ -5,7 +5,7 @@ Chef = models.chef;
 
 module.exports = {
     signUp: async (req,res) => {
-        var { email, password } = req.body;
+        var { email, password, location, name } = req.body;
 
         const chef = await Chef.findOne({ email });
         if(chef){
@@ -16,13 +16,14 @@ module.exports = {
 
             password = await models.hashPassword(password);
     
-            const chef = new Chef ({ email, password });
+            const chef = new Chef ({ email, password, location, name, active:false });
             console.log('chef', chef);
 
             await chef.save();
 
     
             const token = jwt.sign({ userId: chef._id }, 'MY_SECRET_KEY');
+            console.log(token,'token')
     
             res.send({ token });
         } catch (err) {
@@ -43,10 +44,9 @@ module.exports = {
             return res.status(422).send({error:'You have not registered yet!!'});
         }
 
-        // console.log(user.password);
-        // if(user.active == false){
-        //     return res.status(422).send({verify: 'Verify your email first'});
-        // }
+        if(chef.active == false){
+            return res.status(422).send({error: 'We need to verify first!!!'});
+        }
     
         try{
             await chef.comparePassword(password);

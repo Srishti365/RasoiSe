@@ -13,6 +13,9 @@ const chefSchema = new Schema({
         type: String,
         required: true
     },
+    active: {
+        type: Boolean
+    },
     location: String,
     geometry: {
         type: {
