@@ -101,8 +101,7 @@ app.use('/home', require('./routes/menu'));
 app.use('/payment', require('./routes/paypal'));
 app.use('', require('./routes/unauthRoutes'));
 app.use('/cart', require('./routes/cart'));
-// app.use('/executive',require('./routes/executive'));
-
+app.use('/cook', require('./routes/chefdetails'))
 
 // app.get('/', requireAuth, (req, res) => {
 //   res.send(`Your email ${req.user.email}`);

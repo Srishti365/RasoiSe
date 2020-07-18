@@ -16,8 +16,8 @@ const chefSchema = new Schema({
     active: {
         type: Boolean
     },
-    phone:{
-        type:Number
+    phone: {
+        type: Number
     },
     location: String,
     geometry: {
@@ -34,7 +34,10 @@ const chefSchema = new Schema({
         type: Number,
         default: 3
     },
-    image: String
+    image: {
+        type: String,
+        default: "https://akm-img-a-in.tosshub.com/sites/indiacontent/0/images/product/public/03102019/00/01/57/00/87/74/12/88/1570087741288/659-chef-kunal-kapur-posing-with-barbecued-lambchops-in-the-kitchen-of-image-Chef_Kunal_Kapur_121808_B_01.jpg"
+    }
 })
 
 const menuItemSchema = new Schema({
@@ -43,7 +46,10 @@ const menuItemSchema = new Schema({
     description: String,
     price: Number,
     chef: String,
-    image: String
+    image: {
+        type: String,
+        default: "https://5.imimg.com/data5/JJ/BE/MY-17263151/schezwan-chicken-lollipops-500x500.png"
+    }
 })
 
 const orderItemSchema = new Schema({
