@@ -70,7 +70,7 @@ router.route("/search/:query")
                         })
                         // console.log(filter_chefs)
                         for (var i of filter_chefs) {
-                            n = (i.name).toString()
+                            n = (i.name).toString().toLowerCase()
                             if (n.includes(req.params.query.toLowerCase())) {
                                 set1.add((i._id).toString())
 

@@ -10,15 +10,7 @@ const models = require('../models/models')
 Chef = models.chef;
 Menu = models.menu;
 
-
-// const menuItemSchema = new Schema({
-//     name: String,
-//     category: String,
-//     description: String,
-//     price: Number,
-//     chef: String,
-//     image: String
-// })
+/****************chef details */
 
 router.route("/addmenuitem")
     .post(async (req, res, next) => {
