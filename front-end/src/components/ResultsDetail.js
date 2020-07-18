@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
 import { Button, ThemeProvider } from 'react-native-elements';
-import { Entypo } from '@expo/vector-icons';
-import { string } from 'prop-types';
+
 
 const ResultsDetail = ({ result, callback }) => {
     // console.log(result.image);

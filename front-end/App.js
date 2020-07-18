@@ -1,67 +1,13 @@
-// import React from 'react';
-// import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-// import { createStackNavigator } from 'react-navigation-stack';
-// import { createBottomTabNavigator } from 'react-navigation-tabs';
-
-// import SignoutScreen from './src/screens/SignoutScreen';
-// import SigninScreen from './src/screens/SigninScreen';
-// import SignupScreen from './src/screens/SignupScreen';
-// import TrackCreateScreen from './src/screens/TrackCreateScreen';
-// import TrackDetailScreen from './src/screens/TrackDetailScreen';
-// import TrackListScreen from './src/screens/TrackListScreen';
-// import { Provider as AuthProvider } from './src/context/AuthContext';
-// import { setNavigator } from './src/navigationRef';
-// import ResolveAuthScreen from './src/screens/ResolveAuthScreen';
-// import VerifyScreen from './src/screens/VerifyScreen';
-// import SearchScreen from './src/screens/SearchScreen';
-
-
-// const switchNavigator = createSwitchNavigator({
-//   ResolveAuth: ResolveAuthScreen,
-//   loginFlow: createStackNavigator({
-//     Signin: SigninScreen,
-//     Signup: SignupScreen,
-//     Verify: VerifyScreen
-//   }),
-//   mainFlow: createBottomTabNavigator({
-//     trackListFlow: createStackNavigator({
-//       TrackList: TrackListScreen,
-//       TrackDetail: TrackDetailScreen,
-//       Search: SearchScreen
-//     }),
-//     TrackCreate: TrackCreateScreen,
-//     Signout: SignoutScreen
-//   })
-// });
-
-
-// const App = createAppContainer(switchNavigator);
-
-// export default () => {
-//   return (
-//     <AuthProvider>
-//       <App
-//         ref={(navigator) => {
-//           setNavigator(navigator)
-//         }}
-//       />
-//     </AuthProvider>
-//   )
-// };
-
-
 import React from 'react';
 import { Dimensions } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import SignoutScreen from './src/screens/SignoutScreen';
 import SigninScreen from './src/screens/SigninScreen';
 import SignupScreen from './src/screens/SignupScreen';
-import TrackCreateScreen from './src/screens/TrackCreateScreen';
-import TrackDetailScreen from './src/screens/TrackDetailScreen';
-import TrackListScreen from './src/screens/TrackListScreen';
+import ChefSigninScreen from './src/screens/ChefSigninScreen';
+import ChefSignupScreen from './src/screens/ChefSignupScreen';
 import { Provider as AuthProvider } from './src/context/AuthContext';
 import { setNavigator } from './src/navigationRef';
 import ResolveAuthScreen from './src/screens/ResolveAuthScreen';
@@ -76,13 +22,18 @@ import NewPasswordScreen from './src/screens/NewPasswordScreen';
 import { Feather } from '@expo/vector-icons';
 import ResultsShowScreen from './src/screens/ResultsShowScreen';
 import CartScreen from './src/screens/CartScreen';
+import WelcomeScreen from './src/screens/WelcomeScreen';
+
 
 
 const switchNavigator = createSwitchNavigator({
   ResolveAuth: ResolveAuthScreen,
   loginFlow: createStackNavigator({
+    Welcome:WelcomeScreen,
     Signin: SigninScreen,
     Signup: SignupScreen,
+    ChefSignup:ChefSignupScreen,
+    ChefSignin:ChefSigninScreen,
     Verify: VerifyScreen,
     ResetPassword: ResetPasswordScreen,
     Otp: OtpScreen,

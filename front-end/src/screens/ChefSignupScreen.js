@@ -8,12 +8,13 @@ import NavLink from '../components/NavLink';
 
 
 
-const SignupScreen = ({ navigation }) => {
+const ChefSignupScreen = ({ navigation }) => {
 
-    const { state, signup, clearErrorMessage } = useContext(AuthContext);
+    const { state, chefSignup, clearErrorMessage } = useContext(AuthContext);
     const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
+    const [location, setLocation] = useState('')
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
 
     return(
         <View style={styles.container}>
@@ -21,6 +22,26 @@ const SignupScreen = ({ navigation }) => {
                 onWillBlur={clearErrorMessage}
           />
         <Text style={[styles.title, styles.leftTitle]}>Create new account</Text>
+        <View style={styles.InputContainer}>
+          <TextInput
+            style={styles.body}
+            placeholder="Kitchen name"
+            onChangeText={name => setName(name)}
+            value={name}
+            placeholderTextColor={AppStyles.color.grey}
+            underlineColorAndroid="transparent"
+          />
+        </View>
+        <View style={styles.InputContainer}>
+          <TextInput
+            style={styles.body}
+            placeholder="Address"
+            onChangeText={location => setLocation(location)}
+            value={location}
+            placeholderTextColor={AppStyles.color.grey}
+            underlineColorAndroid="transparent"
+          />
+        </View>
         <View style={styles.InputContainer}>
           <TextInput
             style={styles.body}
@@ -42,17 +63,6 @@ const SignupScreen = ({ navigation }) => {
             underlineColorAndroid="transparent"
           />
         </View>
-        <View style={styles.InputContainer}>
-          <TextInput
-            style={styles.body}
-            placeholder="Re - type Password"
-            secureTextEntry={true}
-            onChangeText={password => setConfirmPassword(password)}
-            value={confirmPassword}
-            placeholderTextColor={AppStyles.color.grey}
-            underlineColorAndroid="transparent"
-          />
-        </View>
         <View style={{marginTop:10}}>
         {state.errorMessage ? (
             <Text style={{ color:'red'}}>{state.errorMessage}</Text>
@@ -61,12 +71,12 @@ const SignupScreen = ({ navigation }) => {
         <Button
           containerStyle={[styles.facebookContainer, { marginTop: 30 }]}
           style={styles.facebookText}
-          onPress={() => signup({ email, password, confirmPassword })}
+          onPress={() => chefSignup({ name, location, email, password })}
         >
           Sign Up
         </Button>
         <NavLink
-            routeName="Signin"
+            routeName="ChefSignin"
             text="Already have an account? Sign in instead!"
         />
       </View>
@@ -138,4 +148,4 @@ const styles = StyleSheet.create({
   });
 
 
-export default SignupScreen;
+export default ChefSignupScreen;
