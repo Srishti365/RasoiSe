@@ -1,45 +1,23 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import React from 'react';
+import { SearchBar } from 'react-native-elements';
 
-const SearchBar = ({ term, onTermChange, onTermSubmit }) => {
+
+
+const SearchBarScreen = ({ term, onTermChange, onTermSubmit }) => {
+
 
     return (
-        <View style={styles.backgroundStyle}>
-            <Feather name="search" style={styles.iconStyle} />
-            <TextInput
-                autoCapitalize='none'
-                autoCorrect={false}
-                placeholder="Search"
-                style={styles.inputStyle}
-                value={term}
-                onChangeText={newTerm => onTermChange(newTerm)}
-                onEndEditing={onTermSubmit}
-
-            />
-        </View>
+        <SearchBar 
+            platform='android'
+            containerStyle={{backgroundColor: 'white',borderColor:'white', borderWidth: 1, borderRadius: 10, margin:5, height:55,alignItems:'center',justifyContent:'center'}}
+            inputStyle={{backgroundColor: 'white'}}
+            placeholder="Search for restaurants" 
+            value={term}
+            onChangeText={newTerm => onTermChange(newTerm)}
+            onEndEditing={onTermSubmit}
+        />
     );
 };
 
-const styles = StyleSheet.create({
-    backgroundStyle: {
-        backgroundColor: 'rgb(230,230,230)',
-        height: 50,
-        borderRadius: 5,
-        marginHorizontal: 15,
-        flexDirection: 'row',
-        marginTop: 10,
-        marginBottom: 10
-    },
-    inputStyle: {
-        flex: 1,
-        fontSize: 18
-    },
-    iconStyle: {
-        fontSize: 35,
-        alignSelf: 'center',
-        marginHorizontal: 15
-    }
-});
 
-export default SearchBar;
+export default SearchBarScreen;
