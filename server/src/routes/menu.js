@@ -17,15 +17,8 @@ const models = require('../models/models')
 Chef = models.chef;
 Menu = models.menu;
 
+const options = require('../../location_creds')
 
-const options = {
-    provider: 'google',
-
-    // Optional depending on the providers
-    // fetch: customFetchImplementation,
-    apiKey: '', // for Mapquest, OpenCage, Google Premier
-    formatter: null // 'gpx', 'string', ...
-};
 
 
 router.route("/")

@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const chefSchema = new Schema({
     name: String,
     email: {
-        type:String,
+        type: String,
         unique: true,
         required: true
     },
@@ -27,8 +27,11 @@ const chefSchema = new Schema({
             index: "2dsphere"
         }
     },
-    rating: Number,
-    image:String
+    rating: {
+        type: Number,
+        default: 3
+    },
+    image: String
 })
 
 const menuItemSchema = new Schema({
@@ -37,7 +40,7 @@ const menuItemSchema = new Schema({
     description: String,
     price: Number,
     chef: String,
-    image:String
+    image: String
 })
 
 const orderItemSchema = new Schema({
@@ -60,15 +63,15 @@ const cartSchema = new Schema({
 })
 
 
-chefSchema.methods.comparePassword = function(candidatePassword){
+chefSchema.methods.comparePassword = function (candidatePassword) {
     const chef = this;
 
     return new Promise((resolve, reject) => {
         bcrypt.compare(candidatePassword, chef.password, (err, isMatch) => {
-            if(err){
+            if (err) {
                 return reject(err);
             }
-            if(!isMatch) {
+            if (!isMatch) {
                 return reject(false);
             }
 
@@ -87,11 +90,11 @@ const Cart = mongoose.model("cart", cartSchema);
 module.exports = { chef: Chef, menu: Menu, orderItem: OrderItem, cart: Cart };
 
 
-module.exports.hashPassword = async function(password) {
+module.exports.hashPassword = async function (password) {
     try {
-      const salt = await bcrypt.genSalt(10);
-      return await bcrypt.hash(password, salt);
+        const salt = await bcrypt.genSalt(10);
+        return await bcrypt.hash(password, salt);
     } catch (error) {
-      throw new Error("Hashing failed", error);
+        throw new Error("Hashing failed", error);
     }
 };
