@@ -1,22 +1,22 @@
-import React,{useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, FlatList } from 'react-native';
 import { Button } from 'react-native-elements';
 import trackerApi from '../api/tracker';
 import CartList from '../components/CartList';
 
 const CartScreen = ({ navigation }) => {
-    const [result,setResult] = useState(null);
+    const [result, setResult] = useState(null);
     const [err, setErr] = useState('');
 
     const viewCart = async () => {
         try {
-         
+
             console.log('hii');
             const response = await trackerApi.post('/cart/view');
             // console.log(response.data.chefs);
-           setResult(response.data);
-           console.log(result);
-           
+            setResult(response.data);
+            console.log(result);
+
         }
         catch (err) {
             console.log(err);
@@ -24,15 +24,15 @@ const CartScreen = ({ navigation }) => {
         }
     };
 
-     const RemoveItem= async(id) => {
+    const RemoveItem = async (id) => {
         try {
-         
+
             console.log('hii');
-            const response = await trackerApi.post('/cart/remove', { id:id});
+            const response = await trackerApi.post('/cart/remove', { id: id });
             // console.log(response.data.chefs);
-        //    setResult(response.data.items);
-           console.log(result);
-           navigation.navigate('CartScreen');
+            //    setResult(response.data.items);
+            console.log(result);
+            navigation.navigate('CartScreen');
         }
         catch (err) {
             console.log(err);
@@ -44,14 +44,14 @@ const CartScreen = ({ navigation }) => {
 
     useEffect(() => {
         viewCart();
-    },[])
+    }, [])
 
 
-    if(!result){
+    if (!result) {
         return null;
     }
 
-    return(
+    return (
         <View>
             <Text style={Styles.text}>Total Price: {result.totalprice}</Text>
             <FlatList
@@ -64,27 +64,27 @@ const CartScreen = ({ navigation }) => {
                         <Text style={styles.price}>Rs. {item.price}</Text>
                         <Text style={styles.textDes}>Category: {item.category}</Text>
                         <Text style={styles.textDes}>Description: {item.description}</Text> */}
-                        <CartList result={item} navigation={navigation} callback={() => {}}/>
+                        <CartList result={item} navigation={navigation} callback={() => { }} />
                     </View>
                 }}
             />
             <View style={Styles.button}>
-                <Button title='Proceed to Pay' type="outline" onPress={() => navigation.navigate('Paypal')} />
+                <Button title='Proceed to Pay' type="outline" onPress={() => navigation.navigate('TipsyStripe')} />
             </View>
-            
-            
+
+
         </View>
     )
 }
 
 
 const Styles = StyleSheet.create({
-    button:{
-        marginTop:10,
-        marginHorizontal:100
+    button: {
+        marginTop: 10,
+        marginHorizontal: 100
     },
-    text:{
-        fontSize:20
+    text: {
+        fontSize: 20
     }
 });
 
