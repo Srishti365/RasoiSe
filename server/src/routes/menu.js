@@ -6,7 +6,6 @@ const requireAuth = require('../middlewares/requireAuth');
 const sortObjectsArray = require('sort-objects-array');
 var NodeGeocoder = require("node-geocoder");
 
-const Track = mongoose.model('Track');
 
 const User = mongoose.model('User');
 const router = express.Router();
