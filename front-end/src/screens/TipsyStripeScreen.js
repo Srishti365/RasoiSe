@@ -8,6 +8,7 @@ stripe.setOptionsAsync({
     publishableKey: 'pk_test_51H6GbzGRyyytHUwOCqBBRh3UfzudX96N4aUQhuUnes5frezFFmbuuMyJxt0eRZGSaMCKLoq8NUYNrKTtXfAPPOnT002kdlk00n'
 })
 
+// payment gateway screen here
 
 class TipsyStripeScreen extends PureComponent {
     static title = 'Card Form'
