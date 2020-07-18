@@ -1,12 +1,16 @@
 import React, { useState, useContext } from "react";
-import { Text, View, StyleSheet, TextInput } from "react-native";
+import { Text, View, StyleSheet, TextInput, FlatList } from "react-native";
+import { ListItem } from 'react-native-elements'
 import Button from "react-native-button";
 import { NavigationEvents } from 'react-navigation';
 import { AppStyles } from "../AppStyles";
 import { Context as AuthContext } from '../context/AuthContext';
 import NavLink from '../components/NavLink';
+import axios from 'axios';
+import { Entypo } from '@expo/vector-icons';
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-
+const Api_key = 'kwfqzzg4RYxI2TYTdDXARWD-Cmvxk2kcP4KaHj84RQw'
 
 const ChefSignupScreen = ({ navigation }) => {
 
@@ -15,6 +19,40 @@ const ChefSignupScreen = ({ navigation }) => {
     const [name, setName] = useState('');
     const [location, setLocation] = useState('')
     const [password, setPassword] = useState('');
+    const [result,setResult] = useState([]);
+
+
+    const handleAddress = (location) => {
+      setLocation(location)
+      getAddress(location)
+    }
+
+    const getAddress = async (location) => {
+      if(location.length>2){
+        const response = await axios.get(`https://autocomplete.geocoder.ls.hereapi.com/6.2/suggest.json?apiKey=${Api_key}&query=${location}`)
+        const data = response.data.suggestions
+        setResult(data);
+      }
+      if(location.length<=2){
+        setResult([])
+      }
+    }
+
+    const renderItem = ({ item }) => (
+      <TouchableOpacity 
+        style={{borderWidth:1,marginHorizontal:30,marginVertical:5,paddingVertical:10,flexDirection:'row',paddingRight:50,paddingLeft:10,borderRadius:100}}
+        activeOpacity={0.5}
+        onPress={() => {
+          setLocation(item.label)
+          setResult([])
+        }}
+      >
+        <Entypo name="location-pin" size={24} color="black" />
+        <Text>  {item.label}</Text>
+      </TouchableOpacity>
+    )
+
+    const keyExtractor = (item, index) => index.toString()
 
     return(
         <View style={styles.container}>
@@ -36,7 +74,11 @@ const ChefSignupScreen = ({ navigation }) => {
           <TextInput
             style={styles.body}
             placeholder="Address"
-            onChangeText={location => setLocation(location)}
+            onChangeText={location => handleAddress(location)}
+            onEndEditing={data => {
+              setResult([])
+              setLocation(location)
+            }}
             value={location}
             placeholderTextColor={AppStyles.color.grey}
             underlineColorAndroid="transparent"
@@ -79,6 +121,15 @@ const ChefSignupScreen = ({ navigation }) => {
             routeName="ChefSignin"
             text="Already have an account? Sign in instead!"
         />
+        <View style={{width:'100%',bottom:270,backgroundColor:'rgb(244,244,244)'}}>
+          {location.length>2 ?
+            <FlatList
+                keyExtractor={keyExtractor}
+                data={result}
+                renderItem={renderItem}
+            />
+          : null }
+        </View>
       </View>
     )
 }

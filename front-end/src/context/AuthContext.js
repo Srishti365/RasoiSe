@@ -76,7 +76,7 @@ const chefSignup = (dispatch) => {
 
             navigate('ChefSignin')
         } catch (err) {
-            console.log(err);
+            console.log('error',err);
             dispatch({ type: 'add_err', payload: err.response.data.error });
         }
 
@@ -122,6 +122,7 @@ const chefSignin = (dispatch) => {
             dispatch({ type: 'chefSignin', payload: response.data.token });
             navigate('mainflow', { email })
         } catch (err) {
+            console.log(err.response.data);
             dispatch({
                 type: 'add_err',
                 payload: err.response.data.error
