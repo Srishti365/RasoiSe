@@ -7,13 +7,8 @@ const options = require('../../location_creds')
 var geocoder = NodeGeocoder(options);
 
 module.exports = {
-<<<<<<< HEAD
-    signUp: async (req,res) => {
-        var { email, password, location, name, phone } = req.body;
-=======
     signUp: async (req, res) => {
-        var { email, password, location, name } = req.body;
->>>>>>> a119cc10f47457cf9258e56461248a2cbe2ef59c
+        var { email, password, location, name, phone } = req.body;
 
         const chef = await Chef.findOne({ email });
         if (chef) {
@@ -23,12 +18,6 @@ module.exports = {
         try {
 
             password = await models.hashPassword(password);
-<<<<<<< HEAD
-    
-            const chef = new Chef ({ email, password, location, name, phone, active:false });
-            console.log('chef', chef);
-=======
->>>>>>> a119cc10f47457cf9258e56461248a2cbe2ef59c
 
             geocoder.geocode(location).then(async function (loc) {
                 console.log(loc[0].longitude, loc[0].latitude)
@@ -38,6 +27,7 @@ module.exports = {
                     password,
                     location,
                     name,
+                    phone,
                     active: false,
                     geometry: {
                         coordinates:
