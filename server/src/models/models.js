@@ -16,6 +16,9 @@ const chefSchema = new Schema({
     active: {
         type: Boolean
     },
+    phone:{
+        type:Number
+    },
     location: String,
     geometry: {
         type: {

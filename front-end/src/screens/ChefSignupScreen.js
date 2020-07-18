@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { Text, View, StyleSheet, TextInput, FlatList } from "react-native";
-import { ListItem } from 'react-native-elements'
 import Button from "react-native-button";
 import { NavigationEvents } from 'react-navigation';
 import { AppStyles } from "../AppStyles";
@@ -20,6 +19,7 @@ const ChefSignupScreen = ({ navigation }) => {
     const [location, setLocation] = useState('')
     const [password, setPassword] = useState('');
     const [result,setResult] = useState([]);
+    const [phone,setPhone] = useState()
 
 
     const handleAddress = (location) => {
@@ -97,6 +97,16 @@ const ChefSignupScreen = ({ navigation }) => {
         <View style={styles.InputContainer}>
           <TextInput
             style={styles.body}
+            placeholder="Phone Number"
+            onChangeText={number => setPhone(number)}
+            value={phone}
+            placeholderTextColor={AppStyles.color.grey}
+            underlineColorAndroid="transparent"
+          />
+        </View>
+        <View style={styles.InputContainer}>
+          <TextInput
+            style={styles.body}
             placeholder="Password"
             secureTextEntry={true}
             onChangeText={password => setPassword(password)}
@@ -113,7 +123,7 @@ const ChefSignupScreen = ({ navigation }) => {
         <Button
           containerStyle={[styles.facebookContainer, { marginTop: 30 }]}
           style={styles.facebookText}
-          onPress={() => chefSignup({ name, location, email, password })}
+          onPress={() => chefSignup({ name, location, email, password , phone})}
         >
           Sign Up
         </Button>
@@ -121,7 +131,7 @@ const ChefSignupScreen = ({ navigation }) => {
             routeName="ChefSignin"
             text="Already have an account? Sign in instead!"
         />
-        <View style={{width:'100%',bottom:270,backgroundColor:'rgb(244,244,244)'}}>
+        <View style={{width:'100%',bottom:340,backgroundColor:'rgb(244,244,244)'}}>
           {location.length>2 ?
             <FlatList
                 keyExtractor={keyExtractor}

@@ -11,14 +11,14 @@ const WelcomeScreen = ({navigation}) => {
           <Button
             containerStyle={styles.loginContainer}
             style={styles.loginText}
-            onPress={() => navigation.navigate("Signup")}
+            onPress={() => navigation.navigate("Signin")}
           >
             Sign in as a User
           </Button>
           <Button
             containerStyle={styles.signupContainer}
             style={styles.signupText}
-            onPress={() => navigation.navigate("ChefSignup")}
+            onPress={() => navigation.navigate("ChefSignin")}
           >
             Sign in as a Chef
           </Button>

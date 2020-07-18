@@ -67,10 +67,10 @@ const signup = (dispatch) => {
 
 
 const chefSignup = (dispatch) => {
-    return async ({ name, location, email, password }) => {
+    return async ({ name, location, email, password, phone }) => {
         // make api request to sign up with that email and password
         try {
-            const response = await trackerApi.post('/chef/signup', { name, location, email, password });
+            const response = await trackerApi.post('/chef/signup', { name, location, email, password , phone});
             // await AsyncStorage.setItem('token', response.data.token);
             dispatch({ type: 'chefSignup' });
 

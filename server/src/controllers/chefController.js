@@ -5,7 +5,7 @@ Chef = models.chef;
 
 module.exports = {
     signUp: async (req,res) => {
-        var { email, password, location, name } = req.body;
+        var { email, password, location, name, phone } = req.body;
 
         const chef = await Chef.findOne({ email });
         if(chef){
@@ -16,7 +16,7 @@ module.exports = {
 
             password = await models.hashPassword(password);
     
-            const chef = new Chef ({ email, password, location, name, active:false });
+            const chef = new Chef ({ email, password, location, name, phone, active:false });
             console.log('chef', chef);
 
             await chef.save();
