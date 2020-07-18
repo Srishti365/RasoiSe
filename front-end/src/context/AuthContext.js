@@ -9,7 +9,11 @@ const authReducer = (state, action) => {
             return { ...state, errorMessage: action.payload };
         case 'signin':
             return { errorMessage: '', token: action.payload };
+        case 'chefSignin':
+            return { errorMessage: '', token: action.payload };
         case 'signup':
+            return { errorMessage: '' };
+        case 'chefSignup':
             return { errorMessage: '' };
         case 'clear_error_message':
             return { ...state, errorMessage: '' };
@@ -23,10 +27,16 @@ const authReducer = (state, action) => {
 
 const tryLocalSignin = dispatch => async () => {
     const token = await AsyncStorage.getItem('token');
+    const method = await AsyncStorage.getItem('method')
     if (token) {
         console.log(token);
-        dispatch({ type: 'signin', payload: token });
-        navigate('mainflow');
+        if(method == 'User') {
+            dispatch({ type: 'signin', payload: token });
+            navigate('mainflow');
+        } else {
+            dispatch({ type: 'chefSignin', payload: token });
+            navigate('mainflow');
+        }
     } else {
         navigate('loginFlow');
     }
@@ -56,12 +66,32 @@ const signup = (dispatch) => {
 };
 
 
+const chefSignup = (dispatch) => {
+    return async ({ name, location, email, password, phone }) => {
+        // make api request to sign up with that email and password
+        try {
+            const response = await trackerApi.post('/chef/signup', { name, location, email, password , phone});
+            // await AsyncStorage.setItem('token', response.data.token);
+            dispatch({ type: 'chefSignup' });
+
+            navigate('ChefSignin')
+        } catch (err) {
+            console.log('error',err);
+            dispatch({ type: 'add_err', payload: err.response.data.error });
+        }
+
+    };
+};
+
+
+
 const signin = (dispatch) => {
     return async ({ email, password }) => {
         try {
             const response = await trackerApi.post('/signin', { email, password });
             await AsyncStorage.setItem('token', response.data.token);
             await AsyncStorage.setItem('email', email);
+            await AsyncStorage.setItem('method', 'User');
 
             dispatch({ type: 'signin', payload: response.data.token });
             navigate('mainflow', { email })
@@ -81,6 +111,28 @@ const signin = (dispatch) => {
 };
 
 
+const chefSignin = (dispatch) => {
+    return async ({ email, password }) => {
+        try {
+            const response = await trackerApi.post('/chef/signin', { email, password });
+            await AsyncStorage.setItem('token', response.data.token);
+            await AsyncStorage.setItem('email', email);
+            await AsyncStorage.setItem('method', 'Chef');
+
+            dispatch({ type: 'chefSignin', payload: response.data.token });
+            navigate('mainflow', { email })
+        } catch (err) {
+            console.log(err.response.data);
+            dispatch({
+                type: 'add_err',
+                payload: err.response.data.error
+            });
+        }
+    };
+
+};
+
+
 const signout = (dispatch) => {
     return async () => {
         await AsyncStorage.removeItem('token');
@@ -93,6 +145,6 @@ const signout = (dispatch) => {
 
 export const { Provider, Context } = createDataContext(
     authReducer,
-    { signin, signout, signup, clearErrorMessage, tryLocalSignin },
+    { signin, signout, signup, clearErrorMessage, tryLocalSignin, chefSignup, chefSignin },
     { token: null, errorMessage: '' }
 );

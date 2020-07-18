@@ -1,76 +1,42 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import SearchBar from '../components/SearchBar';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native';
+import SearchBarScreen from '../components/SearchBar';
 import useResults from '../hooks/useResults';
 import ResultsList from '../components/ResultsList';
-import { EvilIcons } from '@expo/vector-icons';
+import AddressBar from '../components/AddressBar';
 
 const SearchScreen = () => {
-    const [term, setTerm] = useState('');
+    const [term, setTerm] = useState('noodles');
     const [searchApi, results, errorMessage, location, address] = useResults();
 
-    console.log(address);
-    // console.log('results',results);
-    // const filterResultsByPrice = (price) => {
-    //     return results.filter(result => {
-    //         return result.price === price;
-    //     });
-    // };
-    // console.log('location is', location);
-    const onTermSubmit = async (searchTerm) => {
-        try {
-            console.log(searchTerm);
-            // console.log(location);
-
-            const response = await trackerApi.post(`/home/search/${searchTerm}`,{ lat:'', long:'' , location:term });
-            // console.log(response.data.chefs);
-            setResults(response.data.chefs);
-        }
-        catch (err) {
-            console.log(err);
-            setErrorMessage('Something went wrong');
-        }
-    };
-
+    // console.log(results);
+    // if(results.length == 0){
+    //     return <ActivityIndicator size='large' style={{alignItems:'center',justifyContent:'center',height:'100%'}}/>
+    // }
 
     return (
         <>
-            <TouchableOpacity >
-             <View style={styles.backgroundStyle}>
-                 
-                    <EvilIcons name="location" style={styles.iconStyle} />
-                    <Text style={styles.inputStyle}>{address}</Text>
-                 
-
-    
-                
-                    {/* // autoCapitalize='none'
-                    // autoCorrect={false}
-                    // placeholder={address}
-                    // style={styles.inputStyle}
-                    // value={term}
-                    // onChangeText={setTerm}
-                    // onEndEditing={() => {onTermSubmit(term)}} */}
-
-             
-            </View>
-            </TouchableOpacity>
-            <SearchBar
-                term={term}
+            <StatusBar backgroundColor='#EA3C53'/>
+            <AddressBar 
+                address={address}
+            />
+            <SearchBarScreen
+                term = {term}
                 onTermChange={newTerm => setTerm(newTerm)}
                 onTermSubmit={() => searchApi(term)}
             />
             {errorMessage ? <Text>{errorMessage}</Text> : null}
 
-            {/* <ScrollView> */}
+            {results.length == 0 ?
+                <ActivityIndicator size='large' style={{alignItems:'center',justifyContent:'center'}}/>
+            :
             <ResultsList
                 title='Search Results'
                 results={results}
                 location={location}
                 searchTerm={term}
             />
-
-            {/* </ScrollView> */}
+            }
         </>
     );
 };

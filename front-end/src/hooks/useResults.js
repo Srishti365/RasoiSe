@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import trackerApi from '../api/tracker';
-import { AsyncStorage } from 'react-native';
 import { requestPermissionsAsync, watchPositionAsync, Accuracy } from 'expo-location';
 
 export default () => {
     const [results, setResults] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
-    const [address,setAddress] = useState('');
+    const [address,setAddress] = useState('Piprali Road, Sikar, Rajasthan');
     const [location, setLocation] = useState(
 
         {
@@ -33,7 +32,6 @@ export default () => {
                 distanceInterval:10
             }, (location)=> {
                 setLocation(location);
-                // console.log(location);
             })
         } catch (e) {
             setErrorMessage(e);
@@ -43,11 +41,11 @@ export default () => {
 
     const searchApi = async (searchTerm) => {
         try {
-            console.log(searchTerm);
-            console.log(location);
-
+            setErrorMessage(null)
+            setResults([])
             const response = await trackerApi.post(`/home/search/${searchTerm}`,{ lat:location.coords.latitude, long:location.coords.longitude , location:"current" });
             // console.log(response.data.chefs);
+            console.log('response',response.data);
             setResults(response.data.chefs);
             setAddress(response.data.location);
         }

@@ -1,19 +1,58 @@
 import React, { useState, useContext } from "react";
-import { Text, View, StyleSheet, TextInput } from "react-native";
+import { Text, View, StyleSheet, TextInput, FlatList } from "react-native";
 import Button from "react-native-button";
 import { NavigationEvents } from 'react-navigation';
 import { AppStyles } from "../AppStyles";
 import { Context as AuthContext } from '../context/AuthContext';
 import NavLink from '../components/NavLink';
+import axios from 'axios';
+import { Entypo } from '@expo/vector-icons';
+import { TouchableOpacity } from "react-native-gesture-handler";
 
+const Api_key = 'kwfqzzg4RYxI2TYTdDXARWD-Cmvxk2kcP4KaHj84RQw'
 
+const ChefSignupScreen = ({ navigation }) => {
 
-const SignupScreen = ({ navigation }) => {
-
-    const { state, signup, clearErrorMessage } = useContext(AuthContext);
+    const { state, chefSignup, clearErrorMessage } = useContext(AuthContext);
     const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
+    const [location, setLocation] = useState('')
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [result,setResult] = useState([]);
+    const [phone,setPhone] = useState()
+
+
+    const handleAddress = (location) => {
+      setLocation(location)
+      getAddress(location)
+    }
+
+    const getAddress = async (location) => {
+      if(location.length>2){
+        const response = await axios.get(`https://autocomplete.geocoder.ls.hereapi.com/6.2/suggest.json?apiKey=${Api_key}&query=${location}`)
+        const data = response.data.suggestions
+        setResult(data);
+      }
+      if(location.length<=2){
+        setResult([])
+      }
+    }
+
+    const renderItem = ({ item }) => (
+      <TouchableOpacity 
+        style={{borderWidth:1,marginHorizontal:30,marginVertical:5,paddingVertical:10,flexDirection:'row',paddingRight:50,paddingLeft:10,borderRadius:100}}
+        activeOpacity={0.5}
+        onPress={() => {
+          setLocation(item.label)
+          setResult([])
+        }}
+      >
+        <Entypo name="location-pin" size={24} color="black" />
+        <Text>  {item.label}</Text>
+      </TouchableOpacity>
+    )
+
+    const keyExtractor = (item, index) => index.toString()
 
     return(
         <View style={styles.container}>
@@ -24,9 +63,43 @@ const SignupScreen = ({ navigation }) => {
         <View style={styles.InputContainer}>
           <TextInput
             style={styles.body}
+            placeholder="Kitchen name"
+            onChangeText={name => setName(name)}
+            value={name}
+            placeholderTextColor={AppStyles.color.grey}
+            underlineColorAndroid="transparent"
+          />
+        </View>
+        <View style={styles.InputContainer}>
+          <TextInput
+            style={styles.body}
+            placeholder="Address"
+            onChangeText={location => handleAddress(location)}
+            onEndEditing={data => {
+              setResult([])
+              setLocation(location)
+            }}
+            value={location}
+            placeholderTextColor={AppStyles.color.grey}
+            underlineColorAndroid="transparent"
+          />
+        </View>
+        <View style={styles.InputContainer}>
+          <TextInput
+            style={styles.body}
             placeholder="E-mail Address"
             onChangeText={email => setEmail(email)}
             value={email}
+            placeholderTextColor={AppStyles.color.grey}
+            underlineColorAndroid="transparent"
+          />
+        </View>
+        <View style={styles.InputContainer}>
+          <TextInput
+            style={styles.body}
+            placeholder="Phone Number"
+            onChangeText={number => setPhone(number)}
+            value={phone}
             placeholderTextColor={AppStyles.color.grey}
             underlineColorAndroid="transparent"
           />
@@ -42,17 +115,6 @@ const SignupScreen = ({ navigation }) => {
             underlineColorAndroid="transparent"
           />
         </View>
-        <View style={styles.InputContainer}>
-          <TextInput
-            style={styles.body}
-            placeholder="Re - type Password"
-            secureTextEntry={true}
-            onChangeText={password => setConfirmPassword(password)}
-            value={confirmPassword}
-            placeholderTextColor={AppStyles.color.grey}
-            underlineColorAndroid="transparent"
-          />
-        </View>
         <View style={{marginTop:10}}>
         {state.errorMessage ? (
             <Text style={{ color:'red'}}>{state.errorMessage}</Text>
@@ -61,14 +123,23 @@ const SignupScreen = ({ navigation }) => {
         <Button
           containerStyle={[styles.facebookContainer, { marginTop: 30 }]}
           style={styles.facebookText}
-          onPress={() => signup({ email, password, confirmPassword })}
+          onPress={() => chefSignup({ name, location, email, password , phone})}
         >
           Sign Up
         </Button>
         <NavLink
-            routeName="Signin"
+            routeName="ChefSignin"
             text="Already have an account? Sign in instead!"
         />
+        <View style={{width:'100%',bottom:340,backgroundColor:'rgb(244,244,244)'}}>
+          {location.length>2 ?
+            <FlatList
+                keyExtractor={keyExtractor}
+                data={result}
+                renderItem={renderItem}
+            />
+          : null }
+        </View>
       </View>
     )
 }
@@ -138,4 +209,4 @@ const styles = StyleSheet.create({
   });
 
 
-export default SignupScreen;
+export default ChefSignupScreen;

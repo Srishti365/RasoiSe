@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import ResultsDetail from './ResultsDetail';
 import { withNavigation } from 'react-navigation';
 
@@ -8,27 +8,19 @@ const ResultsList = ({ title, results, navigation, location, searchTerm }) => {
         return null;
     }
 
-    // console.log('FResult list',location)
     return (
-        <View style={styles.container}>
-            {/* <Text style={styles.title}>
-                {title}
-            </Text> */}
+        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+            
             <FlatList
                 data={results}
                 keyExtractor={(result) => result._id}
                 renderItem={({ item }) => {
                     return (
-                        // <TouchableOpacity
-                        //     onPress={() => navigation.navigate('ResultsShow', { id: item._id })}
-                        // >
-                        //     <ResultsDetail result={item} />
-                        // </TouchableOpacity>
                         <ResultsDetail result={item} callback={()=> {navigation.navigate('ResultsShow', { id: item._id, location:location , searchTerm:searchTerm})}}/>
                     )
                 }}
             />
-        </View>
+        </ScrollView>
     );
 };
 

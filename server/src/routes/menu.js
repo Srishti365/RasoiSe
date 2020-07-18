@@ -6,7 +6,6 @@ const requireAuth = require('../middlewares/requireAuth');
 const sortObjectsArray = require('sort-objects-array');
 var NodeGeocoder = require("node-geocoder");
 
-const Track = mongoose.model('Track');
 
 const User = mongoose.model('User');
 const router = express.Router();
@@ -17,15 +16,8 @@ const models = require('../models/models')
 Chef = models.chef;
 Menu = models.menu;
 
+const options = require('../../location_creds')
 
-const options = {
-    provider: 'google',
-
-    // Optional depending on the providers
-    // fetch: customFetchImplementation,
-    apiKey: 'AIzaSyCPYrCj9NVMMoxXd-DYQTQnN80NQGyj2z8', // for Mapquest, OpenCage, Google Premier
-    formatter: null // 'gpx', 'string', ...
-};
 
 
 router.route("/")
