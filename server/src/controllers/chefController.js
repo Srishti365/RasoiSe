@@ -8,7 +8,7 @@ var geocoder = NodeGeocoder(options);
 
 module.exports = {
     signUp: async (req, res) => {
-        var { email, password, location, name } = req.body;
+        var { email, password, location, name, phone } = req.body;
 
         const chef = await Chef.findOne({ email });
         if (chef) {
@@ -27,6 +27,7 @@ module.exports = {
                     password,
                     location,
                     name,
+                    phone,
                     active: false,
                     geometry: {
                         coordinates:
