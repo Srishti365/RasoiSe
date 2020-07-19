@@ -103,9 +103,13 @@ const cartSchema = new Schema({
 
 chefSchema.methods.comparePassword = function (candidatePassword) {
     const chef = this;
+    console.log('after const chef')
 
     return new Promise((resolve, reject) => {
         bcrypt.compare(candidatePassword, chef.password, (err, isMatch) => {
+            console.log('checking is match');
+            console.log(isMatch);
+
             if (err) {
                 return reject(err);
             }
