@@ -16,7 +16,8 @@ const models = require('../models/models')
 Chef = models.chef;
 Menu = models.menu;
 
-const options = require('../../location_creds')
+const options = require('../../location_creds');
+const cons = require("consolidate");
 
 
 
@@ -38,6 +39,7 @@ router.route("/search/:query")
     .post(async (req, res, next) => {
         try {
             // ---------------------------------------------------
+            console.log(req.params.query)
             var geocoder = NodeGeocoder(options);
             geocoder.geocode(req.body.location).then(async function (loc) {
 
@@ -64,11 +66,14 @@ router.route("/search/:query")
                         var chefs = [];
                         var set1 = new Set()
                         await Menu.find({ name: new RegExp(req.params.query.toLowerCase()) }).then(function (result) {
+                            // console.log(result)
                             for (var i of result) {
-                                set1.add(i.chef)
+                                set1.add((i.chef._id).toString())
+
                             }
                         })
-                        // console.log(filter_chefs)
+
+                        //search with name
                         for (var i of filter_chefs) {
                             n = (i.name).toString().toLowerCase()
                             if (n.includes(req.params.query.toLowerCase())) {
@@ -83,11 +88,13 @@ router.route("/search/:query")
                             if (set1.has(idd)) {
                                 await Chef.findById(i).then(async function (data) {
                                     chefs.push(data)
+
                                 });
                             }
                         }
 
                         chefs = sortObjectsArray(chefs, 'rating', 'desc');
+                        console.log(chefs)
                         geocoder.reverse({ lat: req.body.lat, lon: req.body.long })
                             .then((data) => {
                                 res.send({ chefs: chefs, location: data[0].formattedAddress })
@@ -121,6 +128,7 @@ router.route("/chef/:query")
     .get(async (req, res, next) => {
         try {
             menu = await Menu.find({ chef: req.params.query })
+
             chef_details = await Chef.findById(req.params.query)
             res.send({ chef_details: chef_details, menu: menu })
 
