@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, StatusBar, Dimensions, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, Dimensions, TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView } from 'react-native';
 import MenuList from './MenuList';
 import Dialog, { DialogContent, SlideAnimation, DialogTitle, DialogFooter, DialogButton } from 'react-native-popup-dialog';
 const { width, heigh } = Dimensions.get('window');
@@ -27,6 +27,10 @@ const Menu = () => {
 
             console.log('response', response.data);
             toggle();
+            setName('');
+            setPrice(0);
+            setCategory('');
+            setDescription('');
         }
         catch (err) {
             console.log(err);
@@ -55,6 +59,7 @@ const Menu = () => {
                 height={500}
                 width={width - 50}
             >
+
                 <DialogContent style={{ flex: 1 }}>
                     <View style={{ height: 50, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgb(251,251,251)', marginLeft: -20, marginRight: -20, flexDirection: 'row' }}>
                         <Text style={{ fontWeight: '900', fontSize: 20, position: 'absolute' }}>Add Menu</Text>
@@ -63,6 +68,7 @@ const Menu = () => {
                         </TouchableOpacity>
                     </View>
                     <ScrollView showsVerticalScrollIndicator={false}>
+
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
                             <Text style={{ width: 80 }}>Name : </Text>
                             <View style={styles.InputContainer}>
@@ -81,7 +87,7 @@ const Menu = () => {
                             <View style={styles.InputContainer}>
                                 <TextInput
                                     style={styles.body}
-                                    placeholder="noodles"
+                                    placeholder="Veg or Non-veg"
                                     onChangeText={category => setCategory(category)}
                                     value={category}
                                     placeholderTextColor={AppStyles.color.grey}
@@ -124,9 +130,11 @@ const Menu = () => {
                         </TouchableOpacity>
                     </ScrollView>
                 </DialogContent>
+
             </Dialog>
 
         </View>
+
     )
 }
 
