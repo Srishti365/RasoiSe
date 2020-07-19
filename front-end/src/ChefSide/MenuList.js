@@ -42,11 +42,11 @@ const MenuList = ({result}) => {
                     </View>
                 </View>
                 <View style={{flexDirection:'row',justifyContent:'space-around',marginTop:20}}>
-                    <TouchableOpacity style={{paddingVertical:10,borderWidth:1,width:100,alignItems:'center',borderRadius:5}}>
-                        <Text>Remove</Text>
+                    <TouchableOpacity style={{paddingVertical:10,width:100,alignItems:'center',borderRadius:5,backgroundColor:'rgb(237, 59, 9)'}}>
+                        <Text style={{color:'white',fontSize:15}}>Remove</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{paddingVertical:10,borderWidth:1,width:100,alignItems:'center',borderRadius:5}}>
-                        <Text>Edit</Text>
+                    <TouchableOpacity style={{paddingVertical:10,width:100,alignItems:'center',borderRadius:5,backgroundColor:'rgb(7, 101, 173)'}}>
+                        <Text style={{color:'white',fontSize:15}}>Edit</Text>
                     </TouchableOpacity>
                 </View>
             </Card>
