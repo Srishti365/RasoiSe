@@ -37,7 +37,7 @@ const SearchScreen = () => {
           activeOpacity={0.5}
           onPress={() => {
             setAdd([])
-            address=item
+        
           }}
         >
           <Entypo name="location-pin" size={24} color="black" />
