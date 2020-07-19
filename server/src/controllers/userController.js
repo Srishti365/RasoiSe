@@ -208,5 +208,6 @@ module.exports = {
         }
         );
         res.json({ Message: "Password updated" });
-    }
+    },
+    
 }

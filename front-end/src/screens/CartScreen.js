@@ -16,7 +16,7 @@ const CartScreen = ({ navigation }) => {
             // console.log(response.data.chefs);
             setResult(response.data);
             console.log('cart state');
-            console.log(result);
+            console.log(response.data);
 
         }
         catch (err) {
