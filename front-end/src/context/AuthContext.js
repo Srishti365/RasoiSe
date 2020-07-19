@@ -136,6 +136,7 @@ const chefSignin = (dispatch) => {
 const signout = (dispatch) => {
     return async () => {
         await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('method');
         dispatch({ type: 'signout' });
         navigate('loginFlow');
     };

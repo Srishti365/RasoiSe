@@ -39,10 +39,11 @@ router.route("/addmenuitem")
 router.route("/viewmenu")
     .get(async (req, res, next) => {
         try {
-
+            console.log(req.user._id)
             await Menu.find({ chef: req.user._id }).then(async function (data) {
                 res.send({ dishes: data })
             })
+
 
         } catch (error) {
             next(error);
