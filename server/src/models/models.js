@@ -67,7 +67,10 @@ const menuItemSchema = new Schema({
     category: String,
     description: String,
     price: Number,
-    chef: String,
+    chef: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'chef'
+    },
     image: {
         type: String,
         default: "https://5.imimg.com/data5/JJ/BE/MY-17263151/schezwan-chicken-lollipops-500x500.png"
