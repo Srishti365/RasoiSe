@@ -12,6 +12,7 @@ Menu = models.menu;
 
 /****************chef details */
 
+//add menu item for chef
 router.route("/addmenuitem")
     .post(async (req, res, next) => {
         try {
@@ -28,6 +29,20 @@ router.route("/addmenuitem")
             menu1.save()
 
             res.send('menu item added!')
+
+        } catch (error) {
+            next(error);
+        }
+    })
+
+//view all menu items
+router.route("/viewmenu")
+    .get(async (req, res, next) => {
+        try {
+
+            await Menu.find({ chef: req.user._id }).then(async function (data) {
+                res.send({ dishes: data })
+            })
 
         } catch (error) {
             next(error);
