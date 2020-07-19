@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, StatusBar, Dimensions, TouchableOpacity, TextInput, ScrollView, ActivityIndicator, FlatList } from 'react-native';
 import MenuList from './MenuList';
-<<<<<<< HEAD
-import Dialog, { DialogContent, SlideAnimation } from 'react-native-popup-dialog';
-const {width,heigh} = Dimensions.get('window');
-=======
 import Dialog, { DialogContent, SlideAnimation, DialogTitle, DialogFooter, DialogButton } from 'react-native-popup-dialog';
 const { width, heigh } = Dimensions.get('window');
->>>>>>> cdfea3c5977fa58643473e2ac3effc0a4d6e5bac
 import { AntDesign } from '@expo/vector-icons';
 import { AppStyles } from '../AppStyles';
 import trackerApi from '../api/tracker';
@@ -15,26 +10,17 @@ import trackerApi from '../api/tracker';
 const Menu = () => {
 
     const [visible, setVisible] = useState(false)
-<<<<<<< HEAD
-    const [name,setName] = useState('')
-    const [category,setCategory] = useState('')
-    const [price,setPrice] = useState(0)
-    const [description,setDescription] = useState('')
-    const [result,setResult] = useState([])
-    
-=======
     const [name, setName] = useState('')
     const [category, setCategory] = useState('')
     const [price, setPrice] = useState(0)
     const [description, setDescription] = useState('')
+    const [result,setResult] = useState([]);
 
->>>>>>> cdfea3c5977fa58643473e2ac3effc0a4d6e5bac
     const toggle = () => {
         console.log(visible)
         setVisible(!visible)
     }
 
-<<<<<<< HEAD
     const fetchResult = async () => {
         try {
             const response = await trackerApi.get('/cook/viewmenu');
@@ -48,19 +34,12 @@ const Menu = () => {
     }
 
 
-    const handleOnSubmit = async ({ name, category, description, price }) => {
-        try {
-            console.log('hii')
-            const response = await trackerApi.post('/cook/addmenuitem', { name, category, description, price });
-            console.log('response',response.data);
-=======
     const handleOnSubmit = async () => {
         try {
             console.log('hii')
             const response = await trackerApi.post('/cook/addmenuitem', { name, category, description, price });
 
             console.log('response', response.data);
->>>>>>> cdfea3c5977fa58643473e2ac3effc0a4d6e5bac
             toggle();
         }
         catch (err) {
@@ -82,7 +61,6 @@ const Menu = () => {
 
     return (
         <View>
-<<<<<<< HEAD
             <StatusBar backgroundColor='#EA3C53'/>
             
             <FlatList
@@ -95,14 +73,8 @@ const Menu = () => {
                 }}
             />
             
-            <TouchableOpacity 
-                style={{borderWidth:1,height:50,width:150,justifyContent:'center',alignItems:'center',borderRadius:5}}
-=======
-            <StatusBar backgroundColor='#EA3C53' />
-            <MenuList />
             <TouchableOpacity
                 style={{ borderWidth: 1, height: 50, width: 150, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}
->>>>>>> cdfea3c5977fa58643473e2ac3effc0a4d6e5bac
                 activeOpacity={0.5}
                 onPress={() => toggle()}
             >
