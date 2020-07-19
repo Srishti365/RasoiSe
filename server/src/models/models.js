@@ -40,6 +40,26 @@ const chefSchema = new Schema({
     }
 })
 
+
+chefSchema.methods.comparePassword = function (candidatePassword) {
+    const chef = this;
+
+    return new Promise((resolve, reject) => {
+        bcrypt.compare(candidatePassword, chef.password, (err, isMatch) => {
+            if (err) {
+                return reject(err);
+            }
+            if (!isMatch) {
+                return reject(false);
+            }
+
+            resolve(true);
+        });
+    });
+
+}
+
+
 const Chef = mongoose.model("chef", chefSchema);
 
 const menuItemSchema = new Schema({
@@ -54,12 +74,21 @@ const menuItemSchema = new Schema({
     }
 })
 
+const Menu = mongoose.model("menu", menuItemSchema);
+
 //has different quantity of menu items
 const orderItemSchema = new Schema({
-    menuItem: String,
+    menuItem: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'menu'
+    },
     userid: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    chef: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'chef'
     },
     quantity: Number,
     timestamp: String,
@@ -83,7 +112,7 @@ const cartSchema = new Schema({
     },
     chef: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Chef'
+        ref: 'chef'
     },
 
     delivery_add: String,
@@ -101,31 +130,9 @@ const cartSchema = new Schema({
 })
 
 
-chefSchema.methods.comparePassword = function (candidatePassword) {
-    const chef = this;
-    console.log('after const chef')
-
-    return new Promise((resolve, reject) => {
-        bcrypt.compare(candidatePassword, chef.password, (err, isMatch) => {
-            console.log('checking is match');
-            console.log(isMatch);
-
-            if (err) {
-                return reject(err);
-            }
-            if (!isMatch) {
-                return reject(false);
-            }
-
-            resolve(true);
-        });
-    });
-
-}
 
 
 
-const Menu = mongoose.model("menu", menuItemSchema);
 const OrderItem = mongoose.model("orderItem", orderItemSchema);
 const Cart = mongoose.model("cart", cartSchema);
 
