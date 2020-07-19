@@ -41,10 +41,26 @@ router.route("/viewmenu")
         try {
             console.log(req.user._id)
             await Menu.find({ chef: req.user._id }).then(async function (data) {
+                console.log(data);
                 res.send({ dishes: data })
             })
 
 
+        } catch (error) {
+            next(error);
+        }
+    })
+
+
+
+router.route('/profile')
+    .get(async (req,res,next) => {
+        try {
+            console.log(req.user._id)
+            await Chef.find({ _id: req.user._id }).then(async function (data) {
+                console.log(data);
+                res.send({ profile : data })
+            })
         } catch (error) {
             next(error);
         }
