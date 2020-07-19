@@ -55,6 +55,17 @@ export default () => {
         }
     };
 
+    const getAddress = async (location) => {
+        if(location.length>2){
+          const response = await axios.get(`https://autocomplete.geocoder.ls.hereapi.com/6.2/suggest.json?apiKey=${Api_key}&query=${location}`)
+          const data = response.data.suggestions
+          setResult(data);
+        }
+        if(location.length<=2){
+          setResult([])
+        }
+    }
+
     //bad code
     //searchApi('pasta);
 
