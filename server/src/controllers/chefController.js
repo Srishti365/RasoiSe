@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const models = require('../models/models');
 var NodeGeocoder = require("node-geocoder");
-Chef = models.chef;
+var Chef = models.chef;
 
 const options = require('../../location_creds')
 var geocoder = NodeGeocoder(options);

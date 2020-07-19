@@ -40,37 +40,6 @@ const chefSchema = new Schema({
     }
 })
 
-const menuItemSchema = new Schema({
-    name: String,
-    category: String,
-    description: String,
-    price: Number,
-    chef: String,
-    image: {
-        type: String,
-        default: "https://5.imimg.com/data5/JJ/BE/MY-17263151/schezwan-chicken-lollipops-500x500.png"
-    }
-})
-
-const orderItemSchema = new Schema({
-    menuItem: String,
-    userid: String,
-    quantity: Number,
-    timestamp: String,
-    price: Number,
-    isOrdered: Boolean
-
-})
-
-const cartSchema = new Schema({
-    orderItems: [orderItemSchema],
-    userid: String,
-    delivery_add: String,
-    timestamp: String,
-    isOrdered: Boolean,
-    isDelivered: Boolean
-})
-
 
 chefSchema.methods.comparePassword = function (candidatePassword) {
     const chef = this;
@@ -92,7 +61,81 @@ chefSchema.methods.comparePassword = function (candidatePassword) {
 
 
 const Chef = mongoose.model("chef", chefSchema);
+
+const menuItemSchema = new Schema({
+    name: String,
+    category: String,
+    description: String,
+    price: Number,
+    chef: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'chef'
+    },
+    image: {
+        type: String,
+        default: "https://5.imimg.com/data5/JJ/BE/MY-17263151/schezwan-chicken-lollipops-500x500.png"
+    }
+})
+
 const Menu = mongoose.model("menu", menuItemSchema);
+
+//has different quantity of menu items
+const orderItemSchema = new Schema({
+    menuItem: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'menu'
+    },
+    userid: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    chef: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'chef'
+    },
+    quantity: Number,
+    timestamp: String,
+    price: Number,
+    isOrdered: {
+        type: Boolean,
+        default: false
+    }
+
+})
+
+
+//one cart per chef
+//this model is for all orders for a chef by a particular user
+
+const cartSchema = new Schema({
+    orderItems: [orderItemSchema],
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    chef: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'chef'
+    },
+
+    delivery_add: String,
+    timestamp: String,
+    isOrdered: {
+        type: Boolean,
+        default: false
+    }
+    ,
+    isDelivered: {
+        type: Boolean,
+        default: false
+    }
+
+})
+
+
+
+
+
 const OrderItem = mongoose.model("orderItem", orderItemSchema);
 const Cart = mongoose.model("cart", cartSchema);
 
