@@ -40,6 +40,8 @@ const chefSchema = new Schema({
     }
 })
 
+const Chef = mongoose.model("chef", chefSchema);
+
 const menuItemSchema = new Schema({
     name: String,
     category: String,
@@ -52,23 +54,50 @@ const menuItemSchema = new Schema({
     }
 })
 
+//has different quantity of menu items
 const orderItemSchema = new Schema({
     menuItem: String,
-    userid: String,
+    userid: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     quantity: Number,
     timestamp: String,
     price: Number,
-    isOrdered: Boolean
+    isOrdered: {
+        type: Boolean,
+        default: false
+    }
 
 })
 
+
+//one cart per chef
+//this model is for all orders for a chef by a particular user
+
 const cartSchema = new Schema({
     orderItems: [orderItemSchema],
-    userid: String,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    chef: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Chef'
+    },
+
     delivery_add: String,
     timestamp: String,
-    isOrdered: Boolean,
-    isDelivered: Boolean
+    isOrdered: {
+        type: Boolean,
+        default: false
+    }
+    ,
+    isDelivered: {
+        type: Boolean,
+        default: false
+    }
+
 })
 
 
@@ -91,7 +120,7 @@ chefSchema.methods.comparePassword = function (candidatePassword) {
 }
 
 
-const Chef = mongoose.model("chef", chefSchema);
+
 const Menu = mongoose.model("menu", menuItemSchema);
 const OrderItem = mongoose.model("orderItem", orderItemSchema);
 const Cart = mongoose.model("cart", cartSchema);

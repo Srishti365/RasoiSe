@@ -3,8 +3,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const requireAuth = require('../middlewares/requireAuth');
 
-const Track = mongoose.model('Track');
-
 const User = mongoose.model('User');
 const router = express.Router();
 router.use(requireAuth);
@@ -33,11 +31,12 @@ function getTime() {
 }
 //-------------------------------------------------------------------
 
+//add item to cart
 
 router.route("/add")
     .post(async (req, res, next) => {
         try {
-            //req.body:menuiteemid,quantity
+            //req.body:menuiteemid,quantity, chefid
             var orderitem1;
             var flag = 0;
             var updateid;
@@ -124,66 +123,3 @@ router.route("/add")
             next(error);
         }
     });
-
-router.route("/view")
-    .post(async (req, res, next) => {
-        try {
-            var dict = new Array();
-            await Cart.find({ userid: req.user.id, isOrdered: false }).then(async function (result) {
-                total = 0
-
-                resultnew = result[0].orderItems
-                for (var i of resultnew) {
-                    if (i.quantity > 0) {
-                        await Menu.findById(i.menuItem).then(async function (x) {
-                            dict.push({
-                                name: x.name,
-                                image: x.image,
-                                quantity: i.quantity,
-                                price: i.price,
-                                id: i.id
-                            })
-                        })
-                        total += i.price
-
-                    }
-
-
-                }
-                console.log(resultnew)
-
-                res.send({ items: dict, totalprice: total, id: resultnew.id })
-
-            });
-
-        } catch (error) {
-            next(error);
-        }
-    })
-
-router.route("/remove")
-    .post(async (req, res, next) => {
-        try {
-
-            await OrderItem.deleteOne({ _id: req.body.id }).then(async function (result) {
-                await Cart.updateOne(
-                    { userid: req.user.id },
-                    { $pull: { orderItems: { _id: req.body.id } } },
-                    { multi: true }
-                ).then(function (data) {
-                    res.send(data)
-                })
-            })
-
-
-        } catch (error) {
-            next(error);
-        }
-    })
-
-
-
-
-
-
-module.exports = router;
