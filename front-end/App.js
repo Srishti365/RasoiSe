@@ -3,6 +3,7 @@ import { Dimensions } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 import SignoutScreen from './src/screens/SignoutScreen';
 import SigninScreen from './src/screens/SigninScreen';
 import SignupScreen from './src/screens/SignupScreen';
@@ -19,12 +20,62 @@ import SearchScreen from './src/screens/SearchScreen';
 import ResetPasswordScreen from './src/screens/ResetPasswordScreen';
 import OtpScreen from './src/screens/OtpScreen';
 import NewPasswordScreen from './src/screens/NewPasswordScreen';
-import { Feather } from '@expo/vector-icons';
+import { Feather, Entypo, Ionicons } from '@expo/vector-icons';
 import ResultsShowScreen from './src/screens/ResultsShowScreen';
 import CartScreen from './src/screens/CartScreen';
 import WelcomeScreen from './src/screens/WelcomeScreen';
 import TipsyStripeScreen from './src/screens/TipsyStripeScreen';
+import Menu from './src/ChefSide/Menu';
+import Orders from './src/ChefSide/Orders';
+import Profile from './src/ChefSide/Profile';
 
+
+
+const chefPage = createBottomTabNavigator({
+    Orders: {
+      screen:Orders,
+        navigationOptions:{
+          title:'View Orders'
+        },
+    },
+    Menu:{
+      screen:Menu,
+        navigationOptions:{
+          title:'Your Menu'
+        },
+    },
+    Profile:{
+      screen:Profile,
+        navigationOptions:{
+          title:'Profile'
+        },
+    }
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        const { routeName } = navigation.state;
+        let IconComponent = Entypo;
+        let iconName;
+        if (routeName === 'Orders') {
+          iconName = focused
+            ? 'shopping-bag'
+            : 'shopping-bag'
+        } else if (routeName === 'Menu') {
+          iconName = focused ? 'menu' : 'menu';
+        } else if (routeName === 'Profile') {
+          iconName = focused ? 'user' : 'user';
+        }
+
+        return <IconComponent name={iconName} size={25} color={tintColor} />;
+      }
+    }),
+    tabBarOptions: {
+      activeTintColor: 'tomato',
+      inactiveTintColor: 'gray',
+    },
+  }
+)
 
 
 const switchNavigator = createSwitchNavigator({
@@ -40,6 +91,7 @@ const switchNavigator = createSwitchNavigator({
     Otp: OtpScreen,
     NewPassword: NewPasswordScreen
   }),
+  chefflow:chefPage,
   // mainFlow: createBottomTabNavigator({
   //   trackListFlow: createStackNavigator({
   //     TrackList: TrackListScreen,

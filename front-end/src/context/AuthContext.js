@@ -35,7 +35,7 @@ const tryLocalSignin = dispatch => async () => {
             navigate('mainflow');
         } else {
             dispatch({ type: 'chefSignin', payload: token });
-            navigate('mainflow');
+            navigate('chefflow');
         }
     } else {
         navigate('loginFlow');
@@ -120,7 +120,7 @@ const chefSignin = (dispatch) => {
             await AsyncStorage.setItem('method', 'Chef');
 
             dispatch({ type: 'chefSignin', payload: response.data.token });
-            navigate('mainflow', { email })
+            navigate('chefflow', { email })
         } catch (err) {
             console.log(err.response.data);
             dispatch({
