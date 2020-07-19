@@ -131,9 +131,20 @@ router.route("/add")
 router.route("/view")
     .get(async (req, res, next) => {
         try {
+            total = 0
             Cart.find({ user: req.user.id, isOrdered: false }, { _id: 1, orderItems: 1 }).populate({ path: 'orderItems.menuItem', model: Menu }).then(function (data) {
-                console.log(data.orderItems)
-                res.send({ cart: data })
+
+                //-----------calculate total price------------//
+                for (var i of data) {
+
+                    for (var j of i.orderItems) {
+                        total += (j.quantity * j.menuItem.price)
+
+                    }
+
+                }
+                // ------------------------------/
+                res.send({ cart: data, total_price: total })
             })
         } catch (error) {
             next(error);
