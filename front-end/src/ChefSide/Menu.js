@@ -6,6 +6,7 @@ const { width, heigh } = Dimensions.get('window');
 import { AntDesign } from '@expo/vector-icons';
 import { AppStyles } from '../AppStyles';
 import trackerApi from '../api/tracker';
+import { NavigationEvents } from 'react-navigation';
 
 const Menu = () => {
 
@@ -29,7 +30,6 @@ const Menu = () => {
         }
         catch (err) {
             console.log(err);
-            setErrorMessage('Something went wrong');
         }
     }
 
@@ -38,9 +38,13 @@ const Menu = () => {
         try {
             console.log('hii')
             const response = await trackerApi.post('/cook/addmenuitem', { name, category, description, price });
-
+            fetchResult();
             console.log('response', response.data);
             toggle();
+            setName('');
+            setPrice(0);
+            setCategory('');
+            setDescription('');
         }
         catch (err) {
             console.log(err);
@@ -62,7 +66,7 @@ const Menu = () => {
     return (
         <ScrollView>
             <StatusBar backgroundColor='#EA3C53'/>
-            
+           
             <FlatList
                 data={result}
                 keyExtractor={(result) => result._id}
