@@ -54,12 +54,21 @@ const menuItemSchema = new Schema({
     }
 })
 
+const Menu = mongoose.model("menu", menuItemSchema);
+
 //has different quantity of menu items
 const orderItemSchema = new Schema({
-    menuItem: String,
+    menuItem: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Menu'
+    },
     userid: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    chef: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Chef'
     },
     quantity: Number,
     timestamp: String,
@@ -121,7 +130,7 @@ chefSchema.methods.comparePassword = function (candidatePassword) {
 
 
 
-const Menu = mongoose.model("menu", menuItemSchema);
+
 const OrderItem = mongoose.model("orderItem", orderItemSchema);
 const Cart = mongoose.model("cart", cartSchema);
 
