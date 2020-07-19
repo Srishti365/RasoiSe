@@ -40,6 +40,26 @@ const chefSchema = new Schema({
     }
 })
 
+
+chefSchema.methods.comparePassword = function (candidatePassword) {
+    const chef = this;
+
+    return new Promise((resolve, reject) => {
+        bcrypt.compare(candidatePassword, chef.password, (err, isMatch) => {
+            if (err) {
+                return reject(err);
+            }
+            if (!isMatch) {
+                return reject(false);
+            }
+
+            resolve(true);
+        });
+    });
+
+}
+
+
 const Chef = mongoose.model("chef", chefSchema);
 
 const menuItemSchema = new Schema({
@@ -60,7 +80,7 @@ const Menu = mongoose.model("menu", menuItemSchema);
 const orderItemSchema = new Schema({
     menuItem: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Menu'
+        ref: 'menu'
     },
     userid: {
         type: mongoose.Schema.Types.ObjectId,
@@ -68,7 +88,7 @@ const orderItemSchema = new Schema({
     },
     chef: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Chef'
+        ref: 'chef'
     },
     quantity: Number,
     timestamp: String,
@@ -92,7 +112,7 @@ const cartSchema = new Schema({
     },
     chef: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Chef'
+        ref: 'chef'
     },
 
     delivery_add: String,
@@ -109,24 +129,6 @@ const cartSchema = new Schema({
 
 })
 
-
-chefSchema.methods.comparePassword = function (candidatePassword) {
-    const chef = this;
-
-    return new Promise((resolve, reject) => {
-        bcrypt.compare(candidatePassword, chef.password, (err, isMatch) => {
-            if (err) {
-                return reject(err);
-            }
-            if (!isMatch) {
-                return reject(false);
-            }
-
-            resolve(true);
-        });
-    });
-
-}
 
 
 
