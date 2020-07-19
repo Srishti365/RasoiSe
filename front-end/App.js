@@ -54,9 +54,10 @@ const switchNavigator = createSwitchNavigator({
     searchflow: createStackNavigator({
       Search: SearchScreen,
       ResultsShow: ResultsShowScreen,
-      Cart: CartScreen,
       TipsyStripe: TipsyStripeScreen
     }),
+
+    Cart: CartScreen,
 
     // TrackDetail: TrackDetailScreen,
     // Signout:SignoutScreen

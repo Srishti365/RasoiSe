@@ -15,6 +15,7 @@ const CartScreen = ({ navigation }) => {
             const response = await trackerApi.post('/cart/view');
             // console.log(response.data.chefs);
             setResult(response.data);
+            console.log('cart state');
             console.log(result);
 
         }
@@ -69,7 +70,7 @@ const CartScreen = ({ navigation }) => {
                 }}
             />
             <View style={Styles.button}>
-                <Button title='Proceed to Pay' type="outline" onPress={() => navigation.navigate('TipsyStripe')} />
+                <Button title='Proceed to Pay' type="outline" onPress={() => navigation.navigate('TipsyStripe', { items: result.items, totalprice: result.totalprice })} />
             </View>
 
 
