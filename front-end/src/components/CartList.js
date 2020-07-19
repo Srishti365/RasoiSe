@@ -6,9 +6,6 @@ import trackerApi from '../api/tracker';
 
 const CartList = ({ result, navigation }) => {
     const [ serr, setErr] = useState('')
-    // const [items,setItems] = useState(result);
-    console.log('cart Screen');
-  console.log(result);
     
     const RemoveItem= async(id) => {
         try {
@@ -31,9 +28,9 @@ const CartList = ({ result, navigation }) => {
             {/* <Text style={styles.name}>{result.name}'s Kitchen</Text>
             <Text>Location: {result.location}</Text> */}
             
-            <Image style={styles.imageStyle} source={{ uri: result.image}} />
+            <Image style={styles.imageStyle} source={{ uri: result.menuItem.image}} />
             <View style={{ flexDirection:'column', marginLeft:15, flex:1}}>
-                <Text style={styles.name}>{result.name}</Text>
+                <Text style={styles.name}>{result.menuItem.name}</Text>
                 <Text style={styles.location}>Quantity: {result.quantity}</Text>
                 <Text style={styles.location}>Price: Rs.{result.price}</Text>
             
