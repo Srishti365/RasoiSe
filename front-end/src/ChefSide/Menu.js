@@ -14,7 +14,7 @@ const Menu = () => {
     const [category, setCategory] = useState('')
     const [price, setPrice] = useState(0)
     const [description, setDescription] = useState('')
-    const [result,setResult] = useState([]);
+    const [result,setResult] = useState([])
 
     const toggle = () => {
         console.log(visible)
@@ -60,7 +60,7 @@ const Menu = () => {
     }
 
     return (
-        <View>
+        <ScrollView>
             <StatusBar backgroundColor='#EA3C53'/>
             
             <FlatList
@@ -74,11 +74,11 @@ const Menu = () => {
             />
             
             <TouchableOpacity
-                style={{ borderWidth: 1, height: 50, width: 150, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}
+                style={{ backgroundColor:'gray', height: 50, width: 150, justifyContent: 'center', alignItems: 'center', borderRadius: 5, alignSelf:'center', marginTop:10 }}
                 activeOpacity={0.5}
                 onPress={() => toggle()}
             >
-                <Text>Add Menu Item</Text>
+                <Text style={{color:'white',fontSize:15}}>Add Menu Item</Text>
             </TouchableOpacity>
             <Dialog
                 visible={visible}
@@ -161,7 +161,7 @@ const Menu = () => {
                 </DialogContent>
             </Dialog>
 
-        </View>
+        </ScrollView>
     )
 }
 
