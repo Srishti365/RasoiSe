@@ -16,7 +16,20 @@ class TipsyStripeScreen extends PureComponent {
     state = {
         loading: false,
         token: null,
+        items: {},
+        totalprice: 0
     }
+
+    componentDidMount() {
+        const { description } = this.props;
+        this.setState({
+            items: description.items,
+            totalprice: description.totalprice
+        });
+        console.log('Payment Screen')
+        console.log(this.state);
+    }
+
 
     handleCardPayPress = async () => {
         try {
