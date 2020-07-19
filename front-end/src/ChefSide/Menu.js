@@ -6,6 +6,7 @@ const { width, heigh } = Dimensions.get('window');
 import { AntDesign } from '@expo/vector-icons';
 import { AppStyles } from '../AppStyles';
 import trackerApi from '../api/tracker';
+import { NavigationEvents } from 'react-navigation';
 
 const Menu = () => {
 
@@ -29,7 +30,6 @@ const Menu = () => {
         }
         catch (err) {
             console.log(err);
-            setErrorMessage('Something went wrong');
         }
     }
 
@@ -45,7 +45,6 @@ const Menu = () => {
             setPrice(0);
             setCategory('');
             setDescription('');
-
         }
         catch (err) {
             console.log(err);

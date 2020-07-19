@@ -14,7 +14,7 @@ const ResultShowDetail = ({ result }) => {
     const addToCart = async (id, quantity) => {
         try {
             console.log(id, quantity);
-            const response = await trackerApi.post('/cart/add', { menuitemid: id, quantity: quantity });
+            const response = await trackerApi.post('/cart/add', { menuitemid: id, quantity: quantity, chefid: result.chef });
             // console.log(response.data.chefs);
             console.log(response.data);
         }
@@ -23,6 +23,8 @@ const ResultShowDetail = ({ result }) => {
             setErrorMessage('Something went wrong');
         }
     }
+
+    console.log(result)
 
     return (
         <>

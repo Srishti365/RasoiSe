@@ -12,7 +12,7 @@ const CartScreen = ({ navigation }) => {
         try {
 
             console.log('hii');
-            const response = await trackerApi.post('/cart/view');
+            const response = await trackerApi.get('/cart/view');
             // console.log(response.data.chefs);
             setResult(response.data);
             console.log('cart state');

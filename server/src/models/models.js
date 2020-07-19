@@ -95,6 +95,7 @@ const orderItemSchema = new Schema({
     },
     quantity: Number,
     timestamp: String,
+    slot: String,
     price: Number,
     isOrdered: {
         type: Boolean,
