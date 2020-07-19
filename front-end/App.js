@@ -23,17 +23,18 @@ import { Feather } from '@expo/vector-icons';
 import ResultsShowScreen from './src/screens/ResultsShowScreen';
 import CartScreen from './src/screens/CartScreen';
 import WelcomeScreen from './src/screens/WelcomeScreen';
+import TipsyStripeScreen from './src/screens/TipsyStripeScreen';
 
 
 
 const switchNavigator = createSwitchNavigator({
   ResolveAuth: ResolveAuthScreen,
   loginFlow: createStackNavigator({
-    Welcome:WelcomeScreen,
+    Welcome: WelcomeScreen,
     Signin: SigninScreen,
     Signup: SignupScreen,
-    ChefSignup:ChefSignupScreen,
-    ChefSignin:ChefSigninScreen,
+    ChefSignup: ChefSignupScreen,
+    ChefSignin: ChefSigninScreen,
     Verify: VerifyScreen,
     ResetPassword: ResetPasswordScreen,
     Otp: OtpScreen,
@@ -53,7 +54,8 @@ const switchNavigator = createSwitchNavigator({
     searchflow: createStackNavigator({
       Search: SearchScreen,
       ResultsShow: ResultsShowScreen,
-      Cart:CartScreen
+      Cart: CartScreen,
+      TipsyStripe: TipsyStripeScreen
     }),
 
     // TrackDetail: TrackDetailScreen,

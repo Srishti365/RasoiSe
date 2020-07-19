@@ -98,7 +98,7 @@ app.use('/admin', adminRouter)
 app.use('', require('./routes/authRoutes'));
 app.use('/chef', require('./routes/chefRoutes'));
 app.use('/home', require('./routes/menu'));
-app.use('/payment', require('./routes/paypal'));
+app.use('/payment', require('./routes/stripe'));
 app.use('', require('./routes/unauthRoutes'));
 app.use('/cart', require('./routes/cart'));
 app.use('/cook', require('./routes/chefdetails'))

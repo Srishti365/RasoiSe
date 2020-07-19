@@ -31,6 +31,7 @@
     "paypal-rest-sdk": "^1.8.1",
     "random-number": "0.0.9",
     "randomstring": "^1.1.5",
-    "sort-objects-array": "^1.7.1"
+    "sort-objects-array": "^1.7.1",
+    "stripe": "^8.76.0"
   }
 }
