@@ -15,7 +15,7 @@ const Menu = () => {
     const [category, setCategory] = useState('')
     const [price, setPrice] = useState(0)
     const [description, setDescription] = useState('')
-    const [result,setResult] = useState([])
+    const [result, setResult] = useState([])
 
     const toggle = () => {
         console.log(visible)
@@ -25,7 +25,7 @@ const Menu = () => {
     const fetchResult = async () => {
         try {
             const response = await trackerApi.get('/cook/viewmenu');
-            console.log('response',response.data);
+            console.log('response', response.data);
             setResult(response.data.dishes)
         }
         catch (err) {
@@ -54,19 +54,19 @@ const Menu = () => {
 
     useEffect(() => {
         fetchResult();
-    },[])
+    }, []);
 
 
-    if(result.length==0){
-        return (
-            <ActivityIndicator size='large' style={{height:'100%',justifyContent:'center',alignItems:'center'}}/>
-        )
-    }
+    // if (result.length == 0) {
+    //     return (
+    //         <ActivityIndicator size='large' style={{ height: '100%', justifyContent: 'center', alignItems: 'center' }} />
+    //     )
+    // }
 
     return (
         <ScrollView>
-            <StatusBar backgroundColor='#EA3C53'/>
-           
+            <StatusBar backgroundColor='#EA3C53' />
+
             <FlatList
                 data={result}
                 keyExtractor={(result) => result._id}
@@ -76,13 +76,13 @@ const Menu = () => {
                     )
                 }}
             />
-            
+
             <TouchableOpacity
-                style={{ backgroundColor:'gray', height: 50, width: 150, justifyContent: 'center', alignItems: 'center', borderRadius: 5, alignSelf:'center', marginTop:10 }}
+                style={{ backgroundColor: 'gray', height: 50, width: 150, justifyContent: 'center', alignItems: 'center', borderRadius: 5, alignSelf: 'center', marginTop: 10 }}
                 activeOpacity={0.5}
                 onPress={() => toggle()}
             >
-                <Text style={{color:'white',fontSize:15}}>Add Menu Item</Text>
+                <Text style={{ color: 'white', fontSize: 15 }}>Add Menu Item</Text>
             </TouchableOpacity>
             <Dialog
                 visible={visible}
@@ -94,6 +94,7 @@ const Menu = () => {
                 height={500}
                 width={width - 50}
             >
+
                 <DialogContent style={{ flex: 1 }}>
                     <View style={{ height: 50, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgb(251,251,251)', marginLeft: -20, marginRight: -20, flexDirection: 'row' }}>
                         <Text style={{ fontWeight: '900', fontSize: 20, position: 'absolute' }}>Add Menu</Text>
@@ -102,6 +103,7 @@ const Menu = () => {
                         </TouchableOpacity>
                     </View>
                     <ScrollView showsVerticalScrollIndicator={false}>
+
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
                             <Text style={{ width: 80 }}>Name : </Text>
                             <View style={styles.InputContainer}>
@@ -120,7 +122,7 @@ const Menu = () => {
                             <View style={styles.InputContainer}>
                                 <TextInput
                                     style={styles.body}
-                                    placeholder="noodles"
+                                    placeholder="Veg or Non-veg"
                                     onChangeText={category => setCategory(category)}
                                     value={category}
                                     placeholderTextColor={AppStyles.color.grey}
@@ -163,6 +165,7 @@ const Menu = () => {
                         </TouchableOpacity>
                     </ScrollView>
                 </DialogContent>
+
             </Dialog>
 
         </ScrollView>

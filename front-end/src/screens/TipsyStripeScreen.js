@@ -16,18 +16,18 @@ class TipsyStripeScreen extends PureComponent {
     state = {
         loading: false,
         token: null,
-        items: {},
+        idArr: [],
         totalprice: 0
     }
 
     componentDidMount() {
-        const { description } = this.props;
+        const { params } = this.props.navigation.state;
+        const idArr = params.idArr;
+        const totalprice = params.totalprice;
         this.setState({
-            items: description.items,
-            totalprice: description.totalprice
+            idArr: idArr,
+            totalprice: totalprice
         });
-        console.log('Payment Screen')
-        console.log(this.state);
     }
 
 
@@ -62,7 +62,7 @@ class TipsyStripeScreen extends PureComponent {
         try {
             this.setState({ loading: true });
 
-            await trackerApi.post('/payment/', { amount: 100, currency: 'inr', token: this.state.token })
+            await trackerApi.post('/payment/', { amount: this.state.totalprice, currency: 'inr', token: this.state.token, total_price: this.state.totalprice, idArr: this.state.idArr })
                 .then(response => {
                     console.log(response.data);
                     this.setState({ loading: false });
@@ -78,13 +78,18 @@ class TipsyStripeScreen extends PureComponent {
     }
 
     render() {
-        const { loading, token } = this.state
+        const { loading, token } = this.state;
+        console.log('inside render');
+        console.log(this.state);
 
         return (
             <View style={styles.container}>
                 <Text style={styles.header}>
                     Pay For Your Order
         </Text>
+                <Text style={styles.header2}>
+                    Total amount payable is: Rs. {this.state.totalprice}
+                </Text>
 
                 <Button
                     text="Enter Your Card Details Here"
@@ -117,7 +122,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     header: {
-        fontSize: 20,
+        fontSize: 25,
+        textAlign: 'center',
+        margin: 10,
+    },
+    header2: {
+        fontSize: 16,
         textAlign: 'center',
         margin: 10,
     },
