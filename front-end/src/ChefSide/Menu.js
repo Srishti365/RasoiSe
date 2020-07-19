@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, StatusBar, Dimensions, TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView } from 'react-native';
+import React, { useState, useEffect } from 'react'
+import { View, Text, StyleSheet, StatusBar, Dimensions, TouchableOpacity, TextInput, ScrollView, ActivityIndicator, FlatList } from 'react-native';
 import MenuList from './MenuList';
 import Dialog, { DialogContent, SlideAnimation, DialogTitle, DialogFooter, DialogButton } from 'react-native-popup-dialog';
 const { width, heigh } = Dimensions.get('window');
@@ -14,23 +14,38 @@ const Menu = () => {
     const [category, setCategory] = useState('')
     const [price, setPrice] = useState(0)
     const [description, setDescription] = useState('')
+    const [result, setResult] = useState([])
 
     const toggle = () => {
         console.log(visible)
         setVisible(!visible)
     }
 
+    const fetchResult = async () => {
+        try {
+            const response = await trackerApi.get('/cook/viewmenu');
+            console.log('response', response.data);
+            setResult(response.data.dishes)
+        }
+        catch (err) {
+            console.log(err);
+            setErrorMessage('Something went wrong');
+        }
+    }
+
+
     const handleOnSubmit = async () => {
         try {
             console.log('hii')
             const response = await trackerApi.post('/cook/addmenuitem', { name, category, description, price });
-
+            fetchResult();
             console.log('response', response.data);
             toggle();
             setName('');
             setPrice(0);
             setCategory('');
             setDescription('');
+
         }
         catch (err) {
             console.log(err);
@@ -38,16 +53,37 @@ const Menu = () => {
         }
     };
 
+    useEffect(() => {
+        fetchResult();
+    }, []);
+
+
+    // if (result.length == 0) {
+    //     return (
+    //         <ActivityIndicator size='large' style={{ height: '100%', justifyContent: 'center', alignItems: 'center' }} />
+    //     )
+    // }
+
     return (
-        <View>
+        <ScrollView>
             <StatusBar backgroundColor='#EA3C53' />
-            <MenuList />
+
+            <FlatList
+                data={result}
+                keyExtractor={(result) => result._id}
+                renderItem={({ item }) => {
+                    return (
+                        <MenuList result={item} />
+                    )
+                }}
+            />
+
             <TouchableOpacity
-                style={{ borderWidth: 1, height: 50, width: 150, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}
+                style={{ backgroundColor: 'gray', height: 50, width: 150, justifyContent: 'center', alignItems: 'center', borderRadius: 5, alignSelf: 'center', marginTop: 10 }}
                 activeOpacity={0.5}
                 onPress={() => toggle()}
             >
-                <Text>Add Menu Item</Text>
+                <Text style={{ color: 'white', fontSize: 15 }}>Add Menu Item</Text>
             </TouchableOpacity>
             <Dialog
                 visible={visible}
@@ -133,8 +169,7 @@ const Menu = () => {
 
             </Dialog>
 
-        </View>
-
+        </ScrollView>
     )
 }
 

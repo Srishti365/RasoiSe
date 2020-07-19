@@ -49,6 +49,9 @@ const chefPage = createBottomTabNavigator({
         navigationOptions:{
           title:'Profile'
         },
+    },
+    Signout:{
+      screen:SignoutScreen
     }
   },
   {
