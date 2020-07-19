@@ -36,7 +36,7 @@ function getTime() {
 router.route("/add")
     .post(async (req, res, next) => {
         try {
-            //req.body:menuiteemid,quantity, chefid
+            //req.body:menuitemid,quantity, chefid
             await req.body;
             var orderitem1;
             var flag = 0;
@@ -49,6 +49,7 @@ router.route("/add")
                         orderitem1 = new OrderItem({
                             menuItem: req.body.menuitemid,
                             userid: req.user.id,
+                            chef: req.body.chefid,
                             quantity: req.body.quantity,
                             timestamp: getTime(),
                             price: price1,
@@ -74,13 +75,12 @@ router.route("/add")
 
                 //add order item to cart
                 //find if cart already exists otherwise create new
-                await Cart.find({ userid: req.user.id, chef: req.body.chefid, isOrdered: false }).then(async function (result) {
-                    // console.log(result)
+                await Cart.find({ user: req.user.id, chef: req.body.chefid, isOrdered: false }).then(async function (result) {
 
                     if (result.length == 0) {
                         var cart1 = new Cart({
                             orderItems: [orderitem1],
-                            userid: req.user.id,
+                            user: req.user.id,
                             chef: req.body.chefid,
                             isOrdered: false,
                             isDelivered: false
@@ -114,7 +114,7 @@ router.route("/add")
 
                 })
 
-                res.send(orderitem1);
+                res.send("item added to cart");
 
             })
 
@@ -129,12 +129,16 @@ router.route("/add")
 
 //view cart
 router.route("/view")
-    .post(async (req, res, next) => {
+    .get(async (req, res, next) => {
         try {
-            Cart.find({ userid: req.user.id, isOrdered: false }).populate({ path: 'chefid', model: Chef }).then(function (data) {
-                res.send(data[0])
+            Cart.find({ user: req.user.id, isOrdered: false }).populate({ path: 'chef', model: Chef }).then(function (data) {
+                res.send(data)
             })
         } catch (error) {
             next(error);
         }
     })
+
+
+
+module.exports = router;
