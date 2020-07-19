@@ -131,9 +131,21 @@ router.route("/add")
 router.route("/view")
     .get(async (req, res, next) => {
         try {
-            Cart.find({ user: req.user.id, isOrdered: false }).populate({ path: 'chef', model: Chef }).then(function (data) {
-                res.send(data)
+            Cart.find({ user: req.user.id, isOrdered: false }, { _id: 1, orderItems: 1 }).populate({ path: 'orderItems.menuItem', model: Menu }).then(function (data) {
+                console.log(data.orderItems)
+                res.send({ cart: data })
             })
+        } catch (error) {
+            next(error);
+        }
+    })
+
+//confirm payment
+router.route("/checkout")
+    .post(async (req, res, next) => {
+        try {
+            //req.body:[]
+
         } catch (error) {
             next(error);
         }
