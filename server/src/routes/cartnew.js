@@ -173,12 +173,6 @@ router.route("/checkout")
 
                     });
 
-                    // for (var orders of result.orderItems) {
-                    //     orders.isOrdered = true;
-                    //     await orders.save()
-
-                    // }
-
                 })
             }
             res.send("checkout complete")
@@ -188,6 +182,25 @@ router.route("/checkout")
         }
     })
 
+//remove from cart
+router.route("/remove")
+    .post(async (req, res, next) => {
+        try {
+            console.log(req.body)
+            await OrderItem.deleteOne({ _id: req.body.id }).then(async function (result) {
+                await Cart.updateOne(
+                    { user: req.user.id },
+                    { $pull: { orderItems: { _id: req.body.id } } },
+                    { multi: true }
+                ).then(function (data) {
+                    res.send(data)
+                })
+            })
 
+
+        } catch (error) {
+            next(error);
+        }
+    })
 
 module.exports = router;
