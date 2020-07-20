@@ -59,7 +59,7 @@ const CartScreen = ({ navigation }) => {
         return null;
     }
 
-
+    console.log(result)
 
     return (
         <View>
