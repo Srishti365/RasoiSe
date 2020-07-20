@@ -52,8 +52,7 @@ const ChefSignupScreen = ({ navigation }) => {
       </TouchableOpacity>
     )
 
-    const keyExtractor = (item, index) => index.toString()
-
+   
     return(
         <View style={styles.container}>
           <NavigationEvents 
