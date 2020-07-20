@@ -28,54 +28,64 @@ import TipsyStripeScreen from './src/screens/TipsyStripeScreen';
 import Menu from './src/ChefSide/Menu';
 import Orders from './src/ChefSide/Orders';
 import Profile from './src/ChefSide/Profile';
+import MenuShowScreen from './src/ChefSide/MenuShowscreen';
 
 
-
-const chefPage = createBottomTabNavigator({
-  Orders: {
-    screen: Orders,
-    navigationOptions: {
-      title: 'View Orders'
-    },
-  },
-  Menu: {
-    screen: Menu,
-    navigationOptions: {
-      title: 'Your Menu'
-    },
-  },
-  Profile: {
-    screen: Profile,
-    navigationOptions: {
-      title: 'Profile'
-    },
-  }
-},
-  {
-    defaultNavigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        const { routeName } = navigation.state;
-        let IconComponent = Entypo;
-        let iconName;
-        if (routeName === 'Orders') {
-          iconName = focused
-            ? 'shopping-bag'
-            : 'shopping-bag'
-        } else if (routeName === 'Menu') {
-          iconName = focused ? 'menu' : 'menu';
-        } else if (routeName === 'Profile') {
-          iconName = focused ? 'user' : 'user';
-        }
-
-        return <IconComponent name={iconName} size={25} color={tintColor} />;
+const chefStack = createStackNavigator({
+  chefPage:{
+    screen:createBottomTabNavigator({
+      Orders: {
+        screen: Orders,
+        navigationOptions: {
+          title: 'View Orders'
+        },
+      },
+      Menu: {
+        screen: Menu,
+        navigationOptions: {
+          title: 'Your Menu'
+        },
+      },
+      Profile: {
+        screen: Profile,
+        navigationOptions: {
+          title: 'Profile'
+        },
       }
-    }),
-    tabBarOptions: {
-      activeTintColor: 'tomato',
-      inactiveTintColor: 'gray',
     },
+      {
+        defaultNavigationOptions: ({ navigation }) => ({
+          tabBarIcon: ({ focused, horizontal, tintColor }) => {
+            const { routeName } = navigation.state;
+            let IconComponent = Entypo;
+            let iconName;
+            if (routeName === 'Orders') {
+              iconName = focused
+                ? 'shopping-bag'
+                : 'shopping-bag'
+            } else if (routeName === 'Menu') {
+              iconName = focused ? 'menu' : 'menu';
+            } else if (routeName === 'Profile') {
+              iconName = focused ? 'user' : 'user';
+            }
+    
+            return <IconComponent name={iconName} size={25} color={tintColor} />;
+          }
+        }),
+        tabBarOptions: {
+          activeTintColor: 'tomato',
+          inactiveTintColor: 'gray',
+        },
+      }
+    ),
+    navigationOptions:{
+      header: null
+    }
+  },
+  MenuShow:{
+    screen:MenuShowScreen
   }
-)
+})
 
 
 const switchNavigator = createSwitchNavigator({
@@ -89,31 +99,16 @@ const switchNavigator = createSwitchNavigator({
     Verify: VerifyScreen,
     ResetPassword: ResetPasswordScreen,
     Otp: OtpScreen,
-    NewPassword: NewPasswordScreen
+    NewPassword: NewPasswordScreen,
   }),
-  chefflow: chefPage,
-  // mainFlow: createBottomTabNavigator({
-  //   trackListFlow: createStackNavigator({
-  //     TrackList: TrackListScreen,
-  //     TrackDetail: TrackDetailScreen
-  //   }),
-  //   TrackCreate: TrackCreateScreen,
-  //   Signout: SignoutScreen
-  // mainflow: createDrawerNavigator({
-  //   Signout: SignoutScreen
+  chefflow: chefStack,
   mainflow: createDrawerNavigator({
-    //TrackList: TrackListScreen,
     searchflow: createStackNavigator({
       Search: SearchScreen,
       ResultsShow: ResultsShowScreen,
       Cart: CartScreen,
-      TipsyStripe: TipsyStripeScreen
+      TipsyStripe: TipsyStripeScreen,
     }),
-
-
-
-    // TrackDetail: TrackDetailScreen,
-    // Signout:SignoutScreen
     Profile: {
       screen: ProfileScreen,
       navigationOptions: {
@@ -122,43 +117,6 @@ const switchNavigator = createSwitchNavigator({
       }
     },
     Paypal: PaypalScreen,
-    // Signout: SignoutScreen
-
-    // MessageScreen:{
-    //   screen:MessageScreen,
-    //   navigationOptions:{
-    //     title:"Message",
-    //     drawerIcon:({ tinColor }) => <Feather name="message-square" size={16} color={tinColor} />
-    //   }
-    // },
-    // ActivityScreen:{
-    //   screen:ActivityScreen,
-    //   navigationOptions:{
-    //     title:"Activity",
-    //     drawerIcon:({ tinColor }) => <Feather name="activity" size={16} color={tinColor} />
-    //   }
-    // },
-    // ListScreen:{
-    //   screen:ListScreen,
-    //   navigationOptions:{
-    //     title:"List",
-    //     drawerIcon:({ tinColor }) => <Feather name="list" size={16} color={tinColor} />
-    //   }
-    // },
-    // ReportScreen:{
-    //   screen:ReportScreen,
-    //   navigationOptions:{
-    //     title:"Reports",
-    //     drawerIcon:({ tinColor }) => <Feather name="bar-chart" size={16} color={tinColor} />
-    //   }
-    // },
-    // StatisticScreen:{
-    //   screen:StatisticScreen,
-    //   navigationOptions:{
-    //     title:"Statistics",
-    //     drawerIcon:({ tinColor }) => <Feather name="trending-up" size={16} color={tinColor} />
-    //   }
-    // },
     Signout: {
       screen: SignoutScreen,
       navigationOptions: {

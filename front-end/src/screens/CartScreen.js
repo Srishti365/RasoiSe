@@ -12,12 +12,12 @@ const CartScreen = ({ navigation }) => {
 
     const viewCart = async () => {
         try {
-
-            console.log('hii');
+            console.log('viewCart');
             const response = await trackerApi.get('/cart/view');
             const data = response.data.cart;
             const total = response.data.total_price;
             setResult(data);
+            console.log('resultssss')
             setTotalprice(total);
             const idList = []
             for (i = 0; i < data.length; i++) {
@@ -48,6 +48,19 @@ const CartScreen = ({ navigation }) => {
     //     }
     // }
 
+    const RemoveItem = async (id) => {
+        try {
+            console.log('hii');
+            const response = await trackerApi.post('/cart/remove', { id: id });
+            console.log('response',response);
+            // viewCart()
+        }
+        catch (err) {
+            console.log(err);
+            setErr('Something went wrong');
+        }
+    }
+
 
 
     useEffect(() => {
@@ -71,12 +84,12 @@ const CartScreen = ({ navigation }) => {
                     keyExtractor={(result) => result._id}
                     renderItem={({ item }) => {
                         return (
-                            <CartHelper result={item} />
+                            <CartHelper result={item}  callback={(id) => RemoveItem(id)}/>
                         )
                     }}
                 />
                 <View style={Styles.button}>
-                    <Button title='Proceed to Pay' type="outline" onPress={() => navigation.navigate('TipsyStripe', { totalprice, idArr: id })} />
+                    <Button title='Proceed to Pay' type="outline"  onPress={() => navigation.navigate('TipsyStripe', { totalprice, idArr: id })} />
                 </View>
             </ScrollView>
         </View>
