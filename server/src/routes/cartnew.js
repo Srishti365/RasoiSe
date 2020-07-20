@@ -187,18 +187,41 @@ router.route("/checkout")
 router.route("/remove")
     .post(async (req, res, next) => {
         try {
-
+            console.log(req.body);
             await OrderItem.deleteOne({ _id: req.body.id }).then(async function (result) {
-                await Cart.updateOne(
-                    { user: req.user.id },
-                    { $pull: { orderItems: { _id: req.body.id } } },
-                    { multi: true }
-                ).then(async function (data) {
-                    await Cart.find({ user: req.user.id }).then(async function (carts) {
-                        for (var i of carts) {
+                // await Cart.updateOne(
+                //     { user: req.user.id },
+                //     { $pull: { orderItems: { _id: req.body.id } } },
+                //     { multi: true }
 
-                            if (i.orderItems.length == 0) {
-                                await Cart.deleteOne({ _id: i._id }).then(async function (finalresult) {
+                await Cart.find({ user: req.user.id }).then(async function (data) {
+
+                    for (dish of data) {
+                        for (var i = dish.orderItems.length - 1; i >= 0; --i) {
+                            // console.log(dish.orderItems[i])
+                            if (dish.orderItems[i]._id == req.body.id) {
+                                dish.orderItems.splice(i, 1);
+                                await dish.save()
+                            }
+
+                        }
+
+
+                        // for (values of dish.orderItems) {
+                        //     // console.log(values)
+                        //     if (values._id == req.body.id) {
+                        //         console.log(values)
+
+                        //     }
+                        // }
+                    }
+
+                    await Cart.find({ user: req.user.id }).then(async function (carts) {
+                        for (var j of carts) {
+                            console.log(j)
+                            if (j.orderItems.length == 0) {
+                                console.log('here')
+                                await Cart.deleteOne({ _id: j._id }).then(async function (finalresult) {
                                     res.send('item removed from cart')
                                 })
                             }

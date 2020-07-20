@@ -24,7 +24,7 @@ router.route("/")
                 source: 'tok_mastercard'
             });
 
-            // console.log(charge);
+            console.log(charge);
 
 
             console.log('item ids and total price');
@@ -50,7 +50,7 @@ router.route("/")
                 })
             }
 
-            res.send(charge);
+            res.send({ transaction_id: charge.balance_transaction, amount: charge.amount, failure_message: charge.failure_message });
 
         }
         catch (error) {

@@ -9,6 +9,7 @@ const CartScreen = ({ navigation }) => {
     const [err, setErr] = useState('');
     const [id, setId] = useState([])
     const [totalprice, setTotalprice] = useState(0);
+    const [changeRef, setChangeRef] = useState(0);
 
     const viewCart = async () => {
         try {
@@ -32,21 +33,23 @@ const CartScreen = ({ navigation }) => {
         }
     };
 
-    // const RemoveItem = async (id) => {
-    //     try {
+    const RemoveItem = async (removeId) => {
+        try {
 
-    //         console.log('hii');
-    //         const response = await trackerApi.post('/cart/remove', { id: id });
-    //         // console.log(response.data.chefs);
-    //         //    setResult(response.data.items);
-    //         console.log(result);
-    //         navigation.navigate('CartScreen');
-    //     }
-    //     catch (err) {
-    //         console.log(err);
-    //         setErr('Something went wrong');
-    //     }
-    // }
+            console.log('hii');
+            setChangeRef(removeId);
+            const response = await trackerApi.post('/cart/remove', { id: removeId });
+            // console.log(response.data.chefs);
+            //    setResult(response.data.items);
+            console.log(result);
+            // navigation.navigate('Cart');
+            // viewCart();
+        }
+        catch (err) {
+            console.log(err);
+            setErr('Something went wrong');
+        }
+    }
 
     const RemoveItem = async (id) => {
         try {
@@ -65,14 +68,14 @@ const CartScreen = ({ navigation }) => {
 
     useEffect(() => {
         viewCart();
-    }, [])
+    }, [changeRef])
 
 
     if (!result) {
         return null;
     }
 
-
+    console.log(result)
 
     return (
         <View>
@@ -84,7 +87,11 @@ const CartScreen = ({ navigation }) => {
                     keyExtractor={(result) => result._id}
                     renderItem={({ item }) => {
                         return (
+<<<<<<< HEAD
                             <CartHelper result={item}  callback={(id) => RemoveItem(id)}/>
+=======
+                            <CartHelper result={item} callback={(id) => RemoveItem(id)} />
+>>>>>>> e0bf1d6b1087a98b7ce6e13af265ca9ccef2c3bb
                         )
                     }}
                 />

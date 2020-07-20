@@ -28,8 +28,12 @@ import TipsyStripeScreen from './src/screens/TipsyStripeScreen';
 import Menu from './src/ChefSide/Menu';
 import Orders from './src/ChefSide/Orders';
 import Profile from './src/ChefSide/Profile';
+<<<<<<< HEAD
 import MenuShowScreen from './src/ChefSide/MenuShowscreen';
 
+=======
+import PaymentCompleteScreen from './src/screens/PaymentCompleteScreen';
+>>>>>>> e0bf1d6b1087a98b7ce6e13af265ca9ccef2c3bb
 
 const chefStack = createStackNavigator({
   chefPage:{
@@ -108,6 +112,10 @@ const switchNavigator = createSwitchNavigator({
       ResultsShow: ResultsShowScreen,
       Cart: CartScreen,
       TipsyStripe: TipsyStripeScreen,
+<<<<<<< HEAD
+=======
+      PaymentComplete: PaymentCompleteScreen
+>>>>>>> e0bf1d6b1087a98b7ce6e13af265ca9ccef2c3bb
     }),
     Profile: {
       screen: ProfileScreen,

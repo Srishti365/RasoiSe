@@ -7,6 +7,24 @@ import trackerApi from '../api/tracker';
 const CartList = ({ result, callback }) => {
     const [serr, setErr] = useState('')
 
+<<<<<<< HEAD
+=======
+    // const RemoveItem = async (id) => {
+    //     try {
+
+    //         console.log('hii');
+    //         const response = await trackerApi.post('/cart/remove', { id: id });
+    //         // console.log(response.data.chefs);
+    //         //    setResult(response.data.items);
+    //         console.log(result);
+    //         navigation.navigate('Cart');
+    //     }
+    //     catch (err) {
+    //         console.log(err);
+    //         setErr('Something went wrong');
+    //     }
+    // }
+>>>>>>> e0bf1d6b1087a98b7ce6e13af265ca9ccef2c3bb
 
     console.log('inside cartlist')
     console.log(result)
