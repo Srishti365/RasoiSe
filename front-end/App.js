@@ -28,16 +28,13 @@ import TipsyStripeScreen from './src/screens/TipsyStripeScreen';
 import Menu from './src/ChefSide/Menu';
 import Orders from './src/ChefSide/Orders';
 import Profile from './src/ChefSide/Profile';
-<<<<<<< HEAD
 import MenuShowScreen from './src/ChefSide/MenuShowscreen';
 
-=======
 import PaymentCompleteScreen from './src/screens/PaymentCompleteScreen';
->>>>>>> e0bf1d6b1087a98b7ce6e13af265ca9ccef2c3bb
 
 const chefStack = createStackNavigator({
-  chefPage:{
-    screen:createBottomTabNavigator({
+  chefPage: {
+    screen: createBottomTabNavigator({
       Orders: {
         screen: Orders,
         navigationOptions: {
@@ -72,7 +69,7 @@ const chefStack = createStackNavigator({
             } else if (routeName === 'Profile') {
               iconName = focused ? 'user' : 'user';
             }
-    
+
             return <IconComponent name={iconName} size={25} color={tintColor} />;
           }
         }),
@@ -82,12 +79,12 @@ const chefStack = createStackNavigator({
         },
       }
     ),
-    navigationOptions:{
+    navigationOptions: {
       header: null
     }
   },
-  MenuShow:{
-    screen:MenuShowScreen
+  MenuShow: {
+    screen: MenuShowScreen
   }
 })
 
@@ -112,10 +109,7 @@ const switchNavigator = createSwitchNavigator({
       ResultsShow: ResultsShowScreen,
       Cart: CartScreen,
       TipsyStripe: TipsyStripeScreen,
-<<<<<<< HEAD
-=======
       PaymentComplete: PaymentCompleteScreen
->>>>>>> e0bf1d6b1087a98b7ce6e13af265ca9ccef2c3bb
     }),
     Profile: {
       screen: ProfileScreen,

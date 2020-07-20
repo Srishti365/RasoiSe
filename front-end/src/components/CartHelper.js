@@ -3,21 +3,6 @@ import { View, FlatList, Text, StyleSheet, ScrollView, AsyncStorage } from 'reac
 import CartList from './CartList';
 
 const CartHelper = ({ result, callback }) => {
-<<<<<<< HEAD
-
-    return(
-            <FlatList
-                showsVerticalScrollIndicator
-                data={result.orderItems}
-                keyExtractor={(result) => result._id}
-                renderItem={({ item }) => {
-                    return (
-                        <CartList result={item} callback={(id) => callback(id)}/>
-                    )
-                }}
-            />
- 
-=======
 
     return (
         <FlatList
@@ -31,7 +16,6 @@ const CartHelper = ({ result, callback }) => {
             }}
         />
 
->>>>>>> e0bf1d6b1087a98b7ce6e13af265ca9ccef2c3bb
     )
 }
 

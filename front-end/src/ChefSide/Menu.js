@@ -17,7 +17,7 @@ const Menu = ({ navigation }) => {
     const [price, setPrice] = useState(0)
     const [description, setDescription] = useState('')
     const [result, setResult] = useState([])
-    const [profile,setProfile] = useState(null)
+    const [profile, setProfile] = useState(null)
 
     const toggle = () => {
         console.log(visible)
@@ -36,7 +36,7 @@ const Menu = ({ navigation }) => {
     }
 
 
-    const fetchProfile = async() => {
+    const fetchProfile = async () => {
         try {
             const response = await trackerApi.get('/cook/profile');
             console.log('response', response.data);
@@ -71,9 +71,9 @@ const Menu = ({ navigation }) => {
         fetchResult();
     }, []);
 
-   
 
-    console.log('profile',profile)
+
+    console.log('profile', profile)
 
     if (profile == null) {
         return (
@@ -82,73 +82,73 @@ const Menu = ({ navigation }) => {
     }
 
     return (
-            <>
-                <StatusBar backgroundColor='#EA3C53' />
-                <HeaderImageScrollView
-                    showsVerticalScrollIndicator={false}
-                    maxHeight={300}
-                    minHeight={290}
-                    useNativeDriver={true}
-                    headerImage={require('../../assets/food.jpg')}
-                    renderFixedForeground={() => (
-                        <Animatable.View>
-                            <View style={{marginTop:170,marginLeft:20}}>
-                                <View style={{flexDirection:'row'}}>
-                                    <Text style={{color:'white',fontWeight:'bold',fontSize:25}}>{profile.name}</Text>
-                                    <TouchableOpacity style={{marginLeft:'auto',marginRight:10,marginTop:5,flexDirection:'row',backgroundColor:'#FBAF02',paddingHorizontal:5,borderRadius:20}}
-                                        activeOpacity={0.8}
-                                        onPress={() => setVisible(true)}
-                                    >
-                                        <Feather name="plus" size={24} color="white"/>
-                                        <Text style={{color:'white',marginTop:1,fontSize:17}}>Add Menu item</Text>
-                                    </TouchableOpacity>
+        <>
+            <StatusBar backgroundColor='#EA3C53' />
+            <HeaderImageScrollView
+                showsVerticalScrollIndicator={false}
+                maxHeight={300}
+                minHeight={290}
+                useNativeDriver={true}
+                headerImage={require('../../assets/bg3.jpeg')}
+                renderFixedForeground={() => (
+                    <Animatable.View>
+                        <View style={{ marginTop: 170, marginLeft: 20 }}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 25 }}>{profile.name}</Text>
+                                <TouchableOpacity style={{ marginLeft: 'auto', marginRight: 10, marginTop: 5, flexDirection: 'row', backgroundColor: '#FBAF02', paddingHorizontal: 5, borderRadius: 20 }}
+                                    activeOpacity={0.8}
+                                    onPress={() => setVisible(true)}
+                                >
+                                    <Feather name="plus" size={24} color="white" />
+                                    <Text style={{ color: 'white', marginTop: 1, fontSize: 17 }}>Add Menu item</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                                <Entypo name='location-pin' size={24} color='white' />
+                                <Text style={{ color: 'white', fontSize: 17 }}>{profile.location}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
+                                <View>
+                                    <Text style={{ color: 'white', fontSize: 13, alignSelf: 'center' }}>{profile.rating}</Text>
+                                    <Text style={{ color: 'gray', fontSize: 13 }}>351 Ratings</Text>
                                 </View>
-                                <View style={{flexDirection:'row',marginTop:5}}>
-                                    <Entypo name='location-pin' size={24} color='white'/>
-                                    <Text style={{color:'white',fontSize:17}}>{profile.location}</Text>
+                                <View>
+                                    <Text style={{ color: 'white', fontSize: 13, alignSelf: 'center' }}>137k</Text>
+                                    <Text style={{ color: 'gray', fontSize: 13 }}>Bookmarks</Text>
                                 </View>
-                                <View style={{flexDirection:'row',justifyContent:'space-around',marginTop:10}}>
-                                    <View>
-                                        <Text style={{color:'white',fontSize:13,alignSelf:'center'}}>{profile.rating}</Text>
-                                        <Text style={{color:'gray',fontSize:13}}>351 Ratings</Text>
-                                    </View>
-                                    <View>
-                                        <Text style={{color:'white',fontSize:13,alignSelf:'center'}}>137k</Text>
-                                        <Text style={{color:'gray',fontSize:13}}>Bookmarks</Text>
-                                    </View>
-                                    <View>
-                                        <Text style={{color:'white',fontSize:13,alignSelf:'center'}}>347</Text>
-                                        <Text style={{color:'gray',fontSize:13}}>Photos</Text>
+                                <View>
+                                    <Text style={{ color: 'white', fontSize: 13, alignSelf: 'center' }}>347</Text>
+                                    <Text style={{ color: 'gray', fontSize: 13 }}>Photos</Text>
 
-                                    </View>
                                 </View>
-                                
                             </View>
-                        </Animatable.View>
-                    )}
-                    >
-                    <View style={{backgroundColor:'rgb(242,242,242)'}}> 
-                        <TriggeringView style={{backgroundColor:'white'}}>
-                            <View style={{height:50,backgroundColor:'rgb(242,242,242)',justifyContent:'center',alignItems:'center'}}>
-                                <Text style={{fontSize:17,color:'rgb(0, 15, 102)'}}>Features Items</Text>
-                            </View>
-                            <ScrollView>
-                                <FlatList
-                                    data={result}
-                                    keyExtractor={(result) => result._id}
-                                    renderItem={({ item }) => {
-                                        return (
-                                            <MenuList result={item} callback={(id) => navigation.navigate('MenuShow',{id:id})}/>
-                                        )
-                                    }}
-                                    horizontal={false}
-                                    numColumns={2}
-                                />
-                            </ScrollView>
-                        </TriggeringView>
-                    </View>
-                </HeaderImageScrollView>
-                <Dialog
+
+                        </View>
+                    </Animatable.View>
+                )}
+            >
+                <View style={{ backgroundColor: 'rgb(242,242,242)' }}>
+                    <TriggeringView style={{ backgroundColor: 'white' }}>
+                        <View style={{ height: 50, backgroundColor: 'rgb(242,242,242)', justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontSize: 17, color: 'rgb(0, 15, 102)' }}>Features Items</Text>
+                        </View>
+                        <ScrollView>
+                            <FlatList
+                                data={result}
+                                keyExtractor={(result) => result._id}
+                                renderItem={({ item }) => {
+                                    return (
+                                        <MenuList result={item} callback={(id) => navigation.navigate('MenuShow', { id: id })} />
+                                    )
+                                }}
+                                horizontal={false}
+                                numColumns={2}
+                            />
+                        </ScrollView>
+                    </TriggeringView>
+                </View>
+            </HeaderImageScrollView>
+            <Dialog
                 visible={visible}
                 dialogAnimation={new SlideAnimation({
                     slideFrom: 'bottom'
@@ -158,9 +158,9 @@ const Menu = ({ navigation }) => {
                 height={500}
                 width={width - 50}
             >
-                
+
                 <DialogContent style={{ flex: 1 }}>
-                    <KeyboardAvoidingView behavior='height' style={{flex:1}}>
+                    <KeyboardAvoidingView behavior='height' style={{ flex: 1 }}>
                         <View style={{ height: 50, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgb(251,251,251)', marginLeft: -20, marginRight: -20, flexDirection: 'row' }}>
                             <Text style={{ fontWeight: '900', fontSize: 20, position: 'absolute' }}>Add Menu</Text>
                             <TouchableOpacity style={{ marginLeft: 'auto', marginRight: 20 }} onPress={toggle}>
@@ -233,7 +233,7 @@ const Menu = ({ navigation }) => {
                 </DialogContent>
 
             </Dialog>
-            </>
+        </>
 
     )
 }
@@ -278,7 +278,7 @@ export default Menu;
 
 
 
-            {/* <TouchableOpacity
+{/* <TouchableOpacity
                 style={{ backgroundColor: 'gray', height: 50, width: 150, justifyContent: 'center', alignItems: 'center', borderRadius: 5, alignSelf: 'center', marginTop: 10 }}
                 activeOpacity={0.5}
                 onPress={() => toggle()}
