@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     email: {
-        type:String,
+        type: String,
         unique: true,
         required: true
     },
@@ -13,24 +13,36 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    name:{
-        type:String
-    },
-    phoneNo:{
-        type:String
-    },
-    address:{
+    name: {
         type: String
     },
-    secretToken:{
-        type:String
+    phoneNo: {
+        type: String
     },
-    active:{
-        type:Boolean
+    address: {
+        type: String,
+        default: "mumbai,maharashtra,india"
     },
-    otp:{
-        type:String,
-        default:null
+    geometry: {
+        type: {
+            type: String,
+            default: "Point"
+        },
+        coordinates: {
+            type: [Number],
+            index: "2dsphere",
+            default: [72.83308, 18.92763]
+        }
+    },
+    secretToken: {
+        type: String
+    },
+    active: {
+        type: Boolean
+    },
+    otp: {
+        type: String,
+        default: null
     }
 });
 
@@ -54,24 +66,24 @@ const userSchema = new Schema({
 
 //             user.password = hash;
 //             next();
-            
+
 //         })
 //     });
 // });
 
 
-userSchema.methods.comparePassword = function(candidatePassword){
+userSchema.methods.comparePassword = function (candidatePassword) {
     const user = this;
 
     return new Promise((resolve, reject) => {
         bcrypt.compare(candidatePassword, user.password, (err, isMatch) => {
-            if(err){
+            if (err) {
                 return reject(err);
             }
             console.log(isMatch);
             console.log(user.password);
             console.log(candidatePassword);
-            if(!isMatch) {
+            if (!isMatch) {
                 console.log('hey');
                 return reject(false);
             }
@@ -88,12 +100,12 @@ const User = mongoose.model('User', userSchema);
 module.exports = { User };
 
 
-module.exports.hashPassword = async function(password) {
+module.exports.hashPassword = async function (password) {
     try {
-      const salt = await bcrypt.genSalt(10);
-      return await bcrypt.hash(password, salt);
+        const salt = await bcrypt.genSalt(10);
+        return await bcrypt.hash(password, salt);
     } catch (error) {
-      throw new Error("Hashing failed", error);
+        throw new Error("Hashing failed", error);
     }
 };
 

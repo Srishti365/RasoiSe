@@ -14,6 +14,7 @@ Chef = models.chef;
 Menu = models.menu;
 OrderItem = models.orderItem;
 Cart = models.cart;
+Payment = models.payment;
 
 //-----------------------calculating IST time---------------------
 function getTime() {

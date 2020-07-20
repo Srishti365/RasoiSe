@@ -105,6 +105,14 @@ const orderItemSchema = new Schema({
 })
 
 
+const paymentSchema = new Schema({
+    transaction_id: String,
+    amount: Number,
+    status: Boolean
+})
+const Payment = mongoose.model("payment", paymentSchema);
+
+
 //one cart per chef
 //this model is for all orders for a chef by a particular user
 
@@ -134,6 +142,14 @@ const cartSchema = new Schema({
     isDelivered: {
         type: Boolean,
         default: false
+    },
+    payment: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'payment'
+    },
+    executive: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Executive'
     }
 
 })
@@ -145,7 +161,7 @@ const cartSchema = new Schema({
 const OrderItem = mongoose.model("orderItem", orderItemSchema);
 const Cart = mongoose.model("cart", cartSchema);
 
-module.exports = { chef: Chef, menu: Menu, orderItem: OrderItem, cart: Cart };
+module.exports = { chef: Chef, menu: Menu, orderItem: OrderItem, cart: Cart, payment: Payment };
 
 
 module.exports.hashPassword = async function (password) {
