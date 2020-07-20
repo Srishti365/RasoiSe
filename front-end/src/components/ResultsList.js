@@ -8,15 +8,16 @@ const ResultsList = ({ title, results, navigation, location, searchTerm }) => {
         return null;
     }
 
+
     return (
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
             
             <FlatList
                 data={results}
                 keyExtractor={(result) => result._id}
-                renderItem={({ item }) => {
+                renderItem={({ item, index }) => {
                     return (
-                        <ResultsDetail result={item} callback={()=> {navigation.navigate('ResultsShow', { id: item._id, location:location , searchTerm:searchTerm})}}/>
+                        <ResultsDetail result={item} index={index} callback={()=> {navigation.navigate('ResultsShow', { id: item._id, location:location , searchTerm:searchTerm})}}/>
                     )
                 }}
             />
