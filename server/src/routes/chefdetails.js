@@ -42,7 +42,6 @@ router.route("/viewmenu")
     .get(async (req, res, next) => {
         try {
             await Menu.find({ chef: req.user._id }).then(async function (data) {
-                console.log(data);
                 res.send({ dishes: data })
             })
 
@@ -51,6 +50,60 @@ router.route("/viewmenu")
             next(error);
         }
     })
+
+//remove menu item
+router.route("/removemenuitem")
+    .post(async (req, res, next) => {
+        try {
+            //req.body= {id:menuitemid}
+            await Menu.deleteOne({ _id: req.body.id }).then(async function (result) {
+                res.send('menu item removed')
+            });
+
+        } catch (error) {
+            next(error);
+        }
+    })
+
+//view particular menu item
+router.route("/viewparticularmenu")
+    .post(async (req, res, next) => {
+        //req.body={id:menuitemid}
+
+        try {
+            await Menu.findById(req.body.id).then(async function (data) {
+                res.send({ menuitem: data })
+            })
+
+
+        } catch (error) {
+            next(error);
+        }
+    })
+
+
+//edit menu
+router.route("/editmenuitem")
+    .post(async (req, res, next) => {
+        try {
+
+            // req.body={id,name,category,description,price}
+            await req.body
+
+            Menu.findOneAndUpdate({ _id: req.body.id }, { $set: { name: req.body.name, category: req.body.category, description: req.body.description, price: parseInt(req.body.price) } }, async function (err, record) {
+                if (err) throw err;
+                await record
+                record.save
+                res.send('item values updated!')
+
+            })
+
+        } catch (error) {
+            next(error);
+        }
+    })
+
+
 
 //view orders
 router.route("/vieworders")
