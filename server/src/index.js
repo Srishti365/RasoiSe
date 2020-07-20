@@ -1,6 +1,7 @@
 require('./models/User');
 require('./models/Track');
 const models = require('./models/models')
+Executive = require('./models/Executive');
 // const express = require('express');
 // const mongoose = require('mongoose');
 // const bodyParser = require('body-parser');
@@ -48,7 +49,6 @@ const adminRouter = require('./routes/admin.router')
 
 Chef = models.chef;
 Menu = models.menu;
-
 
 
 // var chef1 = new Chef({
@@ -102,6 +102,8 @@ app.use('/payment', require('./routes/stripe'));
 app.use('', require('./routes/unauthRoutes'));
 app.use('/cart', require('./routes/cartnew'));
 app.use('/cook', require('./routes/chefdetails'))
+app.use('/executive', require('./routes/executiveRoutes'));
+
 
 // app.get('/', requireAuth, (req, res) => {
 //   res.send(`Your email ${req.user.email}`);
