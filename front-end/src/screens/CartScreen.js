@@ -7,7 +7,8 @@ import CartHelper from '../components/CartHelper';
 const CartScreen = ({ navigation }) => {
     const [result, setResult] = useState(null);
     const [err, setErr] = useState('');
-    const [id,setId] = useState([])
+    const [id, setId] = useState([])
+    const [totalprice, setTotalprice] = useState(0);
 
     const viewCart = async () => {
         try {
@@ -15,9 +16,11 @@ const CartScreen = ({ navigation }) => {
             console.log('hii');
             const response = await trackerApi.get('/cart/view');
             const data = response.data.cart;
+            const total = response.data.total_price;
             setResult(data);
+            setTotalprice(total);
             const idList = []
-            for(i=0;i<data.length;i++){
+            for (i = 0; i < data.length; i++) {
                 idList.push(data[i]._id)
             }
             setId(idList)
@@ -56,9 +59,10 @@ const CartScreen = ({ navigation }) => {
         return null;
     }
 
+
     return (
         <View>
-            <Text style={Styles.text}>Total Price: {result.totalprice}</Text>
+            <Text style={Styles.text}>Total Price: {totalprice}</Text>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <FlatList
                     showsVerticalScrollIndicator
@@ -66,12 +70,12 @@ const CartScreen = ({ navigation }) => {
                     keyExtractor={(result) => result._id}
                     renderItem={({ item }) => {
                         return (
-                            <CartHelper result={item}/>
+                            <CartHelper result={item} />
                         )
                     }}
                 />
                 <View style={Styles.button}>
-                    <Button title='Proceed to Pay' type="outline" onPress={() => navigation.navigate('TipsyStripe', { items: result.items, totalprice: result.totalprice })} />
+                    <Button title='Proceed to Pay' type="outline" onPress={() => navigation.navigate('TipsyStripe', { totalprice, idArr: id })} />
                 </View>
             </ScrollView>
         </View>
@@ -83,7 +87,7 @@ const Styles = StyleSheet.create({
     button: {
         marginTop: 10,
         marginHorizontal: 100,
-        marginBottom:50
+        marginBottom: 50
     },
     text: {
         fontSize: 20

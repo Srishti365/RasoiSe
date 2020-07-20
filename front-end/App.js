@@ -32,25 +32,25 @@ import Profile from './src/ChefSide/Profile';
 
 
 const chefPage = createBottomTabNavigator({
-    Orders: {
-      screen:Orders,
-        navigationOptions:{
-          title:'View Orders'
-        },
+  Orders: {
+    screen: Orders,
+    navigationOptions: {
+      title: 'View Orders'
     },
-    Menu:{
-      screen:Menu,
-        navigationOptions:{
-          title:'Your Menu'
-        },
-    },
-    Profile:{
-      screen:Profile,
-        navigationOptions:{
-          title:'Profile'
-        },
-    }
   },
+  Menu: {
+    screen: Menu,
+    navigationOptions: {
+      title: 'Your Menu'
+    },
+  },
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      title: 'Profile'
+    },
+  }
+},
   {
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
@@ -91,7 +91,7 @@ const switchNavigator = createSwitchNavigator({
     Otp: OtpScreen,
     NewPassword: NewPasswordScreen
   }),
-  chefflow:chefPage,
+  chefflow: chefPage,
   // mainFlow: createBottomTabNavigator({
   //   trackListFlow: createStackNavigator({
   //     TrackList: TrackListScreen,
@@ -106,10 +106,11 @@ const switchNavigator = createSwitchNavigator({
     searchflow: createStackNavigator({
       Search: SearchScreen,
       ResultsShow: ResultsShowScreen,
+      Cart: CartScreen,
       TipsyStripe: TipsyStripeScreen
     }),
 
-    Cart: CartScreen,
+
 
     // TrackDetail: TrackDetailScreen,
     // Signout:SignoutScreen

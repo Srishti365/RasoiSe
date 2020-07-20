@@ -131,9 +131,20 @@ router.route("/add")
 router.route("/view")
     .get(async (req, res, next) => {
         try {
+            total = 0
             Cart.find({ user: req.user.id, isOrdered: false }, { _id: 1, orderItems: 1 }).populate({ path: 'orderItems.menuItem', model: Menu }).then(function (data) {
-                console.log(data.orderItems)
-                res.send({ cart: data })
+
+                //-----------calculate total price------------//
+                for (var i of data) {
+
+                    for (var j of i.orderItems) {
+                        total += (j.quantity * j.menuItem.price)
+
+                    }
+
+                }
+                // ------------------------------/
+                res.send({ cart: data, total_price: total })
             })
         } catch (error) {
             next(error);
@@ -144,7 +155,33 @@ router.route("/view")
 router.route("/checkout")
     .post(async (req, res, next) => {
         try {
-            //req.body:[]
+
+            for (var cartitem of req.body.id) {
+                await Cart.findById(cartitem).then(async function (result) {
+                    result.isOrdered = true;
+
+                    await result.save(async function (err, orders) {
+                        // console.log(orders.orderItems)
+                        for (var items of orders.orderItems) {
+                            items.isOrdered = true;
+                            await result.save()
+                            await OrderItem.findById(items._id).then(async function (suborders) {
+                                suborders.isOrdered = true;
+                                suborders.save()
+                            })
+                        }
+
+                    });
+
+                    // for (var orders of result.orderItems) {
+                    //     orders.isOrdered = true;
+                    //     await orders.save()
+
+                    // }
+
+                })
+            }
+            res.send("checkout complete")
 
         } catch (error) {
             next(error);

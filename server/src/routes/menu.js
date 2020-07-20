@@ -94,7 +94,7 @@ router.route("/search/:query")
                         }
 
                         chefs = sortObjectsArray(chefs, 'rating', 'desc');
-                        console.log(chefs)
+                        // console.log(chefs)
                         geocoder.reverse({ lat: req.body.lat, lon: req.body.long })
                             .then((data) => {
                                 res.send({ chefs: chefs, location: data[0].formattedAddress })
