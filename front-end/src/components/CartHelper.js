@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, FlatList, Text, StyleSheet, ScrollView, AsyncStorage } from 'react-native';
 import CartList from './CartList';
 
-const CartHelper = ({ result }) => {
+const CartHelper = ({ result, callback }) => {
 
     return (
         <FlatList
@@ -11,7 +11,7 @@ const CartHelper = ({ result }) => {
             keyExtractor={(result) => result._id}
             renderItem={({ item }) => {
                 return (
-                    <CartList result={item} />
+                    <CartList result={item} callback={(id) => callback(id)} />
                 )
             }}
         />
