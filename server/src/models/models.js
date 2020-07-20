@@ -126,6 +126,11 @@ const cartSchema = new Schema({
         default: false
     }
     ,
+    confirmedByChef: {
+        type: Boolean,
+        default: false
+    },
+
     isDelivered: {
         type: Boolean,
         default: false
