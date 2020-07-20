@@ -5,7 +5,7 @@ import Communications from 'react-native-communications';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 
-const ResultsDetail = ({ result, callback }) => {
+const ResultsDetail = ({ result, index, callback }) => {
     // console.log(result.image);
     // var ratings = [];
 
@@ -15,40 +15,55 @@ const ResultsDetail = ({ result, callback }) => {
 	// 		<View key = {i}>
 	// 			<Entypo name="star" style={styles.iconStyle}/>
 	// 		</View>
-	// 	)
+    // 	)
+    
     // }
     var phone_number = result.phone.toString()
 
     const phone = <FontAwesome style={{paddingRight:5}} name="phone" size={20} color="black" />;
     
 
-    return (
-        // <View style={styles.container}>
-        //     <Image style={styles.imageStyle} source={{ uri: result.image}} />
-        //     <View style={{ flexDirection:'column', marginLeft:15, flex:1}}>
-        //         <Text style={styles.name}>{result.name}</Text>
-        //         <Text style={styles.location}>{result.location}</Text>
-        //         <View style={styles.button}>
-        //         <Button title='View Details' type="outline" onPress={callback} />
-        //     </View>
-        //     </View>
-            
-        //     <View style={styles.myButton}>
-        //         <Text style={styles.text}>{resultsRating}</Text>
-        //   </View>
-           
-            
+    return (            
             
         // </View>
         <TouchableOpacity activeOpacity={0.98} onPress={callback}>
-            <Card containerStyle={{borderRadius:10}}>
+            {index%2==0 ? 
+                <Card containerStyle={{marginTop:50,borderWidth:0,borderRadius:5}}>
+                    <View style={{flexDirection:'row'}}>
+                        <Image style={styles.leftImage} source={{ uri: result.image}}/>
+                        <View style={{marginLeft:20}}>
+                            <Text style={{color:'rgb(0, 15, 102)',fontWeight:'bold',fontSize:20,marginBottom:5}}>{result.name}</Text>
+                            <Rating imageSize={15} readonly startingValue={result.rating} style={{marginBottom:10,marginRight:60}}/>
+                            <Text style={{color:'rgb(169, 174, 201)'}}>{result.location}</Text>
+                        </View>
+                        <View style={{height:20,width:60,alignItems:'center',justifyContent:'center',marginLeft:-20,backgroundColor:'#2CC2DC',borderRadius:10}}>
+                            <Text style={{fontSize:12,color:'white'}}>Free Ship</Text>
+                        </View>
+                    </View>
+                </Card>
+                :
+                <Card containerStyle={{marginTop:50,borderWidth:0,borderRadius:5}}>
+                    <View style={{flexDirection:'row'}}>
+                        <View style={{marginLeft:10}}>
+                            <Text style={{color:'rgb(0, 15, 102)',fontWeight:'bold',fontSize:20,marginBottom:5}}>{result.name}</Text>
+                            <Rating imageSize={15} readonly startingValue={result.rating} style={{marginBottom:10,marginRight:60}}/>
+                            <Text style={{color:'rgb(169, 174, 201)'}}>{result.location}</Text>
+                        </View>
+                        <View style={{height:20,width:60,alignItems:'center',justifyContent:'center',marginLeft:-20,backgroundColor:'#2CC2DC',borderRadius:10,marginRight:15}}>
+                            <Text style={{fontSize:12,color:'white'}}>Free Ship</Text>
+                        </View>
+                        <Image style={styles.rightImage} source={{ uri: result.image}}/>
+                    </View>
+                </Card>
+            }
+            {/* <Card containerStyle={{borderRadius:10}}>
                 <View style={{flexDirection:'row'}}>
                         <Image style={styles.imageStyle} source={{ uri: result.image}}/>
                         <View style={{width:150, justifyContent:'space-evenly'}}>
                             <View style={{marginLeft:20 }}>
                                 <Text style={{fontWeight:'bold'}}>{result.name}</Text>
                             </View>
-                            {/* <Text style={{marginLeft:20}}>{result.location.city}</Text> */}
+                            
                                 <Rating imageSize={15} readonly startingValue={result.rating}/>
                             <View style={{marginLeft:20 }}>
                                 <Text>345 Reviews</Text>
@@ -76,7 +91,7 @@ const ResultsDetail = ({ result, callback }) => {
                         <Text style={{fontSize:15}}>   {result.location}</Text>
                     </View>
                 </View>
-            </Card>
+            </Card> */}
         </TouchableOpacity>
     );
 };
@@ -90,11 +105,17 @@ const styles = StyleSheet.create({
             borderBottomWidth:0.2,
             borderBottomColor:'gray'
         },
-        imageStyle:{
-            width:80,
-            height:80,
-            borderRadius:7,
-            marginBottom:5,
+        leftImage:{
+            width:100,
+            height:100,
+            borderRadius:50,
+            marginTop:-40,
+        }, 
+        rightImage:{
+            width:100,
+            height:100,
+            borderRadius:50,
+            marginTop:-40
         }, 
         name:{
             paddingTop:10,
