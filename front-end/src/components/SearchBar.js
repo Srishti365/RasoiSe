@@ -9,7 +9,7 @@ const SearchBarScreen = ({ term, onTermChange, onTermSubmit }) => {
     return (
         <SearchBar 
             platform='android'
-            containerStyle={{backgroundColor: 'white',borderColor:'white', borderWidth: 1, borderRadius: 10, margin:5, height:55,alignItems:'center',justifyContent:'center'}}
+            containerStyle={{backgroundColor: 'white',borderColor:'white', borderWidth: 1, borderRadius: 30, margin:5, height:45,alignItems:'center',justifyContent:'center',marginHorizontal:10}}
             inputStyle={{backgroundColor: 'white'}}
             placeholder="Search for restaurants" 
             value={term}

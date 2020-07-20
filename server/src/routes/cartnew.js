@@ -7,7 +7,8 @@ const User = mongoose.model('User');
 const router = express.Router();
 router.use(requireAuth);
 
-const models = require('../models/models')
+const models = require('../models/models');
+const cons = require('consolidate');
 
 Chef = models.chef;
 Menu = models.menu;
@@ -186,14 +187,24 @@ router.route("/checkout")
 router.route("/remove")
     .post(async (req, res, next) => {
         try {
-            console.log(req.body)
+
             await OrderItem.deleteOne({ _id: req.body.id }).then(async function (result) {
                 await Cart.updateOne(
                     { user: req.user.id },
                     { $pull: { orderItems: { _id: req.body.id } } },
                     { multi: true }
-                ).then(function (data) {
-                    res.send(data)
+                ).then(async function (data) {
+                    await Cart.find({ user: req.user.id }).then(async function (carts) {
+                        for (var i of carts) {
+
+                            if (i.orderItems.length == 0) {
+                                await Cart.deleteOne({ _id: i._id }).then(async function (finalresult) {
+                                    res.send('item removed from cart')
+                                })
+                            }
+                        }
+                    })
+
                 })
             })
 

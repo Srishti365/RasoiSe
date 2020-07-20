@@ -9,8 +9,10 @@ const models = require('../models/models')
 
 Chef = models.chef;
 Menu = models.menu;
+OrderItem = models.orderItem;
+Cart = models.cart;
 
-/****************chef details */
+
 
 //add menu item for chef
 router.route("/addmenuitem")
@@ -39,7 +41,6 @@ router.route("/addmenuitem")
 router.route("/viewmenu")
     .get(async (req, res, next) => {
         try {
-            console.log(req.user._id)
             await Menu.find({ chef: req.user._id }).then(async function (data) {
                 console.log(data);
                 res.send({ dishes: data })
@@ -51,15 +52,31 @@ router.route("/viewmenu")
         }
     })
 
+//view orders
+router.route("/vieworders")
+    .get(async (req, res, next) => {
+        try {
+            await Cart.find({ chef: req.user._id, isOrdered: true, confirmedByChef: false }).then(async function (data) {
+                console.log(data);
+                res.send({ orders: data })
+            })
+
+
+        } catch (error) {
+            next(error);
+        }
+    })
+
+
 
 
 router.route('/profile')
-    .get(async (req,res,next) => {
+    .get(async (req, res, next) => {
         try {
             console.log(req.user._id)
             await Chef.find({ _id: req.user._id }).then(async function (data) {
                 console.log(data);
-                res.send({ profile : data })
+                res.send({ profile: data })
             })
         } catch (error) {
             next(error);

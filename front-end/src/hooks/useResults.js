@@ -43,6 +43,7 @@ export default () => {
         try {
             setErrorMessage(null)
             setResults([])
+            console.log('hii')
             const response = await trackerApi.post(`/home/search/${searchTerm}`,{ lat:location.coords.latitude, long:location.coords.longitude , location:"current" });
             // console.log(response.data.chefs);
             console.log('response',response.data);
