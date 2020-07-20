@@ -15,7 +15,7 @@ const CartList = ({ result, navigation }) => {
             // console.log(response.data.chefs);
             //    setResult(response.data.items);
             console.log(result);
-            navigation.navigate('CartScreen');
+            navigation.navigate('Cart');
         }
         catch (err) {
             console.log(err);
