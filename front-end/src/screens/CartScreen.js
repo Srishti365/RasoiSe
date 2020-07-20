@@ -60,6 +60,7 @@ const CartScreen = ({ navigation }) => {
     }
 
 
+
     return (
         <View>
             <Text style={Styles.text}>Total Price: {totalprice}</Text>
