@@ -79,8 +79,8 @@ class TipsyStripeScreen extends PureComponent {
 
     render() {
         const { loading, token } = this.state;
-        console.log('inside render');
-        console.log(this.state);
+        // console.log('inside render');
+        // console.log(this.state);
 
         return (
             <View style={styles.container}>
