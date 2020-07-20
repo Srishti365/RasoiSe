@@ -66,9 +66,9 @@ class TipsyStripeScreen extends PureComponent {
                 .then(response => {
                     console.log(response.data);
                     this.setState({ loading: false });
-                    if (response.status === 200) {
-                        this.props.navigation.navigate('Search');
-                    }
+
+                    this.props.navigation.navigate('PaymentComplete', { info: response.data });
+
                 });
         }
         catch (error) {

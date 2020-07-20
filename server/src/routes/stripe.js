@@ -50,7 +50,7 @@ router.route("/")
                 })
             }
 
-            res.status(200).send({ data: 'Payment successful' });
+            res.send({ transaction_id: charge.balance_transaction, amount: charge.amount, failure_message: charge.failure_message });
 
         }
         catch (error) {

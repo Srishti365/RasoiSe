@@ -28,7 +28,7 @@ import TipsyStripeScreen from './src/screens/TipsyStripeScreen';
 import Menu from './src/ChefSide/Menu';
 import Orders from './src/ChefSide/Orders';
 import Profile from './src/ChefSide/Profile';
-
+import PaymentCompleteScreen from './src/screens/PaymentCompleteScreen';
 
 
 const chefPage = createBottomTabNavigator({
@@ -107,7 +107,8 @@ const switchNavigator = createSwitchNavigator({
       Search: SearchScreen,
       ResultsShow: ResultsShowScreen,
       Cart: CartScreen,
-      TipsyStripe: TipsyStripeScreen
+      TipsyStripe: TipsyStripeScreen,
+      PaymentComplete: PaymentCompleteScreen
     }),
 
 
