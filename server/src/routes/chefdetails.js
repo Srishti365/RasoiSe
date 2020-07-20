@@ -56,7 +56,10 @@ router.route("/viewmenu")
 router.route("/vieworders")
     .get(async (req, res, next) => {
         try {
-
+            await Cart.find({ chef: req.user._id, isOrdered: true, confirmedByChef: false }).then(async function (data) {
+                console.log(data);
+                res.send({ orders: data })
+            })
 
 
         } catch (error) {
