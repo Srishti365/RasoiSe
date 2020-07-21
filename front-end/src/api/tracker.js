@@ -5,8 +5,10 @@ const instance = axios.create({
 <<<<<<< HEAD
     baseURL: 'http://c48b01667651.ngrok.io'
 =======
-    baseURL: 'http://ecc24ee77f7f.ngrok.io'
->>>>>>> 723027f53710f275b05c7ba5b449d452eea61933
+
+    baseURL: 'http://aec6118bbae7.ngrok.io'
+
+>>>>>>> 2f3ccfbb43402ba3c3fa030c937d1404f4a4239e
 });
 
 instance.interceptors.request.use(

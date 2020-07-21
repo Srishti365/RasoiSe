@@ -30,6 +30,8 @@ import Orders from './src/ChefSide/Orders';
 import Profile from './src/ChefSide/Profile';
 import MenuShowScreen from './src/ChefSide/MenuShowscreen';
 import OrdersList from './src/ChefSide/OrdersList';
+import ConfirmedOrders from './src/ChefSide/ConfirmedOrders';
+import OrderHistoryScreen from './src/ChefSide/OrderHistory';
 
 import PaymentCompleteScreen from './src/screens/PaymentCompleteScreen';
 
@@ -40,6 +42,12 @@ const chefStack = createStackNavigator({
         screen: Orders,
         navigationOptions: {
           title: 'View Orders'
+        },
+      },
+      ConfirmedOrders: {
+        screen: ConfirmedOrders,
+        navigationOptions: {
+          title: 'For Pickup'
         },
       },
       Menu: {
@@ -53,7 +61,8 @@ const chefStack = createStackNavigator({
         navigationOptions: {
           title: 'Profile'
         },
-      }
+      },
+
     },
       {
         defaultNavigationOptions: ({ navigation }) => ({
@@ -69,6 +78,8 @@ const chefStack = createStackNavigator({
               iconName = focused ? 'menu' : 'menu';
             } else if (routeName === 'Profile') {
               iconName = focused ? 'user' : 'user';
+            } else if (routeName === 'ConfirmedOrders') {
+              iconName = focused ? 'stopwatch' : 'stopwatch';
             }
 
             return <IconComponent name={iconName} size={25} color={tintColor} />;
@@ -89,6 +100,9 @@ const chefStack = createStackNavigator({
   },
   OrdersList: {
     screen: OrdersList
+  },
+  OrderHistory: {
+    screen: OrderHistoryScreen
   }
 })
 

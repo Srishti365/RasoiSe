@@ -53,7 +53,7 @@ const Profile = ({ navigation }) => {
                     <Text style={{ color: 'gray', marginTop: 5 }}>(+91) {result.phone}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'space-around', marginBottom: 20 }}>
-                    <Button title='Payment' type='outline' titleStyle={{ color: 'gray', fontSize: 15 }} />
+                    <Button title='Order History' type='outline' titleStyle={{ color: 'gray', fontSize: 15 }} onPress={() => navigation.navigate('OrderHistory')} />
                     <Button title='Contact Us' type='outline' titleStyle={{ color: 'gray', fontSize: 15 }} />
                     <Button title='Edit Profile' type='outline' titleStyle={{ color: 'gray', fontSize: 15 }} />
                 </View>
