@@ -6,7 +6,7 @@ Executive = models.Executive;
 module.exports = {
     signIn: async (req, res) => {
         const { email, password } = req.body;
-        console.log(email, password)
+        // console.log(email, password)
 
         if (!email || !password) {
             return res.status(422).send({ error: 'Must provide email and password' });
@@ -19,14 +19,14 @@ module.exports = {
 
 
         try {
-            if(executive.password != password){
+            if (executive.password != password) {
                 return res.status(422).send({ error: 'Invalid credentials' });
             }
             const token = jwt.sign({ userId: executive._id }, 'MY_SECRET_KEY');
 
-            console.log(token)
+            // console.log(token)
 
-            res.send({ token });
+            res.send({ token: token });
         } catch (err) {
             return res.status(422).send({ error: 'Invalid credentials!!' });
         }

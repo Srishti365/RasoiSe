@@ -1,38 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, ScrollView, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
 import trackerApi from '../api/tracker';
-import { NavigationEvents } from 'react-navigation';
-import ConfirmedOrdersList from '../components/ConfirmedOrdersList';
 
-const ConfirmedOrders = () => {
+const OrderHistoryScreen = () => {
     const [err, setErr] = useState('');
     const [result, setResult] = useState([]);
 
-
-    const viewConfirmed = async () => {
+    const viewCompleted = async () => {
         try {
 
-            const response = await trackerApi.get('/cook/viewconfirmed');
-            // console.log(response.data);
+            const response = await trackerApi.get('/cook/viewcompleted');
             setResult(response.data.orders);
 
         }
         catch (err) {
             console.log(err);
             setErr('Something went wrong');
-
         }
     }
 
     useEffect(() => {
-        viewConfirmed();
+        viewCompleted();
     }, []);
 
-    // console.log('view completed', result);
+    // console.log(result);
 
     return (
         <View>
-            <NavigationEvents onDidFocus={() => viewConfirmed()} />
             <ScrollView showsVerticalScrollIndicator={false} style={{ marginHorizontal: 20 }}>
                 <FlatList
                     showsVerticalScrollIndicator
@@ -42,14 +36,16 @@ const ConfirmedOrders = () => {
                         return (
 
                             <View style={{ marginHorizontal: 5, marginVertical: 15 }}>
-                                <Text style={{ fontSize: 18 }} >{item.executive.name} is on the way to pick up the order.</Text>
-                                <Text>Executive address: {item.executive.address}</Text>
+                                <Text>OrderID: {item._id}</Text>
                                 <Text>Customer name: {item.user.name}</Text>
                                 <Text>Customer contact: {item.user.phoneNo}</Text>
                                 <Text>Delivery address: {item.delivery_add}</Text>
+                                <Text>Picked up by: {item.executive.name}</Text>
+                                <Text>Executive address: {item.executive.address}</Text>
+
                                 <Text>Time of order: {item.timestamp}</Text>
 
-                                <ConfirmedOrdersList orderitems={item.orderItems} />
+
 
                             </View>
 
@@ -59,9 +55,9 @@ const ConfirmedOrders = () => {
 
             </ScrollView>
         </View>
-    );
+    )
 }
 
 const styles = StyleSheet.create({});
 
-export default ConfirmedOrders;
+export default OrderHistoryScreen;

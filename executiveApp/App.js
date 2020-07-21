@@ -1,21 +1,67 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {AsyncStorage} from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import {createStackNavigator} from 'react-navigation-stack';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+import SigninScreen from './src/Screens/SigninScreen';
+import History from './src/Screens/HistoryScreen';
+import PendingOrders from './src/Screens/PendingOrdersScreen';
+import ProfileScreen from './src/Screens/ProfileScreen';
+import ResolveAuthScreen from './src/Screens/ResolveAuth';
+import SignoutScreen from './src/Screens/SignoutScreen';
+
+import { Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
+
+
+const TabNavigator =  createBottomTabNavigator(
+  {
+    Pending:PendingOrders,
+    History: History,
+    Profile: ProfileScreen,
+    SignOut:SignoutScreen
   },
-});
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        const { routeName } = navigation.state;
+        let IconComponent = Ionicons;
+        let iconName;
+        if (routeName === 'Profile') {
+          iconName = focused
+            ? 'ios-contact'
+            : 'ios-contact';
+        } else if (routeName === 'Pending') {
+          iconName = focused ? 'ios-list-box' : 'ios-list';
+        } else if (routeName == 'History') {
+          iconName = 'history'
+          IconComponent = MaterialCommunityIcons;
+        }
+        return <IconComponent name={iconName} size={25} color={tintColor} />;
+      },
+    }),
+    tabBarOptions: {
+      activeTintColor: 'tomato',
+      inactiveTintColor: 'gray',
+    },
+  }
+);
+
+
+const AppStack = createStackNavigator({
+  Tab:{
+    screen:TabNavigator,
+    navigationOptions:{
+      headerShown:false
+    }
+  }
+})
+
+const AuthStack = createSwitchNavigator({
+  ResolveAuth:ResolveAuthScreen,
+  Signin:SigninScreen,
+  AppStack:AppStack
+})
+
+export default createAppContainer(AuthStack);

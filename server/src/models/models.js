@@ -138,6 +138,10 @@ const cartSchema = new Schema({
         type: Boolean,
         default: false
     },
+    isPickedUp: {
+        type: Boolean,
+        default: false
+    },
 
     isDelivered: {
         type: Boolean,

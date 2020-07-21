@@ -31,6 +31,7 @@ import Profile from './src/ChefSide/Profile';
 import MenuShowScreen from './src/ChefSide/MenuShowscreen';
 import OrdersList from './src/ChefSide/OrdersList';
 import ConfirmedOrders from './src/ChefSide/ConfirmedOrders';
+import OrderHistoryScreen from './src/ChefSide/OrderHistory';
 
 import PaymentCompleteScreen from './src/screens/PaymentCompleteScreen';
 
@@ -99,6 +100,9 @@ const chefStack = createStackNavigator({
   },
   OrdersList: {
     screen: OrdersList
+  },
+  OrderHistory: {
+    screen: OrderHistoryScreen
   }
 })
 
