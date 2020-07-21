@@ -1,7 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import trackerApi from '../api/tracker';
 
-const MenuShowScreen = () => {
+const MenuShowScreen = ({navigation}) => {
+    
+    const id = navigation.getParam('id')
+    const [result, setResult] = useState([])
+
+    const fetchResult = async() => {
+        try {
+            const response = await trackerApi.post('/cook/viewparticularmenu',{id:id});
+            console.log('response', response.data.menuitem);
+            setResult(response.data.menuitem)
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        fetchResult()
+    },[])
+
     return (
         <View>
 
