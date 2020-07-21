@@ -188,7 +188,7 @@ router.route("/checkout")
 router.route("/remove")
     .post(async (req, res, next) => {
         try {
-            console.log(req.body);
+            // console.log(req.body);
             await OrderItem.deleteOne({ _id: req.body.id }).then(async function (result) {
                 // await Cart.updateOne(
                 //     { user: req.user.id },
@@ -219,9 +219,9 @@ router.route("/remove")
 
                     await Cart.find({ user: req.user.id }).then(async function (carts) {
                         for (var j of carts) {
-                            console.log(j)
+                            // console.log(j)
                             if (j.orderItems.length == 0) {
-                                console.log('here')
+                                // console.log('here')
                                 await Cart.deleteOne({ _id: j._id }).then(async function (finalresult) {
                                     res.send('item removed from cart')
                                 })

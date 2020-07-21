@@ -103,6 +103,7 @@ app.use('', require('./routes/unauthRoutes'));
 app.use('/cart', require('./routes/cartnew'));
 app.use('/cook', require('./routes/chefdetails'))
 app.use('/executive', require('./routes/executiveRoutes'));
+app.use('/execdetails', require('./routes/executivedetails'))
 
 
 // app.get('/', requireAuth, (req, res) => {
