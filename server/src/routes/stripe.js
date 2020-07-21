@@ -37,6 +37,7 @@ router.route("/")
     .post(async (req, res, next) => {
         try {
             await req.user;
+            console.log(req.body);
             const token = req.body.stripeToken;
             const idArr = req.body.idArr;
             const total_price = req.body.total_price;

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, FlatList, ScrollView, AsyncStorage } from 'react-native';
+import { Text, View, StyleSheet, FlatList, ScrollView, AsyncStorage, TextInput } from 'react-native';
 import { Button } from 'react-native-elements';
 import trackerApi from '../api/tracker';
 import CartHelper from '../components/CartHelper';
+import { AppStyles } from '../AppStyles';
 
 const CartScreen = ({ navigation }) => {
     const [result, setResult] = useState(null);
@@ -29,6 +30,7 @@ const CartScreen = ({ navigation }) => {
             setId(idList)
             const add = await AsyncStorage.getItem('address');
             console.log('address', add);
+            setAddress(add);
 
         }
         catch (err) {
@@ -67,6 +69,22 @@ const CartScreen = ({ navigation }) => {
 
     return (
         <View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+                <Text style={{ width: 60 }}>Address : </Text>
+                <View style={Styles.InputContainer}>
+                    <TextInput
+                        style={Styles.body}
+                        placeholder="Address"
+                        onChangeText={address => setAddress(address)}
+                        value={address}
+                        placeholderTextColor={AppStyles.color.grey}
+                        underlineColorAndroid="transparent"
+                        autoFocus={true}
+                        selection={{ start: 0 }}
+
+                    />
+                </View>
+            </View>
             <Text style={Styles.text}>Total Price: {totalprice}</Text>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <FlatList
@@ -84,7 +102,7 @@ const CartScreen = ({ navigation }) => {
                     }}
                 />
                 <View style={Styles.button}>
-                    <Button title='Proceed to Pay' type="outline" onPress={() => navigation.navigate('TipsyStripe', { totalprice, idArr: id })} />
+                    <Button title='Proceed to Pay' type="outline" onPress={() => navigation.navigate('TipsyStripe', { totalprice, idArr: id, orderAddress: address })} />
                 </View>
             </ScrollView>
         </View>
@@ -100,7 +118,20 @@ const Styles = StyleSheet.create({
     },
     text: {
         fontSize: 20
-    }
+    },
+    body: {
+        height: 42,
+        paddingLeft: 20,
+        paddingRight: 20,
+    },
+    InputContainer: {
+        width: 280,
+        marginLeft: 5,
+        marginTop: 5,
+        borderBottomWidth: 1,
+        borderRadius: 5,
+        borderColor: AppStyles.color.grey,
+    },
 });
 
 
