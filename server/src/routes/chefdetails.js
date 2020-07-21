@@ -1,9 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
+var NodeGeocoder = require("node-geocoder");
 const requireAuth = require('../middlewares/requireChefAuth');
 const User = mongoose.model('User');
+const Executive = mongoose.model('Executive')
 const router = express.Router();
 router.use(requireAuth);
+
 
 const models = require('../models/models')
 
@@ -13,6 +16,9 @@ OrderItem = models.orderItem;
 Cart = models.cart;
 
 
+const options = require('../../location_creds');
+const cons = require('consolidate');
+// Executive = require('../models/Executive');
 
 //add menu item for chef
 router.route("/addmenuitem")
@@ -55,9 +61,9 @@ router.route("/viewmenu")
 router.route("/removemenuitem")
     .post(async (req, res, next) => {
         try {
-          
+
             await Menu.deleteOne({ _id: req.body.id }).then(async function (result) {
-                console.log(result);
+                // console.log(result);
                 res.send('menu item removed')
             });
 
@@ -143,14 +149,69 @@ router.route("/confirmorder")
     .post(async (req, res, next) => {
         try {
             //req.bod={id:id of the particular cartitem}
+            timetaken = 10;
             await req.body;
             await Cart.findById(req.body.id).then(async function (data) {
                 data.confirmedByChef = true
-                data.executive = "5f1564ab2f37cf1a43446518"
-                data.save()
+
+                //------------assign exec here-----------------------
+
+                chef_long = req.user.geometry.coordinates[0]
+                chef_lat = req.user.geometry.coordinates[1]
+
+                await Executive.aggregate()
+                    .near({
+                        near: {
+                            type: "Point",
+                            coordinates: [chef_long, chef_lat]
+                        },
+                        maxDistance: 100000,
+                        spherical: true,
+                        distanceField: "dis"
+                    }).then(async function (exes) {
+
+                        // console.log("executive has been assigned")
+                        // console.log(exes)
+                        data.executive = exes[0]._id
+                    });
+
+
+                // -----------------------------------------------------
+                await data.save()
                 res.send(data)
             })
 
+
+
+        } catch (error) {
+            next(error);
+        }
+    })
+
+//view confirmed orders (confirmed by chef, yet not picked up)
+router.route("/viewconfirmed")
+    .get(async (req, res, next) => {
+        try {
+
+            await Cart.find({ chef: req.user._id, isOrdered: true, confirmedByChef: true, isPickedUp: false }).populate({ path: 'user', model: User }).populate({ path: 'executive', model: Executive }).then(async function (data) {
+                res.send({ orders: data })
+            })
+
+
+        } catch (error) {
+            next(error);
+        }
+    })
+
+
+//view completed orders(confirmed by chef and picked up)
+router.route("/viewcompleted")
+    .get(async (req, res, next) => {
+        try {
+
+            await Cart.find({ chef: req.user._id, isOrdered: true, confirmedByChef: true, isPickedUp: true }).populate({ path: 'user', model: User }).populate({ path: 'executive', model: Executive }).then(async function (data) {
+                res.send({ orders: data })
+            })
 
 
         } catch (error) {
