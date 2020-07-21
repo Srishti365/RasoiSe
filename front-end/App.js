@@ -33,8 +33,8 @@ import MenuShowScreen from './src/ChefSide/MenuShowscreen';
 import PaymentCompleteScreen from './src/screens/PaymentCompleteScreen';
 
 const chefStack = createStackNavigator({
-  chefPage: {
-    screen: createBottomTabNavigator({
+  chefPage:{
+    screen:createBottomTabNavigator({
       Orders: {
         screen: Orders,
         navigationOptions: {
@@ -69,7 +69,7 @@ const chefStack = createStackNavigator({
             } else if (routeName === 'Profile') {
               iconName = focused ? 'user' : 'user';
             }
-
+    
             return <IconComponent name={iconName} size={25} color={tintColor} />;
           }
         }),
@@ -79,12 +79,12 @@ const chefStack = createStackNavigator({
         },
       }
     ),
-    navigationOptions: {
+    navigationOptions:{
       header: null
     }
   },
-  MenuShow: {
-    screen: MenuShowScreen
+  MenuShow:{
+    screen:MenuShowScreen
   }
 })
 

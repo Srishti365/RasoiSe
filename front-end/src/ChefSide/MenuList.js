@@ -2,7 +2,6 @@ import React from 'react'
 import { View, Text, StyleSheet, Image, Button, TouchableOpacity, Dimensions } from 'react-native';
 import { Card } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
-import ViewMoreText from 'react-native-view-more-text';
 const { height, width } = Dimensions.get('window');
 
 const MenuList = ({result, callback}) => {
