@@ -97,6 +97,7 @@ router.route("/search/:query")
                         // console.log(chefs)
                         geocoder.reverse({ lat: req.body.lat, lon: req.body.long })
                             .then((data) => {
+                                console.log("chefs", chefs)
                                 res.send({ chefs: chefs, location: data[0].formattedAddress })
                             })
 

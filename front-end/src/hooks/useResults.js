@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { AsyncStorage } from 'react-native';
 import trackerApi from '../api/tracker';
 import { requestPermissionsAsync, watchPositionAsync, Accuracy } from 'expo-location';
 
@@ -49,6 +50,7 @@ export default () => {
             console.log('response',response.data);
             setResults(response.data.chefs);
             setAddress(response.data.location);
+            await AsyncStorage.setItem('address',response.data.location)
         }
         catch (err) {
             console.log(err);
@@ -56,16 +58,6 @@ export default () => {
         }
     };
 
-    const getAddress = async (location) => {
-        if(location.length>2){
-          const response = await axios.get(`https://autocomplete.geocoder.ls.hereapi.com/6.2/suggest.json?apiKey=${Api_key}&query=${location}`)
-          const data = response.data.suggestions
-          setResult(data);
-        }
-        if(location.length<=2){
-          setResult([])
-        }
-    }
 
     //bad code
     //searchApi('pasta);
