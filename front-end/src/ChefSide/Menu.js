@@ -191,7 +191,7 @@ const Menu = ({ navigation }) => {
                 <View style={{ backgroundColor: 'rgb(242,242,242)' }}>
                     <TriggeringView style={{ backgroundColor: 'white' }}>
                         <View style={{ height: 50, backgroundColor: 'rgb(242,242,242)', justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ fontSize: 17, color: 'rgb(0, 15, 102)' }}>Features Items</Text>
+                            <Text style={{ fontSize: 17, color: 'rgb(0, 15, 102)' }}>Featured Items</Text>
                         </View>
                         <ScrollView>
                             <FlatList
