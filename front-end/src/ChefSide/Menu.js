@@ -88,8 +88,10 @@ const Menu = ({ navigation }) => {
                 showsVerticalScrollIndicator={false}
                 maxHeight={300}
                 minHeight={290}
+                minOverlayOpacity={0.5}
+                maxOverlayOpacity={0.5}
                 useNativeDriver={true}
-                headerImage={require('../../assets/bg3.jpeg')}
+                headerImage={require('../../assets/bg2.jpeg')}
                 renderFixedForeground={() => (
                     <Animatable.View>
                         <View style={{ marginTop: 170, marginLeft: 20 }}>
@@ -99,8 +101,8 @@ const Menu = ({ navigation }) => {
                                     activeOpacity={0.8}
                                     onPress={() => setVisible(true)}
                                 >
-                                    <Feather name="plus" size={24} color="white" />
-                                    <Text style={{ color: 'white', marginTop: 1, fontSize: 17 }}>Add Menu item</Text>
+                                    <Feather name="plus" size={22} color="white" style={{ paddingTop: 1 }} />
+                                    <Text style={{ color: 'white', marginTop: 1, fontSize: 15, paddingTop: 1 }}>Add menu item</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style={{ flexDirection: 'row', marginTop: 5 }}>
@@ -110,15 +112,15 @@ const Menu = ({ navigation }) => {
                             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
                                 <View>
                                     <Text style={{ color: 'white', fontSize: 13, alignSelf: 'center' }}>{profile.rating}</Text>
-                                    <Text style={{ color: 'gray', fontSize: 13 }}>351 Ratings</Text>
+                                    <Text style={{ color: '#cccccc', fontSize: 13 }}>351 Ratings</Text>
                                 </View>
                                 <View>
                                     <Text style={{ color: 'white', fontSize: 13, alignSelf: 'center' }}>137k</Text>
-                                    <Text style={{ color: 'gray', fontSize: 13 }}>Bookmarks</Text>
+                                    <Text style={{ color: '#cccccc', fontSize: 13 }}>Bookmarks</Text>
                                 </View>
                                 <View>
                                     <Text style={{ color: 'white', fontSize: 13, alignSelf: 'center' }}>347</Text>
-                                    <Text style={{ color: 'gray', fontSize: 13 }}>Photos</Text>
+                                    <Text style={{ color: '#cccccc', fontSize: 13 }}>Photos</Text>
 
                                 </View>
                             </View>

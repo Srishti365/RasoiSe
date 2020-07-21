@@ -34,7 +34,7 @@ const Profile = ({ navigation }) => {
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{ height: 1000 }}>
-                <ImageBackground source={require('../../assets/bg3.jpeg')} style={{ height: 250, width }}>
+                <ImageBackground source={require('../../assets/bg2.jpeg')} style={{ height: 250, width }}>
 
                 </ImageBackground>
                 {/* <View style={{borderWidth:3,height:70,borderRadius:50,width:70,position:'absolute',marginTop:215,alignSelf:'center',borderColor:'white',backgroundColor:'green',elevation:10}}> */}
