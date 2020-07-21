@@ -55,8 +55,9 @@ router.route("/viewmenu")
 router.route("/removemenuitem")
     .post(async (req, res, next) => {
         try {
-            //req.body= {id:menuitemid}
+          
             await Menu.deleteOne({ _id: req.body.id }).then(async function (result) {
+                console.log(result);
                 res.send('menu item removed')
             });
 

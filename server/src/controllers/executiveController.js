@@ -26,7 +26,7 @@ module.exports = {
 
             console.log(token)
 
-            res.send({ token });
+            res.send({ token: token });
         } catch (err) {
             return res.status(422).send({ error: 'Invalid credentials!!' });
         }
