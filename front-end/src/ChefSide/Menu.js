@@ -18,10 +18,10 @@ const Menu = ({ navigation }) => {
     const [description, setDescription] = useState('')
     const [result, setResult] = useState([])
     const [profile, setProfile] = useState(null)
-    const [editVisible,setEditVisible] = useState(false)
-    const [deleteVisible,setDeleteVisible] = useState(false)
+    const [editVisible, setEditVisible] = useState(false)
+    const [deleteVisible, setDeleteVisible] = useState(false)
     const [changeRef, setChangeRef] = useState(Number);
-    const [id,setId] = useState(null);
+    const [id, setId] = useState(null);
     const [editResult, setEditResult] = useState(null);
 
     const toggle = () => {
@@ -47,7 +47,7 @@ const Menu = ({ navigation }) => {
             setCategory('')
             setDescription('')
             setPrice(0)
-            const response = await trackerApi.post('/cook/viewparticularmenu', {id:id});
+            const response = await trackerApi.post('/cook/viewparticularmenu', { id: id });
             const data = response.data.menuitem
             console.log(data)
             setName(data.name)
@@ -66,7 +66,7 @@ const Menu = ({ navigation }) => {
     const editMenu = async () => {
         console.log('hii')
         try {
-            const response = await trackerApi.post('/cook/editmenuitem', {id,name,category,description,price});
+            const response = await trackerApi.post('/cook/editmenuitem', { id, name, category, description, price });
             console.log('hii')
             fetchResult()
             setEditVisible(false)
@@ -93,10 +93,10 @@ const Menu = ({ navigation }) => {
     }
 
 
-    const RemoveItem = async(id) => {
+    const RemoveItem = async (id) => {
         try {
             console.log(changeRef);
-            const response = await trackerApi.post('/cook/removemenuitem',{id:id});
+            const response = await trackerApi.post('/cook/removemenuitem', { id: id });
             console.log(response);
             fetchResult()
             setDeleteVisible(false)
@@ -133,6 +133,7 @@ const Menu = ({ navigation }) => {
 
 
     console.log('profile', profile)
+    console.log('price', price)
 
     if (profile == null) {
         return (
@@ -191,7 +192,7 @@ const Menu = ({ navigation }) => {
                 <View style={{ backgroundColor: 'rgb(242,242,242)' }}>
                     <TriggeringView style={{ backgroundColor: 'white' }}>
                         <View style={{ height: 50, backgroundColor: 'rgb(242,242,242)', justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ fontSize: 17, color: 'rgb(0, 15, 102)' }}>Features Items</Text>
+                            <Text style={{ fontSize: 17, color: 'rgb(0, 15, 102)' }}>Featured Items</Text>
                         </View>
                         <ScrollView>
                             <FlatList
@@ -206,7 +207,7 @@ const Menu = ({ navigation }) => {
                                         }} deleteItem={(id) => {
                                             setDeleteVisible(true)
                                             setId(id)
-                                        }}/>
+                                        }} />
                                     )
                                 }}
                                 horizontal={false}
@@ -310,32 +311,32 @@ const Menu = ({ navigation }) => {
                 width={200}
                 footer={
                     <DialogFooter>
-                      <DialogButton
-                        text="CANCEL"
-                        onPress={() => setDeleteVisible(false)}
-                      />
-                      <DialogButton
-                        text="OK"
-                        onPress={() => RemoveItem(id)}
-                      />
+                        <DialogButton
+                            text="CANCEL"
+                            onPress={() => setDeleteVisible(false)}
+                        />
+                        <DialogButton
+                            text="OK"
+                            onPress={() => RemoveItem(id)}
+                        />
                     </DialogFooter>
-                  }
+                }
             >
                 <DialogContent >
-                    <Text style={{marginTop:10,color:'red',alignSelf:'center',fontSize:20}}>Are you sure ?</Text>
+                    <Text style={{ marginTop: 10, color: 'red', alignSelf: 'center', fontSize: 20 }}>Are you sure ?</Text>
                 </DialogContent>
             </Dialog>
             {editResult == null ? null :
-            <Dialog
-                visible={editVisible}
-                dialogAnimation={new SlideAnimation({
-                    slideFrom: 'bottom'
-                })}
-                onHardwareBackPress={() => setEditVisible(false)}
-                onTouchOutside={() => setEditVisible(false)}
-                height={500}
-                width={width - 50}
-            >
+                <Dialog
+                    visible={editVisible}
+                    dialogAnimation={new SlideAnimation({
+                        slideFrom: 'bottom'
+                    })}
+                    onHardwareBackPress={() => setEditVisible(false)}
+                    onTouchOutside={() => setEditVisible(false)}
+                    height={500}
+                    width={width - 50}
+                >
 
                     <DialogContent style={{ flex: 1 }}>
                         <KeyboardAvoidingView behavior='height' style={{ flex: 1 }}>
@@ -378,9 +379,9 @@ const Menu = ({ navigation }) => {
                                     <View style={styles.InputContainer}>
                                         <TextInput
                                             style={styles.body}
-                                            placeholder='0'
+                                            keyboardType="numeric"
                                             onChangeText={price => setPrice(price)}
-                                            value={price}
+                                            value={`${price}`}
                                             placeholderTextColor={AppStyles.color.grey}
                                             underlineColorAndroid="transparent"
                                         />
