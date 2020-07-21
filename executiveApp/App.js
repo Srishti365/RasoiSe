@@ -1,5 +1,4 @@
 import React from 'react';
-import {AsyncStorage} from 'react-native';
 
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -11,6 +10,7 @@ import PendingOrders from './src/Screens/PendingOrdersScreen';
 import ProfileScreen from './src/Screens/ProfileScreen';
 import ResolveAuthScreen from './src/Screens/ResolveAuth';
 import SignoutScreen from './src/Screens/SignoutScreen';
+
 
 import { Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
 
