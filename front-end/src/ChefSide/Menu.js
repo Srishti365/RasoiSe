@@ -14,13 +14,13 @@ const Menu = ({ navigation }) => {
     const [visible, setVisible] = useState(false)
     const [name, setName] = useState('')
     const [category, setCategory] = useState('')
-    const [price, setPrice] = useState(Number)
+    const [price, setPrice] = useState(0)
     const [description, setDescription] = useState('')
     const [result, setResult] = useState([])
     const [profile, setProfile] = useState(null)
     const [editVisible,setEditVisible] = useState(false)
     const [deleteVisible,setDeleteVisible] = useState(false)
-    const [changeRef, setChangeRef] = useState(0);
+    const [changeRef, setChangeRef] = useState(Number);
     const [id,setId] = useState(null);
     const [editResult, setEditResult] = useState(null);
 
@@ -43,7 +43,10 @@ const Menu = ({ navigation }) => {
 
     const fetchMenu = async (id) => {
         try {
-            console.log(id)
+            setName('')
+            setCategory('')
+            setDescription('')
+            setPrice(0)
             const response = await trackerApi.post('/cook/viewparticularmenu', {id:id});
             const data = response.data.menuitem
             console.log(data)
@@ -51,6 +54,7 @@ const Menu = ({ navigation }) => {
             setCategory(data.category)
             setDescription(data.description)
             setPrice(data.price)
+            console.log(data.price)
             setEditResult(data)
         }
         catch (err) {
@@ -60,9 +64,16 @@ const Menu = ({ navigation }) => {
 
 
     const editMenu = async () => {
+        console.log('hii')
         try {
-            const response = await trackerApi.get('/cook/editmenuitem');
-            setChangeRef(id)
+            const response = await trackerApi.post('/cook/editmenuitem', {id,name,category,description,price});
+            console.log('hii')
+            fetchResult()
+            setEditVisible(false)
+            setName('')
+            setCategory('')
+            setDescription('')
+            setPrice(0)
         }
         catch (err) {
             console.log(err);
@@ -84,10 +95,10 @@ const Menu = ({ navigation }) => {
 
     const RemoveItem = async(id) => {
         try {
-            setChangeRef(id);
             console.log(changeRef);
             const response = await trackerApi.post('/cook/removemenuitem',{id:id});
             console.log(response);
+            fetchResult()
             setDeleteVisible(false)
         }
         catch (err) {
@@ -188,6 +199,7 @@ const Menu = ({ navigation }) => {
                                     return (
                                         <MenuList result={item} edit={(id) => {
                                             fetchMenu(id)
+                                            setId(id)
                                             setEditVisible(true)
                                         }} deleteItem={(id) => {
                                             setDeleteVisible(true)
@@ -207,7 +219,7 @@ const Menu = ({ navigation }) => {
                 dialogAnimation={new SlideAnimation({
                     slideFrom: 'bottom'
                 })}
-
+                onHardwareBackPress={() => toggle()}
                 onTouchOutside={toggle}
                 height={500}
                 width={width - 50}
@@ -287,6 +299,7 @@ const Menu = ({ navigation }) => {
                 </DialogContent>
             </Dialog>
             <Dialog
+                onHardwareBackPress={() => setDeleteVisible(false)}
                 visible={deleteVisible}
                 dialogTitle={<DialogTitle title="Delete Item" />}
                 onTouchOutside={() => {
@@ -316,7 +329,7 @@ const Menu = ({ navigation }) => {
                 dialogAnimation={new SlideAnimation({
                     slideFrom: 'bottom'
                 })}
-
+                onHardwareBackPress={() => setEditVisible(false)}
                 onTouchOutside={() => setEditVisible(false)}
                 height={500}
                 width={width - 50}
@@ -363,7 +376,7 @@ const Menu = ({ navigation }) => {
                                     <View style={styles.InputContainer}>
                                         <TextInput
                                             style={styles.body}
-                                            placeholder="0"
+                                            placeholder='0'
                                             onChangeText={price => setPrice(price)}
                                             value={price}
                                             placeholderTextColor={AppStyles.color.grey}
@@ -387,7 +400,7 @@ const Menu = ({ navigation }) => {
                                 <TouchableOpacity
                                     style={{ width: 150, height: 50, borderRadius: 5, marginTop: 20, justifyContent: 'center', alignSelf: 'center', alignItems: 'center', backgroundColor: 'gray' }}
                                     activeOpacity={0.8}
-                                    onPress={handleOnSubmit}
+                                    onPress={() => editMenu()}
                                 >
                                     <Text style={{ color: 'white', fontWeight: '900', fontSize: 17 }}>Submit</Text>
                                 </TouchableOpacity>
