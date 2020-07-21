@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, ActivityIndicator, TextInput, FlatList, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, ActivityIndicator, TextInput, FlatList, Dimensions, AsyncStorage } from 'react-native';
 import SearchBarScreen from '../components/SearchBar';
 import useResults from '../hooks/useResults';
 import ResultsList from '../components/ResultsList';
@@ -34,6 +34,11 @@ const SearchScreen = () => {
         }
     }
 
+
+    const storeAddress = async(val) => {
+        await AsyncStorage.setItem('address',val)
+    }
+
     const renderItem = ({ item }) => (
         <TouchableOpacity
             style={{ marginHorizontal: 10, marginVertical: 5, paddingVertical: 10, flexDirection: 'row', paddingRight: 50, paddingLeft: 10, borderWidth: 0.2, borderColor: 'rgb(242,242,242)' }}
@@ -41,6 +46,7 @@ const SearchScreen = () => {
             onPress={() => {
                 setAdd([])
                 setValue(item.label)
+                storeAddress(item.label)
             }}
         >
             <Entypo name="location-pin" size={24} color="black" />
@@ -102,7 +108,10 @@ const SearchScreen = () => {
                                 <Text style={{ fontSize: 17, marginTop: 10, borderBottomWidth: 1, paddingBottom: 10, borderColor: 'rgb(242,242,242)' }}>    Your Location</Text>
                                 <AddressBar address={value} />
                                 <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, borderBottomWidth: 1, paddingBottom: 10, borderColor: 'rgb(242,242,242)' }} activeOpacity={0.8}
-                                    onPress={() => setValue(address)}
+                                    onPress={() => {
+                                        setValue(address)   
+                                        storeAddress(address)
+                                    }}
                                 >
                                     <MaterialIcons name="location-searching" size={24} color="red" style={{ marginLeft: 15 }} />
                                     <Text style={{ marginLeft: 10 }}>Add Current location</Text>
