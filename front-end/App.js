@@ -29,12 +29,13 @@ import Menu from './src/ChefSide/Menu';
 import Orders from './src/ChefSide/Orders';
 import Profile from './src/ChefSide/Profile';
 import MenuShowScreen from './src/ChefSide/MenuShowscreen';
+import OrdersList from './src/ChefSide/OrdersList';
 
 import PaymentCompleteScreen from './src/screens/PaymentCompleteScreen';
 
 const chefStack = createStackNavigator({
-  chefPage:{
-    screen:createBottomTabNavigator({
+  chefPage: {
+    screen: createBottomTabNavigator({
       Orders: {
         screen: Orders,
         navigationOptions: {
@@ -69,7 +70,7 @@ const chefStack = createStackNavigator({
             } else if (routeName === 'Profile') {
               iconName = focused ? 'user' : 'user';
             }
-    
+
             return <IconComponent name={iconName} size={25} color={tintColor} />;
           }
         }),
@@ -79,12 +80,15 @@ const chefStack = createStackNavigator({
         },
       }
     ),
-    navigationOptions:{
+    navigationOptions: {
       header: null
     }
   },
-  MenuShow:{
-    screen:MenuShowScreen
+  MenuShow: {
+    screen: MenuShowScreen
+  },
+  OrdersList: {
+    screen: OrdersList
   }
 })
 

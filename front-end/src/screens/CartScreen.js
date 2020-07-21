@@ -9,7 +9,8 @@ const CartScreen = ({ navigation }) => {
     const [err, setErr] = useState('');
     const [id, setId] = useState([])
     const [totalprice, setTotalprice] = useState(0);
-    const [changeRef, setChangeRef] = useState(0);
+    // const [changeRef, setChangeRef] = useState(null);
+
 
     const viewCart = async () => {
         try {
@@ -37,13 +38,10 @@ const CartScreen = ({ navigation }) => {
         try {
 
             console.log('hii');
-            setChangeRef(removeId);
+
             const response = await trackerApi.post('/cart/remove', { id: removeId });
-            // console.log(response.data.chefs);
-            //    setResult(response.data.items);
             console.log(result);
-            // navigation.navigate('Cart');
-            // viewCart();
+
         }
         catch (err) {
             console.log(err);
@@ -51,24 +49,11 @@ const CartScreen = ({ navigation }) => {
         }
     }
 
-    // const RemoveItem = async (id) => {
-    //     try {
-    //         console.log('hii');
-    //         const response = await trackerApi.post('/cart/remove', { id: id });
-    //         console.log('response',response);
-    //         // viewCart()
-    //     }
-    //     catch (err) {
-    //         console.log(err);
-    //         setErr('Something went wrong');
-    //     }
-    // }
-
 
 
     useEffect(() => {
         viewCart();
-    }, [changeRef])
+    }, [])
 
 
     if (!result) {
@@ -83,11 +68,15 @@ const CartScreen = ({ navigation }) => {
             <ScrollView showsVerticalScrollIndicator={false}>
                 <FlatList
                     showsVerticalScrollIndicator
+                    extraData={result}
                     data={result}
                     keyExtractor={(result) => result._id}
                     renderItem={({ item }) => {
                         return (
-                            <CartHelper result={item} callback={(id) => RemoveItem(id)} />
+                            <CartHelper result={item} callback={(id) => {
+                                RemoveItem(id);
+                                viewCart();
+                            }} />
                         )
                     }}
                 />

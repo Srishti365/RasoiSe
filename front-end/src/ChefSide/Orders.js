@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, StatusBar, FlatList, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, FlatList, ScrollView, TouchableOpacity } from 'react-native';
 import trackerApi from '../api/tracker';
+import { NavigationEvents } from 'react-navigation';
 
 
-
-const Orders = () => {
+const Orders = ({ navigation }) => {
     const [err, setErr] = useState('');
     const [orders, setOrders] = useState([]);
 
@@ -25,11 +25,12 @@ const Orders = () => {
         viewOrders();
     }, [])
 
-    console.log('view orders');
-    console.log(orders);
+    // console.log('view orders');
+    // console.log(orders);
 
     return (
         <View style={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+            <NavigationEvents onDidFocus={() => viewOrders()} />
             <StatusBar backgroundColor='#EA3C53' />
             <ScrollView showsVerticalScrollIndicator={false}>
                 <FlatList
@@ -38,10 +39,15 @@ const Orders = () => {
                     keyExtractor={(orders) => orders._id}
                     renderItem={({ item }) => {
                         return (
-                            <View>
-                                <Text>{item.delivery_add}</Text>
-                                <Text>{item.timestamp}</Text>
-                            </View>
+                            <TouchableOpacity style={{ marginVertical: 20 }} onPress={() => navigation.navigate('OrdersList', { id: item._id })}  >
+                                <View>
+                                    <Text>Order ID: {item._id}</Text>
+                                    <Text>Delivery Address: {item.delivery_add}</Text>
+                                    <Text>Time: {item.timestamp}</Text>
+                                    <Text>Customer Email: {item.user.email}</Text>
+                                    <Text>Customer Contact: {item.user.phoneNo}</Text>
+                                </View>
+                            </TouchableOpacity>
                         )
                     }}
                 />

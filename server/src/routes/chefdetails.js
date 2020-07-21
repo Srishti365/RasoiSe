@@ -109,10 +109,47 @@ router.route("/editmenuitem")
 router.route("/vieworders")
     .get(async (req, res, next) => {
         try {
-            await Cart.find({ chef: req.user._id, isOrdered: true, confirmedByChef: false }).then(async function (data) {
-                console.log(data);
+            await Cart.find({ chef: req.user._id, isOrdered: true, confirmedByChef: false }).populate({ path: 'orderItems.menuItem', model: Menu }).populate({ path: 'user', model: User }).then(async function (data) {
+                // console.log(data);
                 res.send({ orders: data })
             })
+
+
+        } catch (error) {
+            next(error);
+        }
+    })
+
+//view particular order
+router.route("/viewparticularorder")
+    .post(async (req, res, next) => {
+        try {
+            //red.body={id:id of the particular order}
+
+            await Cart.findById(req.body.id).populate({ path: 'orderItems.menuItem', model: Menu }).populate({ path: 'user', model: User }).then(async function (data) {
+                // console.log(data);
+                res.send({ orders: data })
+            })
+
+
+        } catch (error) {
+            next(error);
+        }
+    })
+
+//confirm order -- assign executive here
+router.route("/confirmorder")
+    .post(async (req, res, next) => {
+        try {
+            //req.bod={id:id of the particular cartitem}
+            await req.body;
+            await Cart.findById(req.body.id).then(async function (data) {
+                data.confirmedByChef = true
+                data.executive = "5f1564ab2f37cf1a43446518"
+                data.save()
+                res.send(data)
+            })
+
 
 
         } catch (error) {
@@ -126,9 +163,9 @@ router.route("/vieworders")
 router.route('/profile')
     .get(async (req, res, next) => {
         try {
-            console.log(req.user._id)
+
             await Chef.find({ _id: req.user._id }).then(async function (data) {
-                console.log(data);
+
                 res.send({ profile: data })
             })
         } catch (error) {
