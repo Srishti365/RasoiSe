@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, StatusBar, Dimensions, TouchableOpacity, TextInput, ScrollView, ActivityIndicator, FlatList, KeyboardAvoidingView, Animated } from 'react-native';
 import MenuList from './MenuList';
-import Dialog, { DialogContent, SlideAnimation } from 'react-native-popup-dialog';
+import Dialog, { DialogContent, SlideAnimation, DialogTitle, DialogButton, DialogFooter } from 'react-native-popup-dialog';
 const { width, height } = Dimensions.get('window');
 import { Entypo, Feather, AntDesign } from '@expo/vector-icons';
 import { AppStyles } from '../AppStyles';
@@ -14,10 +14,15 @@ const Menu = ({ navigation }) => {
     const [visible, setVisible] = useState(false)
     const [name, setName] = useState('')
     const [category, setCategory] = useState('')
-    const [price, setPrice] = useState(0)
+    const [price, setPrice] = useState(Number)
     const [description, setDescription] = useState('')
     const [result, setResult] = useState([])
     const [profile, setProfile] = useState(null)
+    const [editVisible,setEditVisible] = useState(false)
+    const [deleteVisible,setDeleteVisible] = useState(false)
+    const [changeRef, setChangeRef] = useState(0);
+    const [id,setId] = useState(null);
+    const [editResult, setEditResult] = useState(null);
 
     const toggle = () => {
         console.log(visible)
@@ -36,11 +41,54 @@ const Menu = ({ navigation }) => {
     }
 
 
+    const fetchMenu = async (id) => {
+        try {
+            console.log(id)
+            const response = await trackerApi.post('/cook/viewparticularmenu', {id:id});
+            const data = response.data.menuitem
+            console.log(data)
+            setName(data.name)
+            setCategory(data.category)
+            setDescription(data.description)
+            setPrice(data.price)
+            setEditResult(data)
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+
+    const editMenu = async () => {
+        try {
+            const response = await trackerApi.get('/cook/editmenuitem');
+            setChangeRef(id)
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+
     const fetchProfile = async () => {
         try {
             const response = await trackerApi.get('/cook/profile');
             console.log('response', response.data);
             setProfile(response.data.profile[0])
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+
+    const RemoveItem = async(id) => {
+        try {
+            setChangeRef(id);
+            console.log(changeRef);
+            const response = await trackerApi.post('/cook/removemenuitem',{id:id});
+            console.log(response);
+            setDeleteVisible(false)
         }
         catch (err) {
             console.log(err);
@@ -69,7 +117,7 @@ const Menu = ({ navigation }) => {
     useEffect(() => {
         fetchProfile();
         fetchResult();
-    }, []);
+    }, [changeRef]);
 
 
 
@@ -138,7 +186,13 @@ const Menu = ({ navigation }) => {
                                 keyExtractor={(result) => result._id}
                                 renderItem={({ item }) => {
                                     return (
-                                        <MenuList result={item} callback={(id) => navigation.navigate('MenuShow', { id: id })} />
+                                        <MenuList result={item} edit={(id) => {
+                                            fetchMenu(id)
+                                            setEditVisible(true)
+                                        }} deleteItem={(id) => {
+                                            setDeleteVisible(true)
+                                            setId(id)
+                                        }}/>
                                     )
                                 }}
                                 horizontal={false}
@@ -231,8 +285,117 @@ const Menu = ({ navigation }) => {
                         </ScrollView>
                     </KeyboardAvoidingView>
                 </DialogContent>
-
             </Dialog>
+            <Dialog
+                visible={deleteVisible}
+                dialogTitle={<DialogTitle title="Delete Item" />}
+                onTouchOutside={() => {
+                    setDeleteVisible(false)
+                }}
+                width={200}
+                footer={
+                    <DialogFooter>
+                      <DialogButton
+                        text="CANCEL"
+                        onPress={() => setDeleteVisible(false)}
+                      />
+                      <DialogButton
+                        text="OK"
+                        onPress={() => RemoveItem(id)}
+                      />
+                    </DialogFooter>
+                  }
+            >
+                <DialogContent >
+                    <Text style={{marginTop:10,color:'red',alignSelf:'center',fontSize:20}}>Are you sure ?</Text>
+                </DialogContent>
+            </Dialog>
+            {editResult == null ? null :
+            <Dialog
+                visible={editVisible}
+                dialogAnimation={new SlideAnimation({
+                    slideFrom: 'bottom'
+                })}
+
+                onTouchOutside={() => setEditVisible(false)}
+                height={500}
+                width={width - 50}
+            >
+
+                    <DialogContent style={{ flex: 1 }}>
+                        <KeyboardAvoidingView behavior='height' style={{ flex: 1 }}>
+                            <View style={{ height: 50, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgb(251,251,251)', marginLeft: -20, marginRight: -20, flexDirection: 'row' }}>
+                                <Text style={{ fontWeight: '900', fontSize: 20, position: 'absolute' }}>Edit Menu</Text>
+                                <TouchableOpacity style={{ marginLeft: 'auto', marginRight: 20 }} onPress={() => setEditVisible(false)}>
+                                    <AntDesign name="close" size={24} color="black" />
+                                </TouchableOpacity>
+                            </View>
+                            <ScrollView showsVerticalScrollIndicator={false}>
+
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+                                    <Text style={{ width: 80 }}>Name : </Text>
+                                    <View style={styles.InputContainer}>
+                                        <TextInput
+                                            style={styles.body}
+                                            placeholder="Name"
+                                            onChangeText={name => setName(name)}
+                                            value={name}
+                                            placeholderTextColor={AppStyles.color.grey}
+                                            underlineColorAndroid="transparent"
+                                        />
+                                    </View>
+                                </View>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+                                    <Text style={{ width: 80 }}>Category : </Text>
+                                    <View style={styles.InputContainer}>
+                                        <TextInput
+                                            style={styles.body}
+                                            placeholder="Veg or Non-veg"
+                                            onChangeText={category => setCategory(category)}
+                                            value={category}
+                                            placeholderTextColor={AppStyles.color.grey}
+                                            underlineColorAndroid="transparent"
+                                        />
+                                    </View>
+                                </View>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+                                    <Text style={{ width: 80 }}>Price : </Text>
+                                    <View style={styles.InputContainer}>
+                                        <TextInput
+                                            style={styles.body}
+                                            placeholder="0"
+                                            onChangeText={price => setPrice(price)}
+                                            value={price}
+                                            placeholderTextColor={AppStyles.color.grey}
+                                            underlineColorAndroid="transparent"
+                                        />
+                                    </View>
+                                </View>
+                                <View style={{ marginTop: 30 }}>
+                                    <Text>Description : </Text>
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder={'Add description (not more than 100 letters)'}
+                                        onChangeText={text => setDescription(text)}
+                                        multiline={true}
+                                        value={description}
+                                        underlineColorAndroid='transparent'
+                                        maxLength={100}
+                                    />
+                                    <Text style={{ marginLeft: 'auto', color: 'grey' }}>({description.length}/100)</Text>
+                                </View>
+                                <TouchableOpacity
+                                    style={{ width: 150, height: 50, borderRadius: 5, marginTop: 20, justifyContent: 'center', alignSelf: 'center', alignItems: 'center', backgroundColor: 'gray' }}
+                                    activeOpacity={0.8}
+                                    onPress={handleOnSubmit}
+                                >
+                                    <Text style={{ color: 'white', fontWeight: '900', fontSize: 17 }}>Submit</Text>
+                                </TouchableOpacity>
+                            </ScrollView>
+                        </KeyboardAvoidingView>
+                    </DialogContent>
+                </Dialog>
+            }
         </>
 
     )
@@ -273,17 +436,3 @@ const styles = StyleSheet.create({
 
 export default Menu;
 
-
-
-
-
-
-{/* <TouchableOpacity
-                style={{ backgroundColor: 'gray', height: 50, width: 150, justifyContent: 'center', alignItems: 'center', borderRadius: 5, alignSelf: 'center', marginTop: 10 }}
-                activeOpacity={0.5}
-                onPress={() => toggle()}
-            >
-                <Text style={{ color: 'white', fontSize: 15 }}>Add Menu Item</Text>
-            </TouchableOpacity>
-
-        </ScrollView> */}

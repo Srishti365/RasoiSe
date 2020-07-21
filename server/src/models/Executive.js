@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const executiveSchema = new Schema({
     email: {
-        type:String,
+        type: String,
         unique: true,
         required: true
     },
@@ -12,9 +12,24 @@ const executiveSchema = new Schema({
         type: String,
         required: true
     },
-    name:{
-        type:String
-    }
+    name: {
+        type: String
+    },
+    address: {
+        type: String,
+        default: "mumbai,maharashtra,india"
+    },
+    geometry: {
+        type: {
+            type: String,
+            default: "Point"
+        },
+        coordinates: {
+            type: [Number],
+            index: "2dsphere",
+            default: [72.83308, 18.92763]
+        }
+    },
 });
 
 
