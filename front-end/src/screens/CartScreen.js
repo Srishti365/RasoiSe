@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, FlatList, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, FlatList, ScrollView, AsyncStorage } from 'react-native';
 import { Button } from 'react-native-elements';
 import trackerApi from '../api/tracker';
 import CartHelper from '../components/CartHelper';
@@ -9,6 +9,7 @@ const CartScreen = ({ navigation }) => {
     const [err, setErr] = useState('');
     const [id, setId] = useState([])
     const [totalprice, setTotalprice] = useState(0);
+    const [address, setAddress] = useState('');
     // const [changeRef, setChangeRef] = useState(null);
 
 
@@ -19,13 +20,15 @@ const CartScreen = ({ navigation }) => {
             const data = response.data.cart;
             const total = response.data.total_price;
             setResult(data);
-            console.log('resultssss')
+            // console.log('resultssss')
             setTotalprice(total);
             const idList = []
             for (i = 0; i < data.length; i++) {
                 idList.push(data[i]._id)
             }
             setId(idList)
+            const add = await AsyncStorage.getItem('address');
+            console.log('address', add);
 
         }
         catch (err) {
@@ -60,7 +63,7 @@ const CartScreen = ({ navigation }) => {
         return null;
     }
 
-    console.log(result)
+    // console.log(result)
 
     return (
         <View>
