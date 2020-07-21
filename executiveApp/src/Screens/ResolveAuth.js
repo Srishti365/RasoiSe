@@ -7,7 +7,6 @@ const ResolveAuthScreen = ({ navigation }) => {
     const tryLocalSignin = async () => {
         const token = await AsyncStorage.getItem('token');
         if (token) {
-            console.log(token); 
             navigation.navigate('AppStack')
         } else {
             navigation.navigate('Signin');
