@@ -146,10 +146,25 @@ router.route("/dish/")
 router.route("/chef/:query")
     .get(async (req, res, next) => {
         try {
+            current_time = getTime()
             menu = await Menu.find({ chef: req.params.query })
 
-            chef_details = await Chef.findById(req.params.query)
-            res.send({ chef_details: chef_details, menu: menu })
+            // chef_details = await Chef.findById(req.params.query)
+
+            await Chef.findById(req.params.query).then(async function (chef_details) {
+                await chef_details;
+                availability = 'yes'
+                if (current_time > chef_details.start_time && current_time < chef_details.end_time) {
+                    availability = 'yes'
+                }
+                else {
+                    availability = 'no'
+                }
+
+                res.send({ chef_details: chef_details, menu: menu, availability: availability })
+            })
+
+
 
         } catch (error) {
             next(error);
