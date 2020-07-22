@@ -2,6 +2,7 @@ var bodyParser = require("body-parser");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 const express = require('express');
 const mongoose = require('mongoose');
+var ObjectId = require('mongodb').ObjectID;
 const requireAuth = require('../middlewares/requireAuth');
 const sortObjectsArray = require('sort-objects-array');
 var NodeGeocoder = require("node-geocoder");
@@ -204,28 +205,61 @@ router.route("/chef/:query")
 router.route("/changerating")
     .post(async (req, res, next) => {
         try {
-            // req.body={id:chef's id,rating:user's entered rating}
+            // req.body={id:chef's id,rate:user's entered rating}
+
+            //check if user has already rated the chef-update otherwise create new
+            await Rating.find({ user: req.user._id, chef: req.body.id }).then(async function (data) {
+                console.log(data)
+                if (data.length == 0) {
+                    console.log('create new')
+                    rating1 = new Rating({
+                        chef: req.body.id,
+                        user: req.user._id,
+                        rating: req.body.rate
+                    })
+
+                    await rating1.save()
+
+                }
+                else {
+                    data[0].rating = req.body.rate;
+                    await data[0].save()
+                    console.log('update')
+                }
+            })
+
+
 
             await Chef.findById(req.body.id).then(async function (data) {
-                await Rating.find({ chef: req.body.id }).then(async function (rates) {
+                // await Rating.find({ chef: req.body.id }).then(async function (rates) {
+                // })
+                await Rating.aggregate(
+                    [
 
-                    Rating.aggregate(
-                        [
-                            {
-                                "$match": {
-                                    chef: req.body.id
-                                }
-                            },
-                        ],
-                        function (err, results) {
-                            console.log(results);
-                            res.send({ chef: data, rates: rates, results: results })
-                        });
+                        {
+                            "$match": {
+                                chef: ObjectId(req.body.id)
+                            }
+                        },
+                        {
+                            "$group": {
+                                _id: "$chef",
+                                average: { $avg: "$rating" },
+                                add: { $sum: "$rating" },
+                                count: { $sum: 1 }
+                            }
+                        },
 
-
-
-                })
-
+                    ],
+                    async function (err, results) {
+                        await results
+                        // console.log(results);
+                        finalavg = (results[0].add + parseInt(req.body.rate)) / ((results[0].count) + 1)
+                        final = Math.round(finalavg * 2) / 2
+                        data.rating = final
+                        data.save()
+                        res.send({ chef: data, results: results, avg: final })
+                    });
 
 
             })
