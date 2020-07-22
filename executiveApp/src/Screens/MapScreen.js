@@ -35,7 +35,7 @@ const MapScreen = ({ navigation }) => {
     return (
         <>
             {visible ? 
-                <Map data={result.route} dest_loc={result.dest_loc} exec_loc={result.exec_loc} pickup_loc={result.pickup_loc}/>
+                <Map data={result.route} dest_loc={result.dest_loc} exec_loc={result.exec_loc} pickup_loc={result.pickup_loc} time={result.time_taken} dist={result.distance}/>
             :
                 null
             }

@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Button} from 'react-native';
 import { Card } from 'react-native-elements'
-import { EvilIcons, Ionicons } from '@expo/vector-icons';
+import { EvilIcons, Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import Communications from 'react-native-communications';
 
 
-const PendingList = ({ result, onPick }) => {
+const PendingList = ({ result, onPick, onShowDirections }) => {
 
-    console.log('ye h',result);
+    const userNumber = result.user.phoneNo
+    const chefNumber = result.chef.phone.toString()
 
     return(
         <Card containerStyle={{borderRadius:10}}>
@@ -36,7 +37,7 @@ const PendingList = ({ result, onPick }) => {
                             <EvilIcons name='location' size={18} color='green'/>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.5} onPress={() => Communications.phonecall('0123456789', true)}>
+                    <TouchableOpacity activeOpacity={0.5} onPress={() => Communications.phonecall(chefNumber, true)}>
                         <View style={{borderWidth:1,marginLeft:5,height:25,width:25,borderRadius:25,alignItems:'center',justifyContent:'center',borderColor:'green'}}>
                             <Ionicons name='ios-call' size={15} color='green'/>
                         </View>
@@ -54,7 +55,7 @@ const PendingList = ({ result, onPick }) => {
                             <EvilIcons name='location' size={18} color='green'/>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.5} onPress={() => Communications.phonecall('0123456789', true)}>
+                    <TouchableOpacity activeOpacity={0.5} onPress={() => Communications.phonecall(userNumber, true)}>
                         <View style={{borderWidth:1,marginLeft:5,height:25,width:25,borderRadius:25,alignItems:'center',justifyContent:'center',borderColor:'green'}}>
                             <Ionicons name='ios-call' size={15} color='green'/>
                         </View>
@@ -62,13 +63,26 @@ const PendingList = ({ result, onPick }) => {
                 </View>
             </View>
             <View style={{flexDirection:'row',justifyContent:'space-around',marginTop:20,marginBottom:10}}>
-                <View>
-                    <Button title=' Mark Picked ' onPress={() => onPick(result._id)}/>
-                </View>
 
-                <View>
-                    <Button title=' View Receipt ' color='gray' />
-                </View>
+                {result.isPickedUp ? 
+                    <View style={{paddingHorizontal:10,paddingVertical:10,borderRadius:5,backgroundColor:'rgb(0, 173, 252)'}}>
+                        <Text style={{color:'white'}}>Already Picked</Text>
+                    </View>
+                :
+                <TouchableOpacity style={{paddingHorizontal:10,paddingVertical:10,borderRadius:5,backgroundColor:'rgb(0, 173, 252)'}}
+                    activeOpacity={0.8}
+                    onPress={() => onPick(result._id)}
+                >
+                    <Text style={{color:'white'}}> Mark Picked</Text>
+                </TouchableOpacity>
+                }
+
+                <TouchableOpacity style={{paddingHorizontal:10,paddingVertical:10,borderRadius:5,backgroundColor:'gray'}}
+                    activeOpacity={0.8}
+                    onPress={() => onShowDirections(result._id)}
+                >
+                    <Text style={{fontSize:15,color:'white'}}>Directions  <FontAwesome5 name="directions" size={17} color="green" /></Text>
+                </TouchableOpacity>
             </View>
         </Card>
     )

@@ -19,6 +19,7 @@ const PendingOrders = ({ navigation }) => {
 
     const confirmPickup = async (id) => {
         try {
+            console.log('hii',id)
             const response = await trackerApi.post('/execdetails/confirmpickup', { id: id });
             console.log(response);
             fetchResult();
@@ -40,7 +41,7 @@ const PendingOrders = ({ navigation }) => {
                 keyExtractor={(result) => { result._id }}
                 renderItem={({ item }) => {
                     return (
-                        <PendingList result={item} onPick={(id) => confirmPickup(id)} />
+                        <PendingList result={item} onPick={(id) => confirmPickup(id)} onShowDirections={(id) => navigation.navigate('Map', { orderId: id})}/>
                     )
                 }}
             />
