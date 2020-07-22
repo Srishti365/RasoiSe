@@ -92,7 +92,7 @@ const chefStack = createStackNavigator({
       }
     ),
     navigationOptions: {
-      header: null
+      headerShown: false
     }
   },
   MenuShow: {

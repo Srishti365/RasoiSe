@@ -2,7 +2,7 @@ import React from 'react';
 
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import {createStackNavigator} from 'react-navigation-stack';
+import { createStackNavigator } from 'react-navigation-stack';
 
 import SigninScreen from './src/Screens/SigninScreen';
 import History from './src/Screens/HistoryScreen';
@@ -10,17 +10,19 @@ import PendingOrders from './src/Screens/PendingOrdersScreen';
 import ProfileScreen from './src/Screens/ProfileScreen';
 import ResolveAuthScreen from './src/Screens/ResolveAuth';
 import SignoutScreen from './src/Screens/SignoutScreen';
+import InProcessScreen from './src/Screens/InProcessScreen';
+
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-import { Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
-
-
-const TabNavigator =  createBottomTabNavigator(
+const TabNavigator = createBottomTabNavigator(
   {
-    Pending:PendingOrders,
+    Pending: PendingOrders,
+    InProcess: InProcessScreen,
     History: History,
     Profile: ProfileScreen,
-    SignOut:SignoutScreen
+    SignOut: SignoutScreen,
+
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -34,7 +36,13 @@ const TabNavigator =  createBottomTabNavigator(
             : 'ios-contact';
         } else if (routeName === 'Pending') {
           iconName = focused ? 'ios-list-box' : 'ios-list';
-        } else if (routeName == 'History') {
+        }
+        else if (routeName === 'InProcess') {
+          iconName = 'truck-delivery';
+          IconComponent = MaterialCommunityIcons;
+        }
+
+        else if (routeName == 'History') {
           iconName = 'history'
           IconComponent = MaterialCommunityIcons;
         }
@@ -50,18 +58,18 @@ const TabNavigator =  createBottomTabNavigator(
 
 
 const AppStack = createStackNavigator({
-  Tab:{
-    screen:TabNavigator,
-    navigationOptions:{
-      headerShown:false
+  Tab: {
+    screen: TabNavigator,
+    navigationOptions: {
+      headerShown: false
     }
   }
 })
 
 const AuthStack = createSwitchNavigator({
-  ResolveAuth:ResolveAuthScreen,
-  Signin:SigninScreen,
-  AppStack:AppStack
+  ResolveAuth: ResolveAuthScreen,
+  Signin: SigninScreen,
+  AppStack: AppStack
 })
 
 export default createAppContainer(AuthStack);

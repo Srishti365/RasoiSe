@@ -37,6 +37,15 @@ const chefSchema = new Schema({
     image: {
         type: String,
         default: "https://akm-img-a-in.tosshub.com/sites/indiacontent/0/images/product/public/03102019/00/01/57/00/87/74/12/88/1570087741288/659-chef-kunal-kapur-posing-with-barbecued-lambchops-in-the-kitchen-of-image-Chef_Kunal_Kapur_121808_B_01.jpg"
+    },
+    start_time: {
+        type: String,
+        default: "07:00:00"
+    },
+    end_time: {
+        type: String,
+        default: "21:00:00"
+
     }
 })
 
