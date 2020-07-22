@@ -7,13 +7,13 @@ import trackerApi from '../api/tracker';
 import { set } from 'react-native-reanimated';
 
 
-const ResultShowDetail = ({ result }) => {
+const ResultShowDetail = ({ result, availability }) => {
     const [quantity, setQuantity] = useState(0);
     const [errMessage, setErrorMessage] = useState('');
 
     const addToCart = async (id, quantity) => {
         try {
-            console.log(id, quantity);
+            // console.log(id, quantity);
             const response = await trackerApi.post('/cart/add', { menuitemid: id, quantity: quantity, chefid: result.chef });
             // console.log(response.data.chefs);
             console.log(response.data);
@@ -24,58 +24,68 @@ const ResultShowDetail = ({ result }) => {
         }
     }
 
-    console.log(result)
+    // console.log(result)
+    console.log('avail', availability);
 
     return (
         <>
             <View style={styles.container}>
                 <Image style={styles.imageStyle} source={{ uri: result.image }} />
-                <View style={{marginLeft:15,marginTop:5,flex:1}}>
-                    <View style={{flexDirection:'row',alignItems:'center'}}>
-                        {result.category=='veg' ? 
-                        <Image source={require('../../assets/veg.png')} style={{width:15,height:15}}/> : <Image source={require('../../assets/non-veg.png')} style={{width:15,height:15}}/>}
-                        <Text style={{fontSize:15}}>  {result.name}</Text>
+                <View style={{ marginLeft: 15, marginTop: 5, flex: 1 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        {result.category == 'veg' ?
+                            <Image source={require('../../assets/veg.png')} style={{ width: 15, height: 15 }} /> : <Image source={require('../../assets/non-veg.png')} style={{ width: 15, height: 15 }} />}
+                        <Text style={{ fontSize: 15, textTransform: 'capitalize' }}>  {result.name}</Text>
                     </View>
-                    <View style={{flexDirection:'row',marginTop:5}}>
+                    <View style={{ flexDirection: 'row', marginTop: 5 }}>
                         <View>
                             <Text style={{}}>Price: <FontAwesome name="rupee" /> {result.price}</Text>
-                            <Text style={{width:150,color:'gray'}}>{result.description}</Text>
+                            <Text style={{ width: 150, color: 'gray', textTransform: 'capitalize' }}>{result.description}</Text>
                         </View>
-                        {quantity == 0 ? 
-                            <TouchableOpacity style={{width:75,height:30,borderWidth:1,marginLeft:'auto',marginRight:20,paddingVertical:2,alignItems:'center',borderRadius:5,flexDirection:'row',justifyContent:'center',borderColor:'rgb(161, 153, 153)',backgroundColor:'white'}}
-                                activeOpacity={0.6}
-                                onPress={() => setQuantity(quantity+1)}
-                            >
-                                <AntDesign name='plus' size={15} color='red'/>
-                                <Text>  ADD</Text>
-                            </TouchableOpacity>
-                        :
-                        <View style={{ flexDirection: 'column',marginTop:-30, marginLeft:'auto',marginRight:20}}>
-                            <View style={{ flexDirection: 'row' }}>
-                                <TouchableOpacity onPress={() => setQuantity(quantity - 1)}>
-                                    <View style={styles.myButton}>
-                                        <AntDesign name="minus" style={styles.minusStyle} />
-                                    </View>
-                                </TouchableOpacity>
+                        {
+                            availability === 'yes' ?
+                                <View>
 
-                                <Text style={styles.text}>{quantity} </Text>
-                                <TouchableOpacity onPress={() => setQuantity(quantity + 1)}>
-                                    <View style={styles.myButton}>
-                                        <Ionicons name="ios-add" style={styles.iconStyle} />
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                            <View>
-                                <TouchableOpacity onPress={() => { addToCart(result._id, quantity) }}>
-                                    <View style={styles.myButton1}>
-                                        <Text>ADD</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                            <Text style={styles.text1}>customizable</Text>
+                                    {quantity == 0 ?
+                                        <TouchableOpacity style={{ width: 75, height: 30, borderWidth: 1, marginLeft: 'auto', marginRight: 20, paddingVertical: 2, alignItems: 'center', borderRadius: 5, flexDirection: 'row', justifyContent: 'center', borderColor: 'rgb(161, 153, 153)', backgroundColor: 'white' }}
+                                            activeOpacity={0.6}
+                                            onPress={() => setQuantity(quantity + 1)}
+                                        >
+                                            <AntDesign name='plus' size={15} color='red' />
+                                            <Text>  ADD</Text>
+                                        </TouchableOpacity>
+                                        :
+                                        <View style={{ flexDirection: 'column', marginTop: -30, marginLeft: 'auto', marginRight: 20 }}>
+                                            <View style={{ flexDirection: 'row' }}>
+                                                <TouchableOpacity onPress={() => setQuantity(quantity - 1)}>
+                                                    <View style={styles.myButton}>
+                                                        <AntDesign name="minus" style={styles.minusStyle} />
+                                                    </View>
+                                                </TouchableOpacity>
 
-                        </View>
-                    }
+                                                <Text style={styles.text}>{quantity} </Text>
+                                                <TouchableOpacity onPress={() => setQuantity(quantity + 1)}>
+                                                    <View style={styles.myButton}>
+                                                        <Ionicons name="ios-add" style={styles.iconStyle} />
+                                                    </View>
+                                                </TouchableOpacity>
+                                            </View>
+                                            <View>
+                                                <TouchableOpacity onPress={() => { addToCart(result._id, quantity) }}>
+                                                    <View style={styles.myButton1}>
+                                                        <Text>ADD</Text>
+                                                    </View>
+                                                </TouchableOpacity>
+                                            </View>
+                                            <Text style={styles.text1}>customizable</Text>
+
+                                        </View>
+                                    }
+                                </View>
+
+                                : null
+
+                        }
                     </View>
                 </View>
             </View>
@@ -91,7 +101,7 @@ const styles = StyleSheet.create({
         height: 70,
         borderRadius: 7,
         marginTop: 5,
-        marginLeft:10
+        marginLeft: 10,
 
     },
     container: {
@@ -99,7 +109,8 @@ const styles = StyleSheet.create({
         padding: 10,
         borderBottomWidth: 0.2,
         borderBottomColor: 'gray',
-        backgroundColor:'rgb(250,250,250)'
+        backgroundColor: 'rgb(250,250,250)',
+        // color: 'gray'
     },
     name: {
         paddingTop: 10,

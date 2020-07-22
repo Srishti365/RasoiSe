@@ -17,6 +17,19 @@ Cart = models.cart;
 
 const options = require('../../location_creds');
 
+//--------------------------find time---------
+function secondsToHms(d) {
+    d = Number(d);
+    var h = Math.floor(d / 3600);
+    var m = Math.floor(d % 3600 / 60);
+
+    var hDisplay = h > 0 ? h + (h == 1 ? " hr, " : " hrs, ") : "";
+    var mDisplay = m > 0 ? m + (m == 1 ? " min " : " mins ") : "";
+    return hDisplay + mDisplay;
+}
+
+//---------------------------------------------
+
 //view pending deliveries (confirmed by chef, yet not picked up)
 router.route("/viewpending")
     .get(async (req, res, next) => {
@@ -94,7 +107,12 @@ router.route("/viewroute")
                     axios.get('http://router.project-osrm.org/route/v1/driving/' + coords + '?geometries=polyline&overview=full')
                         .then(response => {
                             // res.send({ overview: response.data, startlat: startlat, startlon: startlon });
-                            res.send({ "route": response.data.routes[0].geometry, "exec_loc": [exe_lat, exe_long], "pickup_loc": [pick_lat, pick_long], "dest_loc": [dest_lat, dest_long] })
+
+                            time_taken = secondsToHms(response.data.routes[0].duration);
+                            distance = ((response.data.routes[0].distance) / 1000).toFixed(1) + " km"
+
+
+                            res.send({ "route": response.data.routes[0].geometry, "exec_loc": [exe_lat, exe_long], "pickup_loc": [pick_lat, pick_long], "dest_loc": [dest_lat, dest_long], "time_taken": time_taken, "distance": distance, "exeadd": req.user.address, "chefadd": data.chef.location, "destadd": data.delivery_add })
 
                         })
                         .catch(error => {
@@ -150,6 +168,26 @@ router.route("/viewdelivered")
             next(error);
         }
     })
+
+
+
+//trial func
+router.route("/time")
+    .get(async (req, res, next) => {
+        try {
+
+            d = 663.1
+
+
+            timec = secondsToHms(d)
+            res.send(timec)
+
+        } catch (error) {
+            next(error);
+        }
+
+    })
+
 
 
 module.exports = router;
