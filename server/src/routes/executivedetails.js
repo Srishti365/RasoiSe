@@ -35,7 +35,7 @@ router.route("/viewpending")
     .get(async (req, res, next) => {
         try {
 
-            await Cart.find({ executive: req.user._id, isOrdered: true, confirmedByChef: true, isPickedUp: false }).populate({ path: 'chef', model: Chef }).populate({ path: 'user', model: User }).then(async function (data) {
+            await Cart.find({ executive: req.user._id, isOrdered: true, confirmedByChef: true, isDelivered: false }).populate({ path: 'chef', model: Chef }).populate({ path: 'user', model: User }).then(async function (data) {
                 res.send({ orders: data })
             })
 

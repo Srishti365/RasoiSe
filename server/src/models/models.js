@@ -178,13 +178,28 @@ var ratingSchema = new Schema({
     }
 });
 
+var reviewSchema = new Schema({
+    chef: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'chef'
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    review: {
+        "type": String,
+    }
+})
+
 
 
 const OrderItem = mongoose.model("orderItem", orderItemSchema);
 const Cart = mongoose.model("cart", cartSchema);
 const Rating = mongoose.model("rating", ratingSchema)
+const Review = mongoose.model("review", reviewSchema)
 
-module.exports = { chef: Chef, menu: Menu, orderItem: OrderItem, cart: Cart, payment: Payment, rating: Rating };
+module.exports = { chef: Chef, menu: Menu, orderItem: OrderItem, cart: Cart, payment: Payment, rating: Rating, review: Review };
 
 
 module.exports.hashPassword = async function (password) {
