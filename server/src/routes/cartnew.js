@@ -153,6 +153,39 @@ router.route("/view")
         }
     })
 
+
+//change quantity of an order item in cart
+router.route("/editcart")
+    .post(async (req, res, next) => {
+        try {
+            // req.body={cartid:id of the cart item, orderitemid:id of the particular order item}
+            await req.body;
+            await OrderItem.findOneAndUpdate(
+                { _id: req.body.orderitemid },
+                { $set: { quantity: parseInt(req.body.quantity) } },
+                async function (err, record) {
+                    if (err) throw err;
+                    record.save;
+                }
+            );
+
+            await Cart.update(
+                { _id: req.body.cartid, "orderItems._id": req.body.orderitemid },
+                { $set: { "orderItems.$.quantity": parseInt(req.body.quantity) } },
+                async function (err, record) {
+                    if (err) throw err;
+                    record.save;
+                }
+            );
+
+            res.send("order edited")
+
+        } catch (error) {
+            next(error);
+        }
+    })
+
+
 //confirm payment
 router.route("/checkout")
     .post(async (req, res, next) => {
