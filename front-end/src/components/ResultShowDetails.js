@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import { Header } from 'react-native-elements';
 import { Ionicons, FontAwesome, AntDesign } from '@expo/vector-icons';
 import { string } from 'prop-types';
 import trackerApi from '../api/tracker';
+import { set } from 'react-native-reanimated';
 
 
 const ResultShowDetail = ({ result, availability }) => {
     const [quantity, setQuantity] = useState(0);
     const [errMessage, setErrorMessage] = useState('');
-    const increament = 1;
 
     const addToCart = async (id, quantity) => {
         try {
@@ -29,57 +29,65 @@ const ResultShowDetail = ({ result, availability }) => {
 
     return (
         <>
-            {/* <Header
-  leftComponent={{ icon: 'menu', color: '#fff' }}
-  centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
-  rightComponent={{ icon: 'home', color: '#fff' }}
-/> */}
             <View style={styles.container}>
-
-                {/* <Text>Today's Exclusive dishes</Text> */}
                 <Image style={styles.imageStyle} source={{ uri: result.image }} />
-                <View style={{ width: 170 }}>
-                    <Text style={styles.name}>{result.name}</Text>
-                    <Text style={styles.category}>{result.category}</Text>
-                    <Text style={styles.price}>Price: <FontAwesome name="rupee" />{result.price}</Text>
-                    <Text style={styles.description}>{result.description}</Text>
-
-                </View>
-                {/* <TouchableOpacity onPress={() => console.log('working!!')}> */}
-                {
-                    availability === 'yes' ?
-                        <View style={{ flexDirection: 'column' }}>
-
-
-                            <View style={{ flexDirection: 'row' }}>
-                                <TouchableOpacity onPress={() => setQuantity(quantity - increament)}>
-                                    <View style={styles.myButton}>
-                                        <AntDesign name="minus" style={styles.minusStyle} />
-                                    </View>
-                                </TouchableOpacity>
-
-                                <Text style={styles.text}>{quantity} </Text>
-                                <TouchableOpacity onPress={() => setQuantity(quantity + increament)}>
-                                    <View style={styles.myButton}>
-                                        <Ionicons name="ios-add" style={styles.iconStyle} />
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                            <View>
-                                <TouchableOpacity onPress={() => { addToCart(result._id, quantity) }}>
-                                    <View style={styles.myButton1}>
-                                        <Text>ADD</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                            <Text style={styles.text1}>customizable</Text>
-
+                <View style={{ marginLeft: 15, marginTop: 5, flex: 1 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        {result.category == 'veg' ?
+                            <Image source={require('../../assets/veg.png')} style={{ width: 15, height: 15 }} /> : <Image source={require('../../assets/non-veg.png')} style={{ width: 15, height: 15 }} />}
+                        <Text style={{ fontSize: 15, textTransform: 'capitalize' }}>  {result.name}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                        <View>
+                            <Text style={{}}>Price: <FontAwesome name="rupee" /> {result.price}</Text>
+                            <Text style={{ width: 150, color: 'gray', textTransform: 'capitalize' }}>{result.description}</Text>
                         </View>
-                        : null
-                }
+                        {
+                            availability === 'yes' ?
+                                <View>
 
+                                    {quantity == 0 ?
+                                        <TouchableOpacity style={{ width: 75, height: 30, borderWidth: 1, marginLeft: 'auto', marginRight: 20, paddingVertical: 2, alignItems: 'center', borderRadius: 5, flexDirection: 'row', justifyContent: 'center', borderColor: 'rgb(161, 153, 153)', backgroundColor: 'white' }}
+                                            activeOpacity={0.6}
+                                            onPress={() => setQuantity(quantity + 1)}
+                                        >
+                                            <AntDesign name='plus' size={15} color='red' />
+                                            <Text>  ADD</Text>
+                                        </TouchableOpacity>
+                                        :
+                                        <View style={{ flexDirection: 'column', marginTop: -30, marginLeft: 'auto', marginRight: 20 }}>
+                                            <View style={{ flexDirection: 'row' }}>
+                                                <TouchableOpacity onPress={() => setQuantity(quantity - 1)}>
+                                                    <View style={styles.myButton}>
+                                                        <AntDesign name="minus" style={styles.minusStyle} />
+                                                    </View>
+                                                </TouchableOpacity>
 
-                {/* </TouchableOpacity> */}
+                                                <Text style={styles.text}>{quantity} </Text>
+                                                <TouchableOpacity onPress={() => setQuantity(quantity + 1)}>
+                                                    <View style={styles.myButton}>
+                                                        <Ionicons name="ios-add" style={styles.iconStyle} />
+                                                    </View>
+                                                </TouchableOpacity>
+                                            </View>
+                                            <View>
+                                                <TouchableOpacity onPress={() => { addToCart(result._id, quantity) }}>
+                                                    <View style={styles.myButton1}>
+                                                        <Text>ADD</Text>
+                                                    </View>
+                                                </TouchableOpacity>
+                                            </View>
+                                            <Text style={styles.text1}>customizable</Text>
+
+                                        </View>
+                                    }
+                                </View>
+
+                                : null
+
+                        }
+                    </View>
+                </View>
             </View>
         </>
     );
@@ -89,16 +97,19 @@ const ResultShowDetail = ({ result, availability }) => {
 
 const styles = StyleSheet.create({
     imageStyle: {
-        width: 80,
-        height: 80,
-        borderRadius: 4,
-        marginTop: 15,
+        width: 70,
+        height: 70,
+        borderRadius: 7,
+        marginTop: 5,
+        marginLeft: 10,
+
     },
     container: {
         flexDirection: 'row',
         padding: 10,
         borderBottomWidth: 0.2,
-        borderBottomColor: 'gray'
+        borderBottomColor: 'gray',
+        backgroundColor: 'rgb(250,250,250)'
     },
     name: {
         paddingTop: 10,

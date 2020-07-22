@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TextInput, TouchableOpacity, StatusBar, ImageBackground, SafeAreaView } from 'react-native';
 import trackerApi from '../api/tracker';
 import ResultShowDetail from '../components/ResultShowDetails';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Entypo } from '@expo/vector-icons';
+import { ScrollView } from 'react-native-gesture-handler';
 // import Geocoder from 'react-native-geocoding';
 // import { Permissions, Location } from 'expo';
 // Geocoder.init("AIzaSyA4R47lkG-0zcnpIYdX4pWeJocfmTI8Ujs"); 
@@ -50,31 +51,61 @@ const ResultsShowScreen = ({ navigation }) => {
 
 
     return (
-        <View>
-            <View style={{ flexDirection: 'row' }}>
-                <Text style={styles.kitchenName}>{result.chef_details.name}'s Kitchen</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-                    <AntDesign name="shoppingcart" style={styles.cart} />
-                </TouchableOpacity>
-
-            </View>
-
-            <FlatList
-                data={result.menu}
-                keyExtractor={(result) => result._id}
-                renderItem={({ item }) => {
-                    return <View>
-                        {/* <Text style={styles.itemName}>{item.name}</Text>
-                        <Text style={styles.price}>Rs. {item.price}</Text>
-                        <Text style={styles.textDes}>Category: {item.category}</Text>
-                        <Text style={styles.textDes}>Description: {item.description}</Text> */}
-                        <ResultShowDetail result={item} availability={result.availability} />
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+            <StatusBar backgroundColor='#EA3C53' />
+            <ImageBackground source={require('../../assets/bg2.jpeg')} style={{ width: '100%' }}>
+                <SafeAreaView>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10, marginTop: 5 }}>
+                        <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Search')}>
+                            <AntDesign name='arrowleft' color='white' size={24} />
+                        </TouchableOpacity>
+                        <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 10 }} onPress={() => navigation.navigate('Cart')}>
+                            <AntDesign name='shoppingcart' color='white' size={24} />
+                        </TouchableOpacity>
                     </View>
-                }}
-            />
+                    <View style={{ marginTop: 140, marginLeft: 20, marginBottom: 50 }}>
+                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 25 }}>{result.chef_details.name}'s Kitchen</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: -5 }}>
+                            <Entypo name="location-pin" size={24} color="white" />
+                            <Text style={{ color: 'white', fontSize: 15 }}> {result.chef_details.location}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
+                            <View>
+                                <Text style={{ color: 'white', fontSize: 13, alignSelf: 'center' }}>{result.chef_details.rating}</Text>
+                                <Text style={{ color: '#cccccc', fontSize: 13 }}>351 Ratings</Text>
+                            </View>
+                            <View>
+                                <Text style={{ color: 'white', fontSize: 13, alignSelf: 'center' }}>137k</Text>
+                                <Text style={{ color: '#cccccc', fontSize: 13 }}>Bookmarks</Text>
+                            </View>
+                            <View>
+                                <Text style={{ color: 'white', fontSize: 13, alignSelf: 'center' }}>347</Text>
+                                <Text style={{ color: '#cccccc', fontSize: 13 }}>Photos</Text>
+
+                            </View>
+                        </View>
+                    </View>
+                </SafeAreaView>
+            </ImageBackground>
+            <ScrollView showsVerticalScrollIndicator={false} style={{ borderTopLeftRadius: 30, borderTopRightRadius: 30, marginTop: -30, backgroundColor: 'white', elevation: 25 }}>
+                <View style={{ marginTop: 30, backgroundColor: 'rgb(250,250,250)' }}>
+
+                </View>
+                <FlatList
+                    data={result.menu}
+                    keyExtractor={(result) => result._id}
+                    renderItem={({ item }) => {
+                        return <View>
+                            <ResultShowDetail result={item} availability={result.availability} />
+                        </View>
+                    }}
+                />
+            </ScrollView>
         </View>
     );
 };
+
+
 
 const styles = StyleSheet.create({
     kitchenName: {
