@@ -124,7 +124,12 @@ const switchNavigator = createSwitchNavigator({
   mainflow: createDrawerNavigator({
     searchflow: createStackNavigator({
       Search: SearchScreen,
-      ResultsShow: ResultsShowScreen,
+      ResultsShow:{
+        screen:ResultsShowScreen,
+        navigationOptions:{
+          headerShown:false
+        }
+      },
       Cart: CartScreen,
       TipsyStripe: TipsyStripeScreen,
       PaymentComplete: PaymentCompleteScreen

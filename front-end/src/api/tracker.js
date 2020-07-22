@@ -7,7 +7,7 @@ const instance = axios.create({
     baseURL: 'http://391d092a29c9.ngrok.io'
 =======
     baseURL: 'http://edb75c3ea0f4.ngrok.io'
->>>>>>> a925b036bdfdcba4b406a54ca8f142b7346181dc
+>>>>>>> b7749b63e345028dbf4dd360b25c9e30402a95ef
 
 });
 
