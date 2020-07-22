@@ -4,6 +4,7 @@ import trackerApi from '../api/tracker';
 import ResultShowDetail from '../components/ResultShowDetails';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
+import Ratings from '../components/StarRating';
 // import Geocoder from 'react-native-geocoding';
 // import { Permissions, Location } from 'expo';
 // Geocoder.init("AIzaSyA4R47lkG-0zcnpIYdX4pWeJocfmTI8Ujs"); 
@@ -63,35 +64,40 @@ const ResultsShowScreen = ({ navigation }) => {
                             <AntDesign name='shoppingcart' color='white' size={24} />
                         </TouchableOpacity>
                     </View>
-                    <View style={{ marginTop: 40, marginLeft: 20, marginBottom: 50 }}>
+                    <View style={{ marginTop: 30, marginLeft: 20, marginBottom: 50 }}>
                         <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 25 }}>{result.chef_details.name}'s Kitchen</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: -5 }}>
                             <Entypo name="location-pin" size={24} color="white" />
                             <Text style={{ color: 'white', fontSize: 15 }}> {result.chef_details.location}</Text>
                         </View>
-                        <View style={{ marginTop: 20, marginBottom: 10 }}>
+                        <View style={{ marginTop: 20, marginBottom: 20 }}>
                             <FlatList
                                 data={result.slots}
                                 keyExtractor={(result) => result._id}
                                 renderItem={({ item }) => {
                                     return <View>
-                                        <Text style={{ color: 'white' }}>{item}</Text>
+                                        <Text style={{ color: 'white', fontSize: 12, marginBottom: 2 }}>{item}</Text>
                                     </View>
                                 }}
                             />
                         </View>
+                        <View >
+
+                            <Ratings />
+
+                        </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
                             <View>
-                                <Text style={{ color: 'white', fontSize: 13, alignSelf: 'center' }}>{result.chef_details.rating}</Text>
-                                <Text style={{ color: '#cccccc', fontSize: 13 }}>351 Ratings</Text>
+                                <Text style={{ color: 'white', fontSize: 14, alignSelf: 'center' }}>{result.chef_details.rating}</Text>
+                                <Text style={{ color: '#cccccc', fontSize: 14 }}>351 Ratings</Text>
                             </View>
                             <View>
-                                <Text style={{ color: 'white', fontSize: 13, alignSelf: 'center' }}>137k</Text>
-                                <Text style={{ color: '#cccccc', fontSize: 13 }}>Bookmarks</Text>
+                                <Text style={{ color: 'white', fontSize: 14, alignSelf: 'center' }}>137k</Text>
+                                <Text style={{ color: '#cccccc', fontSize: 14 }}>Bookmarks</Text>
                             </View>
                             <View>
-                                <Text style={{ color: 'white', fontSize: 13, alignSelf: 'center' }}>347</Text>
-                                <Text style={{ color: '#cccccc', fontSize: 13 }}>Photos</Text>
+                                <Text style={{ color: 'white', fontSize: 14, alignSelf: 'center' }}>347</Text>
+                                <Text style={{ color: '#cccccc', fontSize: 14 }}>Photos</Text>
 
                             </View>
                         </View>
