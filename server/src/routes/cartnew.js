@@ -271,4 +271,20 @@ router.route("/remove")
         }
     })
 
+
+//view all orders
+router.route("/viewallorders")
+    .get(async (req, res, next) => {
+        try {
+            //req.body={id:chefs id}
+            await Cart.find({ user: req.user._id, isOrdered: true }).populate({ path: 'chef', model: Chef }).then(async function (data) {
+                res.send({ orders: data })
+            })
+
+        } catch (error) {
+            next(error);
+        }
+
+    })
+
 module.exports = router;

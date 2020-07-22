@@ -73,16 +73,34 @@ router.route("/")
         }
     });
 
+//view all menu items
+// router.route("/viewallmenu")
+//     .post(async (req, res, next) => {
+//         try {
+//             //req.body={id:chefs id}
+//             await Review.find({ chef: req.body.id }).populate({ path: 'user', model: User }).then(async function (data) {
+//                 res.send({ reviews: data })
+//             })
+
+//         } catch (error) {
+//             next(error);
+//         }
+
+//     })
+
 router.route("/search/:query")
     .post(async (req, res, next) => {
         try {
             // ---------------------------------------------------
             console.log(req.params.query)
+            console.log("search", req.body)
+            lat = 25.637979
+            long = 85.0985654
             var geocoder = NodeGeocoder(options);
-            geocoder.geocode(req.body.location).then(async function (loc) {
+            geocoder.geocode(req.body.address).then(async function (loc) {
 
                 if (req.body.location == "current") {
-
+                    console.log("here")
                     lat = req.body.lat;
                     long = req.body.long;
                 }
@@ -133,9 +151,9 @@ router.route("/search/:query")
 
                         chefs = sortObjectsArray(chefs, 'rating', 'desc');
                         // console.log(chefs)
-                        geocoder.reverse({ lat: req.body.lat, lon: req.body.long })
+                        geocoder.reverse({ lat: lat, lon: long })
                             .then((data) => {
-                                console.log("chefs", chefs)
+                                // console.log("chefs", chefs)
                                 res.send({ chefs: chefs, location: data[0].formattedAddress })
                             })
 
