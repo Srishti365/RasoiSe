@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Dimensions, KeyboardAvoidingView, ScrollView, TextInput } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Dimensions, KeyboardAvoidingView, ScrollView, TextInput, FlatList } from 'react-native';
 import Dialog, { DialogContent, SlideAnimation, DialogTitle, DialogButton, DialogFooter } from 'react-native-popup-dialog';
 const { width, height } = Dimensions.get('window');
 import { AntDesign } from '@expo/vector-icons';
 import StarRating from 'react-native-star-rating';
+import trackerApi from '../api/tracker';
 
 
 const RateReviewScreen = ({ navigation }) => {
@@ -12,20 +13,26 @@ const RateReviewScreen = ({ navigation }) => {
     const [reviewVisible, setReviewVisible] = useState(false);
     const [chefid, setChefid] = useState('');
     const [chefname, setChefname] = useState('');
-    // const [result, setResult] = useState
+    const [allReviews, setAllReviews] = useState([]);
+    const [stars, setStars] = useState(0);
+    const [comments, setComments] = useState('');
 
     const toggle = () => {
         setRateVisible(false);
         setReviewVisible(false);
     }
 
-    const rate = async () => {
+    const viewAllReviews = async () => {
         try {
             const chefId = navigation.getParam('chefId');
             const chefName = navigation.getParam('chefName');
             // console.log('inside rate review', chefId);
             setChefid(chefId);
             setChefname(chefName);
+
+            const response = await trackerApi.post('/home/viewallreviews', { id: chefId });
+            // console.log(response.data);
+            setAllReviews(response.data.reviews);
 
         }
 
@@ -35,18 +42,69 @@ const RateReviewScreen = ({ navigation }) => {
         }
     }
 
+    const viewRating = async () => {
+        try {
+            const response = await trackerApi.post('/home/viewyourrating', { id: chefid });
+            console.log(response.data);
+            setStars(response.data.rating);
+            setRateVisible(true);
+        }
+        catch (err) {
+            console.log(err);
+            setErr('Something went wrong');
+        }
+    }
+
+    const handleRatingSubmit = async () => {
+        try {
+            const response = await trackerApi.post('/home/changerating', { id: chefid, rate: stars });
+            console.log(response.status);
+            setRateVisible(false);
+        }
+        catch (err) {
+            console.log(err);
+            setErr('Something went wrong');
+        }
+    }
+
+    const viewReview = async () => {
+        try {
+            const response = await trackerApi.post('/home/viewyourreview', { id: chefid });
+            // console.log(response.data);
+            setComments(response.data.rev);
+            setReviewVisible(true);
+        }
+        catch (err) {
+            console.log(err);
+            setErr('Something went wrong');
+        }
+    }
+
+    const handleReviewSubmit = async () => {
+        try {
+            const response = await trackerApi.post('/home/reviewchef', { id: chefid, review: comments });
+            console.log(response.status);
+            viewAllReviews();
+            setReviewVisible(false);
+        }
+        catch (err) {
+            console.log(err);
+            setErr('Something went wrong');
+        }
+    }
+
     useEffect(() => {
-        rate();
+        viewAllReviews();
     }, [])
 
 
     return (
         <View>
             <View style={{ margin: 20 }}>
-                <TouchableOpacity style={{ marginBottom: 30 }} onPress={() => setRateVisible(true)}>
+                <TouchableOpacity style={{ marginBottom: 30 }} onPress={() => viewRating()}>
                     <Text style={{ fontSize: 20 }}>Rate</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => setReviewVisible(true)}>
+                <TouchableOpacity onPress={() => viewReview()}>
                     <Text style={{ fontSize: 20 }}>Review</Text>
                 </TouchableOpacity>
             </View>
@@ -79,9 +137,9 @@ const RateReviewScreen = ({ navigation }) => {
                                 <TextInput
                                     style={styles.input}
                                     placeholder={'Write your review here'}
-
+                                    value={comments}
                                     multiline={true}
-
+                                    onChangeText={text => setComments(text)}
                                     underlineColorAndroid='transparent'
                                     maxLength={100}
                                 />
@@ -90,7 +148,7 @@ const RateReviewScreen = ({ navigation }) => {
                             <TouchableOpacity
                                 style={{ width: 150, height: 50, borderRadius: 5, marginTop: 20, justifyContent: 'center', alignSelf: 'center', alignItems: 'center', backgroundColor: 'gray' }}
                                 activeOpacity={0.8}
-
+                                onPress={() => handleReviewSubmit()}
                             >
                                 <Text style={{ color: 'white', fontWeight: '900', fontSize: 17 }}>Submit</Text>
                             </TouchableOpacity>
@@ -123,10 +181,10 @@ const RateReviewScreen = ({ navigation }) => {
                             <StarRating
                                 disabled={false}
                                 maxStars={5}
-                                rating={3.5}
+                                rating={stars}
                                 fullStarColor={'#ffcc00'}
                                 emptyStarColor={'#ffcc00'}
-
+                                selectedStar={(rating) => setStars(rating)}
                                 starSize={40}
                                 containerStyle={{ width: 80, marginVertical: 20, marginHorizontal: 40 }}
                             />
@@ -134,7 +192,7 @@ const RateReviewScreen = ({ navigation }) => {
                             <TouchableOpacity
                                 style={{ width: 150, height: 50, borderRadius: 5, marginTop: 20, justifyContent: 'center', alignSelf: 'center', alignItems: 'center', backgroundColor: 'gray' }}
                                 activeOpacity={0.8}
-
+                                onPress={() => handleRatingSubmit()}
                             >
                                 <Text style={{ color: 'white', fontWeight: '900', fontSize: 17 }}>Submit</Text>
                             </TouchableOpacity>
@@ -142,7 +200,23 @@ const RateReviewScreen = ({ navigation }) => {
                     </KeyboardAvoidingView>
                 </DialogContent>
             </Dialog>
-
+            <View style={{ margin: 15 }}>
+                <ScrollView showsVerticalScrollIndicator={false} >
+                    <Text style={{ fontSize: 25, fontWeight: 'bold' }} >All Reviews</Text>
+                    <FlatList
+                        showsVerticalScrollIndicator
+                        data={allReviews}
+                        keyExtractor={(allReviews) => allReviews._id}
+                        renderItem={({ item }) => {
+                            return (
+                                <View style={{ marginVertical: 30 }}>
+                                    <Text style={{ fontSize: 20 }}>"{item.review}" - {item.user.name}</Text>
+                                </View>
+                            )
+                        }}
+                    />
+                </ScrollView>
+            </View>
         </View>
     )
 }

@@ -5,6 +5,7 @@ import ResultShowDetail from '../components/ResultShowDetails';
 import { AntDesign, Entypo, Feather } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import StarRating from 'react-native-star-rating';
+import { NavigationEvents } from 'react-navigation';
 // import Geocoder from 'react-native-geocoding';
 // import { Permissions, Location } from 'expo';
 // Geocoder.init("AIzaSyA4R47lkG-0zcnpIYdX4pWeJocfmTI8Ujs"); 
@@ -53,9 +54,11 @@ const ResultsShowScreen = ({ navigation }) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
+            <NavigationEvents onDidFocus={() => getResult(id)} />
             <StatusBar backgroundColor='#EA3C53' />
             <ImageBackground source={require('../../assets/bg2.jpeg')} style={{ width: '100%' }}>
                 <SafeAreaView style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                    <NavigationEvents onDidFocus={() => getResult(id)} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10, marginTop: 5 }}>
                         <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Search')}>
                             <AntDesign name='arrowleft' color='white' size={24} />
@@ -84,7 +87,7 @@ const ResultsShowScreen = ({ navigation }) => {
                                 }}
                             />
                         </View>
-                        <View >
+                        {/* <View >
 
                             <StarRating
                                 disabled={true}
@@ -96,10 +99,19 @@ const ResultsShowScreen = ({ navigation }) => {
                                 containerStyle={{ width: 30, marginBottom: 10 }}
                             />
 
-                        </View>
+                        </View> */}
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
                             <View>
-                                <Text style={{ color: 'white', fontSize: 14, alignSelf: 'center' }}>{result.chef_details.rating}</Text>
+                                {/* <Text style={{ color: 'white', fontSize: 14, alignSelf: 'center' }}>{result.chef_details.rating}</Text> */}
+                                <StarRating
+                                    disabled={true}
+                                    maxStars={5}
+                                    rating={result.chef_details.rating}
+                                    fullStarColor={'#fff'}
+                                    emptyStarColor={'#fff'}
+                                    starSize={16}
+                                    containerStyle={{ width: 18, marginBottom: 3 }}
+                                />
                                 <Text style={{ color: '#cccccc', fontSize: 14 }}>351 Ratings</Text>
                             </View>
                             <View>
