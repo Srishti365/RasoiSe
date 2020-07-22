@@ -6,14 +6,14 @@ import { string } from 'prop-types';
 import trackerApi from '../api/tracker';
 
 
-const ResultShowDetail = ({ result }) => {
+const ResultShowDetail = ({ result, availability }) => {
     const [quantity, setQuantity] = useState(0);
     const [errMessage, setErrorMessage] = useState('');
     const increament = 1;
 
     const addToCart = async (id, quantity) => {
         try {
-            console.log(id, quantity);
+            // console.log(id, quantity);
             const response = await trackerApi.post('/cart/add', { menuitemid: id, quantity: quantity, chefid: result.chef });
             // console.log(response.data.chefs);
             console.log(response.data);
@@ -24,7 +24,8 @@ const ResultShowDetail = ({ result }) => {
         }
     }
 
-    console.log(result)
+    // console.log(result)
+    console.log('avail', availability);
 
     return (
         <>
@@ -45,33 +46,37 @@ const ResultShowDetail = ({ result }) => {
 
                 </View>
                 {/* <TouchableOpacity onPress={() => console.log('working!!')}> */}
-                <View style={{ flexDirection: 'column' }}>
+                {
+                    availability === 'yes' ?
+                        <View style={{ flexDirection: 'column' }}>
 
 
-                    <View style={{ flexDirection: 'row' }}>
-                        <TouchableOpacity onPress={() => setQuantity(quantity - increament)}>
-                            <View style={styles.myButton}>
-                                <AntDesign name="minus" style={styles.minusStyle} />
+                            <View style={{ flexDirection: 'row' }}>
+                                <TouchableOpacity onPress={() => setQuantity(quantity - increament)}>
+                                    <View style={styles.myButton}>
+                                        <AntDesign name="minus" style={styles.minusStyle} />
+                                    </View>
+                                </TouchableOpacity>
+
+                                <Text style={styles.text}>{quantity} </Text>
+                                <TouchableOpacity onPress={() => setQuantity(quantity + increament)}>
+                                    <View style={styles.myButton}>
+                                        <Ionicons name="ios-add" style={styles.iconStyle} />
+                                    </View>
+                                </TouchableOpacity>
                             </View>
-                        </TouchableOpacity>
-
-                        <Text style={styles.text}>{quantity} </Text>
-                        <TouchableOpacity onPress={() => setQuantity(quantity + increament)}>
-                            <View style={styles.myButton}>
-                                <Ionicons name="ios-add" style={styles.iconStyle} />
+                            <View>
+                                <TouchableOpacity onPress={() => { addToCart(result._id, quantity) }}>
+                                    <View style={styles.myButton1}>
+                                        <Text>ADD</Text>
+                                    </View>
+                                </TouchableOpacity>
                             </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View>
-                        <TouchableOpacity onPress={() => { addToCart(result._id, quantity) }}>
-                            <View style={styles.myButton1}>
-                                <Text>ADD</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <Text style={styles.text1}>customizable</Text>
+                            <Text style={styles.text1}>customizable</Text>
 
-                </View>
+                        </View>
+                        : null
+                }
 
 
                 {/* </TouchableOpacity> */}

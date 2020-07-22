@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TextInput,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TextInput, TouchableOpacity } from 'react-native';
 import trackerApi from '../api/tracker';
 import ResultShowDetail from '../components/ResultShowDetails';
 import { AntDesign } from '@expo/vector-icons';
@@ -11,22 +11,23 @@ import { AntDesign } from '@expo/vector-icons';
 const ResultsShowScreen = ({ navigation }) => {
     const [result, setResult] = useState(null);
     const id = navigation.getParam('id');
-   
+
 
 
 
     const getResult = async (id) => {
-        console.log('inside get result');
-        console.log(id);
+        // console.log('inside get result');
+        // console.log(id);
         const response = await trackerApi.get(`/home/chef/${id}`);
-        console.log(response.data);
+        // console.log(response.data);
         setResult(response.data);
     };
 
     useEffect(() => {
-        console.log('inside use effect', id);
+        // console.log('inside use effect', id);
         getResult(id);
     }, []);
+
 
     if (!result) {
         return null;
@@ -45,19 +46,19 @@ const ResultsShowScreen = ({ navigation }) => {
     //     }
     //   };
 
-   
+
 
 
     return (
         <View>
-            <View style={{flexDirection:'row'}}>
-            <Text style={styles.kitchenName}>{result.chef_details.name}'s Kitchen</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-            <AntDesign name="shoppingcart" style={styles.cart}/>
-            </TouchableOpacity>
-            
+            <View style={{ flexDirection: 'row' }}>
+                <Text style={styles.kitchenName}>{result.chef_details.name}'s Kitchen</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
+                    <AntDesign name="shoppingcart" style={styles.cart} />
+                </TouchableOpacity>
+
             </View>
-           
+
             <FlatList
                 data={result.menu}
                 keyExtractor={(result) => result._id}
@@ -67,7 +68,7 @@ const ResultsShowScreen = ({ navigation }) => {
                         <Text style={styles.price}>Rs. {item.price}</Text>
                         <Text style={styles.textDes}>Category: {item.category}</Text>
                         <Text style={styles.textDes}>Description: {item.description}</Text> */}
-                        <ResultShowDetail result={item} />
+                        <ResultShowDetail result={item} availability={result.availability} />
                     </View>
                 }}
             />
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         marginTop: 10,
         marginHorizontal: 10,
-        textTransform:"capitalize"
+        textTransform: "capitalize"
     },
     backgroundStyle: {
         backgroundColor: 'rgb(230,230,230)',
@@ -101,10 +102,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginHorizontal: 15
     },
-    cart:{
-        fontSize:25,
-        marginTop:20,
-        marginLeft:40
+    cart: {
+        fontSize: 25,
+        marginTop: 20,
+        marginLeft: 40
     }
 });
 
