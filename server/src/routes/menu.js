@@ -20,6 +20,23 @@ const options = require('../../location_creds');
 const cons = require("consolidate");
 
 
+//-----------------------calculating current time---------------------
+function getTime() {
+    var currentTime = new Date();
+    var currentOffset = currentTime.getTimezoneOffset();
+    var ISTOffset = 330;   // IST offset UTC +5:30 
+    var ISTTime = new Date(currentTime.getTime() + (ISTOffset + currentOffset) * 60000);
+    var hoursIST = ISTTime.getHours();
+    var minutesIST = ISTTime.getMinutes();
+    var secondsIST = ISTTime.getSeconds()
+    minutesIST = minutesIST < 10 ? '0' + minutesIST : minutesIST;
+    hoursIST = hoursIST < 10 ? '0' + hoursIST : hoursIST;
+    secondsIST = secondsIST < 10 ? '0' + secondsIST : secondsIST;
+    var time = hoursIST + ":" + minutesIST + ":" + secondsIST;
+    return time;
+}
+//-------------------------------------------------------------------
+
 
 router.route("/")
     .get((req, res, next) => {
@@ -124,6 +141,7 @@ router.route("/dish/")
 
     })
 
+//add time slot code here
 //view all dishes by a particular chef and chef details
 router.route("/chef/:query")
     .get(async (req, res, next) => {
@@ -160,6 +178,30 @@ router.route("/chef/:query")
 //         });
 //     })
 
+router.route("/time")
+    .get(async (req, res, next) => {
+        try {
+            start = "05:10:10";
+            end = "10:20:45";
+
+            // var today = new Date();
+            // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+            time = getTime()
+            if (time > start && time < end) {
+                console.log("yes")
+            }
+            else {
+                console.log("no")
+            }
+
+            res.send({ "current time": time })
+
+        } catch (error) {
+            next(error);
+        }
+
+    })
 
 
 

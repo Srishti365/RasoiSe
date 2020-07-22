@@ -172,7 +172,13 @@ router.route("/confirmorder")
 
                         // console.log("executive has been assigned")
                         // console.log(exes)
-                        data.executive = exes[0]._id
+                        if (exes.length == 0) {
+                            data.executive = "5f1564ab2f37cf1a43446518"
+                        }
+                        else {
+                            data.executive = exes[0]._id
+                        }
+
                     });
 
 
