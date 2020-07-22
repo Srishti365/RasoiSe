@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import MapView, { Polyline, Marker } from 'react-native-maps'
 const polyline = require('@mapbox/polyline');
 
-const Map = ({ data, pickup_loc, dest_loc, exec_loc }) => {
+const Map = ({ data, pickup_loc, dest_loc, exec_loc, time, dist }) => {
 
     let points = polyline.decode(data)
     let coords = points.map((point, index) => ({ latitude: point[0], longitude: point[1] }))
@@ -30,8 +30,11 @@ const Map = ({ data, pickup_loc, dest_loc, exec_loc }) => {
                 <Marker coordinate={{ latitude: dest_loc[0], longitude: dest_loc[1] }} />
                 <Marker coordinate={{ latitude: pickup_loc[0], longitude: pickup_loc[1] }} />
 
-
             </MapView>
+            <View style={styles.distanceContainer}>
+                <Text style={{color:'white',fontSize:17}}>Distance : {dist} </Text>
+                <Text style={{color:'white',fontSize:17}}>Estimated time : {time}</Text>
+            </View>
 
         </View>
     )
@@ -48,6 +51,19 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
     },
+    distanceContainer: {
+        marginVertical: 20,
+        backgroundColor: "transparent",
+        position:'absolute',
+        bottom:0,
+        width:'80%',
+        height:60,
+        justifyContent:'center',
+        alignItems:'center',
+        borderRadius:10,
+        backgroundColor:'rgb(255, 119, 0)',
+        
+    }
 })
 
 export default Map;
