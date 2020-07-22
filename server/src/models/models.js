@@ -163,13 +163,28 @@ const cartSchema = new Schema({
 })
 
 
+var ratingSchema = new Schema({
+    chef: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'chef'
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    rating: {
+        "type": Number,
+        "default": 3
+    }
+});
 
 
 
 const OrderItem = mongoose.model("orderItem", orderItemSchema);
 const Cart = mongoose.model("cart", cartSchema);
+const Rating = mongoose.model("rating", ratingSchema)
 
-module.exports = { chef: Chef, menu: Menu, orderItem: OrderItem, cart: Cart, payment: Payment };
+module.exports = { chef: Chef, menu: Menu, orderItem: OrderItem, cart: Cart, payment: Payment, rating: Rating };
 
 
 module.exports.hashPassword = async function (password) {

@@ -15,6 +15,7 @@ const models = require('../models/models')
 
 Chef = models.chef;
 Menu = models.menu;
+Rating = models.rating;
 
 const options = require('../../location_creds');
 const cons = require("consolidate");
@@ -199,6 +200,44 @@ router.route("/chef/:query")
     })
 
 
+//change average rating when a user rates
+router.route("/changerating")
+    .post(async (req, res, next) => {
+        try {
+            // req.body={id:chef's id,rating:user's entered rating}
+
+            await Chef.findById(req.body.id).then(async function (data) {
+                await Rating.find({ chef: req.body.id }).then(async function (rates) {
+
+                    Rating.aggregate(
+                        [
+                            {
+                                "$match": {
+                                    chef: req.body.id
+                                }
+                            },
+                        ],
+                        function (err, results) {
+                            console.log(results);
+                            res.send({ chef: data, rates: rates, results: results })
+                        });
+
+
+
+                })
+
+
+
+            })
+
+
+        } catch (error) {
+            next(error);
+        }
+    })
+
+
+//---------------trial func-------------
 router.route("/time")
     .get(async (req, res, next) => {
         try {
