@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TextInput, TouchableOpacity, StatusBar, ImageBackground, SafeAreaView } from 'react-native';
 import trackerApi from '../api/tracker';
 import ResultShowDetail from '../components/ResultShowDetails';
-import { AntDesign, Entypo } from '@expo/vector-icons';
+import { AntDesign, Entypo, Feather } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
-import Ratings from '../components/StarRating';
+import StarRating from 'react-native-star-rating';
 // import Geocoder from 'react-native-geocoding';
 // import { Permissions, Location } from 'expo';
 // Geocoder.init("AIzaSyA4R47lkG-0zcnpIYdX4pWeJocfmTI8Ujs"); 
@@ -21,7 +21,7 @@ const ResultsShowScreen = ({ navigation }) => {
         // console.log('inside get result');
         // console.log(id);
         const response = await trackerApi.get(`/home/chef/${id}`);
-        // console.log(response.data);
+        console.log(response.data);
         setResult(response.data);
     };
 
@@ -60,6 +60,9 @@ const ResultsShowScreen = ({ navigation }) => {
                         <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Search')}>
                             <AntDesign name='arrowleft' color='white' size={24} />
                         </TouchableOpacity>
+                        <TouchableOpacity activeOpacity={0.8} style={{ marginLeft: 'auto', marginRight: 20 }} onPress={() => navigation.navigate('RateReview', { chefId: result.chef_details._id, chefName: result.chef_details.name })} >
+                            <Feather name='edit' color='white' size={24} />
+                        </TouchableOpacity>
                         <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 10 }} onPress={() => navigation.navigate('Cart')}>
                             <AntDesign name='shoppingcart' color='white' size={24} />
                         </TouchableOpacity>
@@ -83,7 +86,15 @@ const ResultsShowScreen = ({ navigation }) => {
                         </View>
                         <View >
 
-                            <Ratings />
+                            <StarRating
+                                disabled={true}
+                                maxStars={5}
+                                rating={result.chef_details.rating}
+                                fullStarColor={'#ffcc00'}
+                                emptyStarColor={'#ffcc00'}
+                                starSize={22}
+                                containerStyle={{ width: 30, marginBottom: 10 }}
+                            />
 
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
