@@ -15,6 +15,7 @@ const models = require('../models/models')
 
 Chef = models.chef;
 Menu = models.menu;
+Rating = models.rating;
 
 const options = require('../../location_creds');
 const cons = require("consolidate");
@@ -198,27 +199,45 @@ router.route("/chef/:query")
 
     })
 
-// router.route("/new")
-//     .get((req, res, next) => {
-//         var geocoder = NodeGeocoder(options);
-//         geocoder.geocode(req.body.location).then(function (loc) {
-//             console.log(loc)
-//             Chef.aggregate()
-//                 .near({
-//                     near: {
-//                         type: "Point",
-//                         coordinates: [loc[0].longitude, loc[0].latitude]
-//                     },
-//                     maxDistance: 300000,
-//                     spherical: true,
-//                     distanceField: "dis"
-//                 })
-//                 .then(function (exes) {
-//                     res.send(exes);
-//                 });
-//         });
-//     })
 
+//change average rating when a user rates
+router.route("/changerating")
+    .post(async (req, res, next) => {
+        try {
+            // req.body={id:chef's id,rating:user's entered rating}
+
+            await Chef.findById(req.body.id).then(async function (data) {
+                await Rating.find({ chef: req.body.id }).then(async function (rates) {
+
+                    Rating.aggregate(
+                        [
+                            {
+                                "$match": {
+                                    chef: req.body.id
+                                }
+                            },
+                        ],
+                        function (err, results) {
+                            console.log(results);
+                            res.send({ chef: data, rates: rates, results: results })
+                        });
+
+
+
+                })
+
+
+
+            })
+
+
+        } catch (error) {
+            next(error);
+        }
+    })
+
+
+//---------------trial func-------------
 router.route("/time")
     .get(async (req, res, next) => {
         try {
