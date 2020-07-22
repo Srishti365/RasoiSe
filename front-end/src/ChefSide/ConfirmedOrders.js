@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, ScrollView, FlatList } from 'react-native';
 import trackerApi from '../api/tracker';
 import { NavigationEvents } from 'react-navigation';
 import ConfirmedOrdersList from '../components/ConfirmedOrdersList';
+import { Card } from 'react-native-elements';
 
 const ConfirmedOrders = () => {
     const [err, setErr] = useState('');
@@ -13,7 +14,7 @@ const ConfirmedOrders = () => {
         try {
 
             const response = await trackerApi.get('/cook/viewconfirmed');
-            // console.log(response.data);
+            console.log('response',response.data.orders);
             setResult(response.data.orders);
 
         }
@@ -33,7 +34,7 @@ const ConfirmedOrders = () => {
     return (
         <View>
             <NavigationEvents onDidFocus={() => viewConfirmed()} />
-            <ScrollView showsVerticalScrollIndicator={false} style={{ marginHorizontal: 20 }}>
+            <ScrollView showsVerticalScrollIndicator={false} >
                 <FlatList
                     showsVerticalScrollIndicator
                     data={result}
@@ -41,18 +42,35 @@ const ConfirmedOrders = () => {
                     renderItem={({ item }) => {
                         return (
 
-                            <View style={{ marginHorizontal: 5, marginVertical: 15 }}>
-                                <Text style={{ fontSize: 18 }} >{item.executive.name} is on the way to pick up the order.</Text>
-                                <Text>Executive address: {item.executive.address}</Text>
-                                <Text>Customer name: {item.user.name}</Text>
-                                <Text>Customer contact: {item.user.phoneNo}</Text>
-                                <Text>Delivery address: {item.delivery_add}</Text>
-                                <Text>Time of order: {item.timestamp}</Text>
-
-                                <ConfirmedOrdersList orderitems={item.orderItems} />
-
-                            </View>
-
+                            <Card containerStyle={{marginHorizontal:10,borderWidth:0,elevation:5,borderRadius:5}}>
+                                <View style={{height:50,marginTop:-15,marginHorizontal:-15,borderRadius:5,marginBottom:10,backgroundColor:'#FBAF02',alignItems:'center',justifyContent:'center'}}>
+                                    <Text style={{color:'white',fontSize:17}}>{item.executive.name} is on the way for pickup</Text>
+                                </View>
+                                <View>
+                                    <Text style={{fontWeight:'bold',alignSelf:'center',fontSize:17}}>Executive details</Text>
+                                    <View style={{flexDirection:'row',borderBottomWidth:1,paddingBottom:20,borderColor:'rgb(240,240,240)',marginTop:10}}>
+                                        <View style={{width:'50%'}}>
+                                            <Text style={{fontWeight:'bold',fontSize:15}}>Executive name </Text>
+                                            <Text style={{color:'gray'}}>{item.executive.name}</Text>
+                                        </View>
+                                        <View style={{marginLeft:'auto'}}>
+                                            <Text style={{fontWeight:'bold',fontSize:15}}>Executive Address</Text>
+                                            <Text style={{color:'gray'}}>{item.executive.address}</Text>
+                                        </View>
+                                    </View>
+                                    <Text style={{fontWeight:'bold',alignSelf:'center',fontSize:17,marginTop:10}}>Customer details</Text>
+                                    <View style={{marginTop:10,flexDirection:'row',paddingBottom:10}}>
+                                        <View style={{width:'50%'}}>
+                                            <Text style={{fontWeight:'bold',fontSize:15}}>Customer email</Text>
+                                            <Text style={{color:'gray'}}>{item.user.email}</Text>
+                                        </View>
+                                        <View style={{marginLeft:'auto'}}>
+                                            <Text style={{fontWeight:'bold',fontSize:15}}>Customer Address</Text>
+                                            <Text style={{color:'gray'}}>{item.user.address}</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            </Card>
                         )
                     }}
                 />

@@ -7,38 +7,39 @@ const PendingOrders = ({ navigation }) => {
 
     const [result, setResult] = useState([])
 
-    const fetchResult = async() => {
-        try{
+    const fetchResult = async () => {
+        try {
             const response = await trackerApi.get('/execdetails/viewpending');
-            console.log('ye result h',response.data);
+            console.log('ye result h', response.data);
             setResult(response.data.orders);
-        } catch(err) {
+        } catch (err) {
             console.log(err);
         }
     }
 
-    const confirmPickup = async(id) => {
-        try{
-            const response = await trackerApi.post('/execdetails/confirmpickup',{id:id});
+    const confirmPickup = async (id) => {
+        try {
+            const response = await trackerApi.post('/execdetails/confirmpickup', { id: id });
             console.log(response);
-        } catch(err) {
+            fetchResult();
+        } catch (err) {
             console.log(err);
         }
     }
 
     useEffect(() => {
         fetchResult();
-    },[])
+    }, [])
 
-    return(
+    return (
         <View>
             <StatusBar backgroundColor='#EA3C53' />
-            <FlatList 
+            <FlatList
                 showsVerticalScrollIndicator={true}
                 data={result}
-                keyExtractor={(result) => {result._id}}
+                keyExtractor={(result) => { result._id }}
                 renderItem={({ item }) => {
-                    return(
+                    return (
                         <PendingList result={item} onPick={(id) => confirmPickup(id)} />
                     )
                 }}
