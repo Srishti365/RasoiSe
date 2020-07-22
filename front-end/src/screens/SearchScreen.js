@@ -82,8 +82,8 @@ const SearchScreen = () => {
                     </View>
                 )}
             >
-                <View style={{ backgroundColor: 'rgb(242,242,242)', height: height - 200 }}>
-                    <TriggeringView >
+                <View style={{ backgroundColor: results.length == 0 ? 'white' : 'rgb(240,240,240)'}}>
+                    <TriggeringView style={{}}>
                         {errorMessage ? <Text>{errorMessage}</Text> : null}
 
                         {results.length == 0 ?
