@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, FlatList, ScrollView, Button } from 'react-native';
 import trackerApi from '../api/tracker';
+import { NavigationEvents } from 'react-navigation';
 
-const InProcessScreen = () => {
+
+const InProcessScreen = ({ navigation }) => {
     const [err, setErr] = useState('');
     const [result, setResult] = useState([]);
 
@@ -42,6 +44,7 @@ const InProcessScreen = () => {
 
     return (
         <View>
+            <NavigationEvents onDidFocus={() => viewInprocess()} />
             <ScrollView showsVerticalScrollIndicator={false}>
                 <FlatList
                     showsVerticalScrollIndicator
@@ -51,12 +54,13 @@ const InProcessScreen = () => {
                         return (
                             <View style={{ marginHorizontal: 15, marginVertical: 15 }}>
                                 <Text>Ordered by: {item.user.name}</Text>
+
                                 <Text>Delivery address: {item.delivery_add}</Text>
                                 <Text>Customer contact: {item.user.phoneNo}</Text>
 
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 20, marginBottom: 10 }}>
                                     <View>
-                                        <Button title=' Directions ' />
+                                        <Button title=' Directions ' onPress={() => navigation.navigate('Map', { orderId: item._id })} />
                                     </View>
 
                                     <View>

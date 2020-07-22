@@ -11,6 +11,7 @@ import ProfileScreen from './src/Screens/ProfileScreen';
 import ResolveAuthScreen from './src/Screens/ResolveAuth';
 import SignoutScreen from './src/Screens/SignoutScreen';
 import InProcessScreen from './src/Screens/InProcessScreen';
+import MapScreen from './src/Screens/MapScreen';
 
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -63,7 +64,8 @@ const AppStack = createStackNavigator({
     navigationOptions: {
       headerShown: false
     }
-  }
+  },
+  Map: MapScreen,
 })
 
 const AuthStack = createSwitchNavigator({
