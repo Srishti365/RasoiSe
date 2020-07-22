@@ -32,6 +32,7 @@ import MenuShowScreen from './src/ChefSide/MenuShowscreen';
 import OrdersList from './src/ChefSide/OrdersList';
 import ConfirmedOrders from './src/ChefSide/ConfirmedOrders';
 import OrderHistoryScreen from './src/ChefSide/OrderHistory';
+import RateReviewScreen from './src/screens/RateReviewScreen';
 
 import PaymentCompleteScreen from './src/screens/PaymentCompleteScreen';
 
@@ -124,12 +125,13 @@ const switchNavigator = createSwitchNavigator({
   mainflow: createDrawerNavigator({
     searchflow: createStackNavigator({
       Search: SearchScreen,
-      ResultsShow:{
-        screen:ResultsShowScreen,
-        navigationOptions:{
-          headerShown:false
+      ResultsShow: {
+        screen: ResultsShowScreen,
+        navigationOptions: {
+          headerShown: false
         }
       },
+      RateReview: RateReviewScreen,
       Cart: CartScreen,
       TipsyStripe: TipsyStripeScreen,
       PaymentComplete: PaymentCompleteScreen
