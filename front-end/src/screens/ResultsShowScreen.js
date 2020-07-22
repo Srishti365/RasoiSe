@@ -22,7 +22,7 @@ const ResultsShowScreen = ({ navigation }) => {
         // console.log('inside get result');
         // console.log(id);
         const response = await trackerApi.get(`/home/chef/${id}`);
-        console.log(response.data);
+        console.log('chef',response.data);
         setResult(response.data);
     };
 
@@ -63,7 +63,7 @@ const ResultsShowScreen = ({ navigation }) => {
                         <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Search')}>
                             <AntDesign name='arrowleft' color='white' size={24} />
                         </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={0.8} style={{ marginLeft: 'auto', marginRight: 20 }} onPress={() => navigation.navigate('RateReview', { chefId: result.chef_details._id, chefName: result.chef_details.name })} >
+                        <TouchableOpacity activeOpacity={0.8} style={{ marginLeft: 'auto', marginRight: 20 }} onPress={() => navigation.navigate('RateReview', { chefId: result.chef_details._id, chefName: result.chef_details.name, chef_profile :result.chef_details })} >
                             <Feather name='edit' color='white' size={24} />
                         </TouchableOpacity>
                         <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 10 }} onPress={() => navigation.navigate('Cart')}>

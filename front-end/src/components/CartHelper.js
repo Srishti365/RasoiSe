@@ -3,9 +3,9 @@ import { View, FlatList, Text, StyleSheet, ScrollView, AsyncStorage } from 'reac
 import CartList from './CartList';
 import { Card } from 'react-native-elements';
 
-const CartHelper = ({ result, callback }) => {
+const CartHelper = ({ result, callback, onEdit }) => {
 
-    // console.log('cart helper',result)
+    console.log('cart helper',result)
 
     return (
         <Card containerStyle={{borderWidth:0,borderRadius:5,elevation:2,marginHorizontal:10,paddingTop:0}}>
@@ -15,7 +15,7 @@ const CartHelper = ({ result, callback }) => {
                 keyExtractor={(result) => result._id}
                 renderItem={({ item }) => {
                     return (
-                        <CartList result={item} callback={(id) => callback(id)} />
+                        <CartList result={item} callback={(id) => callback(id)} onEdit={(id,quantity) => onEdit(id,result._id,quantity)}/>
                     )
                 }}
             />

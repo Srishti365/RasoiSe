@@ -40,6 +40,12 @@ const CartScreen = ({ navigation }) => {
         }
     };
 
+    const editItem = async(orderItemId,cartId,quantity) => {
+        const response = await trackerApi.post('/cart/editcart',{orderitemid:orderItemId,quantity,cartid:cartId})
+        console.log(response.data);
+        viewCart();
+    }
+
     const RemoveItem = async (removeId) => {
         try {
 
@@ -99,7 +105,7 @@ const CartScreen = ({ navigation }) => {
                             <CartHelper result={item} callback={(id) => {
                                 RemoveItem(id);
                                 viewCart();
-                            }} />
+                            }}  onEdit={(orderItemId,cartId,quantity) => editItem(orderItemId,cartId,quantity)}/>
                         )
                     }}
                 />

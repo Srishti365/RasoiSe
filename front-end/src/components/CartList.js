@@ -4,17 +4,20 @@ import { FontAwesome, AntDesign } from '@expo/vector-icons';
 
 import trackerApi from '../api/tracker';
 
-const CartList = ({ result, callback }) => {
+const CartList = ({ result, callback, onEdit }) => {
     const [serr, setErr] = useState('')
     const [quantity,setQuantity] = useState(result.quantity)
 
-    console.log(result);
+    // console.log(result);
 
 
     const decreament = () => {
         console.log('decreament')
         if(quantity>1){
             setQuantity(quantity-1)
+        } else if(quantity == 1) {
+            console.log('hii')
+            callback(result._id)
         }
     }
 
@@ -56,7 +59,7 @@ const CartList = ({ result, callback }) => {
                     <View style={{flexDirection:'row',marginTop:20}}>
                         <TouchableOpacity style={{width:90,borderWidth:1,height:35,justifyContent:'center',alignItems:'center',borderRadius:5,borderColor:'rgb(220,220,220)',marginLeft:'auto'}}
                             activeOpacity={0.8}
-                            onPress = {() => console.log('edit')}
+                            onPress = {() => onEdit(result._id,quantity)}
                         >
                             <Text>EDIT</Text>
                         </TouchableOpacity>
