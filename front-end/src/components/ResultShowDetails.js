@@ -109,7 +109,8 @@ const styles = StyleSheet.create({
         padding: 10,
         borderBottomWidth: 0.2,
         borderBottomColor: 'gray',
-        backgroundColor: 'rgb(250,250,250)'
+        backgroundColor: 'rgb(250,250,250)',
+        // color: 'gray'
     },
     name: {
         paddingTop: 10,

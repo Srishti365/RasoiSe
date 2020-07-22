@@ -54,7 +54,7 @@ const ResultsShowScreen = ({ navigation }) => {
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
             <StatusBar backgroundColor='#EA3C53' />
             <ImageBackground source={require('../../assets/bg2.jpeg')} style={{ width: '100%' }}>
-                <SafeAreaView>
+                <SafeAreaView style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10, marginTop: 5 }}>
                         <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Search')}>
                             <AntDesign name='arrowleft' color='white' size={24} />
@@ -63,11 +63,22 @@ const ResultsShowScreen = ({ navigation }) => {
                             <AntDesign name='shoppingcart' color='white' size={24} />
                         </TouchableOpacity>
                     </View>
-                    <View style={{ marginTop: 140, marginLeft: 20, marginBottom: 50 }}>
+                    <View style={{ marginTop: 40, marginLeft: 20, marginBottom: 50 }}>
                         <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 25 }}>{result.chef_details.name}'s Kitchen</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: -5 }}>
                             <Entypo name="location-pin" size={24} color="white" />
                             <Text style={{ color: 'white', fontSize: 15 }}> {result.chef_details.location}</Text>
+                        </View>
+                        <View style={{ marginTop: 20, marginBottom: 10 }}>
+                            <FlatList
+                                data={result.slots}
+                                keyExtractor={(result) => result._id}
+                                renderItem={({ item }) => {
+                                    return <View>
+                                        <Text style={{ color: 'white' }}>{item}</Text>
+                                    </View>
+                                }}
+                            />
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
                             <View>
@@ -87,7 +98,7 @@ const ResultsShowScreen = ({ navigation }) => {
                     </View>
                 </SafeAreaView>
             </ImageBackground>
-            <ScrollView showsVerticalScrollIndicator={false} style={{ borderTopLeftRadius: 30, borderTopRightRadius: 30, marginTop: -30, backgroundColor: 'white', elevation: 25 }}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{ borderTopLeftRadius: 30, borderTopRightRadius: 30, marginTop: -30, backgroundColor: 'rgb(250,250,250)', elevation: 25 }}>
                 <View style={{ marginTop: 30, backgroundColor: 'rgb(250,250,250)' }}>
 
                 </View>
