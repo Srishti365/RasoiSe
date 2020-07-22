@@ -68,7 +68,7 @@ const OrdersList = ({ navigation }) => {
                         </View>
                         <View style={{flexDirection:'row',alignItems:'center',marginTop:5,marginLeft:-5}}>
                             <Entypo name="location-pin" size={24} color="gray" />
-                            <Text style={{color:'gray'}}> {ordersList.user.address}</Text>
+                            <Text style={{color:'gray'}}> {ordersList.delivery_add}</Text>
                         </View>
                     </View>
                     <FlatList
