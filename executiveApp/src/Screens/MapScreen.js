@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import Map from '../Components/Map';
 import trackerApi from '../api/tracker';
 
 const MapScreen = ({ navigation }) => {
     const [err, setErr] = useState('')
     const [result, setResult] = useState({});
+    const [visible,setVisible] = useState(false)
+
 
     const viewRoute = async () => {
         try {
             const id = navigation.getParam('orderId');
             const response = await trackerApi.post('/execdetails/viewroute', { id });
-            // console.log(response.data);
             setResult(response.data);
+            setVisible(true)
         }
         catch (err) {
             console.log(err);
@@ -19,19 +22,38 @@ const MapScreen = ({ navigation }) => {
         }
     }
 
+
+
     useEffect(() => {
         viewRoute();
     }, []);
 
     console.log(result);
 
+    
+
     return (
-        <View>
-            <Text>Map screen</Text>
-        </View>
+        <>
+            {visible ? 
+                <Map data={result.route} dest_loc={result.dest_loc} exec_loc={result.exec_loc} pickup_loc={result.pickup_loc}/>
+            :
+                null
+            }
+        </>
     )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    mapStyle: {
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+    },
+})
 
 export default MapScreen;

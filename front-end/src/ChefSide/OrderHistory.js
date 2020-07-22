@@ -67,20 +67,6 @@ const OrderHistoryScreen = () => {
                                     </View>
                                 </View>
                             </View>
-                            // <View style={{ marginHorizontal: 5, marginVertical: 15 }}>
-                            //     <Text>OrderID: {item._id}</Text>
-                            //     <Text>Customer name: {item.user.name}</Text>
-                            //     <Text>Customer contact: {item.user.phoneNo}</Text>
-                            //     <Text>Delivery address: {item.delivery_add}</Text>
-                            //     <Text>Picked up by: {item.executive.name}</Text>
-                            //     <Text>Executive address: {item.executive.address}</Text>
-
-                            //     <Text>Time of order: {item.timestamp}</Text>
-
-
-
-                            // </View>
-
                         )
                     }}
                 />
