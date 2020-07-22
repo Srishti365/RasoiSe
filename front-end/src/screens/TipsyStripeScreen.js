@@ -17,16 +17,19 @@ class TipsyStripeScreen extends PureComponent {
         loading: false,
         token: null,
         idArr: [],
-        totalprice: 0
+        totalprice: 0,
+        address: ''
     }
 
     componentDidMount() {
         const { params } = this.props.navigation.state;
         const idArr = params.idArr;
         const totalprice = params.totalprice;
+        const address = params.orderAddress
         this.setState({
             idArr: idArr,
-            totalprice: totalprice
+            totalprice: totalprice,
+            address: address
         });
     }
 
@@ -62,7 +65,7 @@ class TipsyStripeScreen extends PureComponent {
         try {
             this.setState({ loading: true });
 
-            await trackerApi.post('/payment/', { amount: this.state.totalprice, currency: 'inr', token: this.state.token, total_price: this.state.totalprice, idArr: this.state.idArr })
+            await trackerApi.post('/payment/', { amount: this.state.totalprice, currency: 'inr', token: this.state.token, total_price: this.state.totalprice, idArr: this.state.idArr, location: this.state.address })
                 .then(response => {
                     console.log(response.data);
                     this.setState({ loading: false });

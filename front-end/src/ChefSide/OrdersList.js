@@ -30,6 +30,7 @@ const OrdersList = ({ navigation }) => {
     const confirmOrder = async () => {
         try {
             const orderId = navigation.getParam('id');
+            console.log('orderId',orderId);
             const response = await trackerApi.post('/cook/confirmorder', { id: orderId });
             // console.log(response.data);
             navigation.navigate('Orders');
@@ -56,13 +57,6 @@ const OrdersList = ({ navigation }) => {
         <View>
             {visible ? 
                 <ScrollView showsVerticalScrollIndicator={false} >
-{/* 
-                <View>
-                    <Text>Ordered By</Text>
-                    <Text>{ordersList.user.email}</Text>
-                    <Text>{ordersList.user}</Text>
-                    <Text>{ordersList.user}</Text>
-                </View> */}
                 <Card containerStyle={{borderWidth:0,elevation:10,borderRadius:10}}>
                     <View style={{paddingBottom:10}} >
                         <View style={{borderBottomWidth:1,paddingBottom:10,borderColor:'rgb(240,240,240)'}}>
