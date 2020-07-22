@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { Card } from 'react-native-elements';
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 
 import trackerApi from '../api/tracker';
@@ -9,8 +8,8 @@ const CartList = ({ result, callback }) => {
     const [serr, setErr] = useState('')
     const [quantity,setQuantity] = useState(result.quantity)
 
-    // console.log('inside cartlist')
-    // console.log(result)
+    console.log(result);
+
 
     const decreament = () => {
         console.log('decreament')
@@ -25,22 +24,6 @@ const CartList = ({ result, callback }) => {
     }
 
     return (
-        // <View style={styles.container}>
-            
-
-        //     <Image style={styles.imageStyle} source={{ uri: result.menuItem.image }} />
-        //     <View style={{ flexDirection: 'column', marginLeft: 15, flex: 1 }}>
-        //         <Text style={styles.name}>{result.menuItem.name}</Text>
-        //         <Text style={styles.location}>Quantity: {result.quantity}</Text>
-        //         <Text style={styles.location}>Price: Rs.{result.price}</Text>
-
-        //     </View>
-        //     <Button title="Remove" type="outline" onPress={() => callback(result._id)} />
-
-
-
-
-        // </View>
         <View style={{paddingBottom:20,borderBottomWidth:1,borderColor:'rgb(240,240,240)',paddingTop:15}}>
             <View style={{flexDirection:'row'}}>
                 <Image source={{ uri: result.menuItem.image }} style={{width:70,height:70,borderRadius:5}}/>
@@ -73,6 +56,7 @@ const CartList = ({ result, callback }) => {
                     <View style={{flexDirection:'row',marginTop:20}}>
                         <TouchableOpacity style={{width:90,borderWidth:1,height:35,justifyContent:'center',alignItems:'center',borderRadius:5,borderColor:'rgb(220,220,220)',marginLeft:'auto'}}
                             activeOpacity={0.8}
+                            onPress = {() => console.log('edit')}
                         >
                             <Text>EDIT</Text>
                         </TouchableOpacity>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar, ActivityIndicator, TextInput, FlatList, Dimensions, AsyncStorage } from 'react-native';
 import SearchBarScreen from '../components/SearchBar';
 import useResults from '../hooks/useResults';
@@ -9,6 +9,7 @@ import axios from 'axios';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
 import HeaderImageScrollView, { TriggeringView } from 'react-native-image-header-scroll-view';
+
 
 const Api_key = 'kwfqzzg4RYxI2TYTdDXARWD-Cmvxk2kcP4KaHj84RQw';
 
@@ -34,6 +35,9 @@ const SearchScreen = () => {
         }
     }
 
+    useEffect(() => {
+
+    },[value])
 
     const storeAddress = async(val) => {
         await AsyncStorage.setItem('address',val)
@@ -47,6 +51,7 @@ const SearchScreen = () => {
                 setAdd([])
                 setValue(item.label)
                 storeAddress(item.label)
+                searchApi(term,item.label)
             }}
         >
             <Entypo name="location-pin" size={24} color="black" />
@@ -71,7 +76,7 @@ const SearchScreen = () => {
                             <SearchBarScreen
                                 term={term}
                                 onTermChange={newTerm => setTerm(newTerm)}
-                                onTermSubmit={() => searchApi(term)}
+                                onTermSubmit={() => searchApi(term,address)}
                             />
                         </View>
                         <TouchableOpacity activeOpacity={0.8} onPress={() => {
@@ -111,6 +116,7 @@ const SearchScreen = () => {
                                     onPress={() => {
                                         setValue(address)   
                                         storeAddress(address)
+                                        searchApi(term,address)
                                     }}
                                 >
                                     <MaterialIcons name="location-searching" size={24} color="red" style={{ marginLeft: 15 }} />

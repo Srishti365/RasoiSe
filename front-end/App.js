@@ -143,6 +143,7 @@ const switchNavigator = createSwitchNavigator({
         drawerIcon: ({ tinColor }) => <Feather name="user" size={16} color={tinColor} />
       }
     },
+    Cart:CartScreen,
     Paypal: PaypalScreen,
     Signout: {
       screen: SignoutScreen,
