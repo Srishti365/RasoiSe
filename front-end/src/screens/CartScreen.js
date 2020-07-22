@@ -69,24 +69,25 @@ const CartScreen = ({ navigation }) => {
 
     return (
         <View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
-                <Text style={{ width: 60 }}>Address : </Text>
-                <View style={Styles.InputContainer}>
-                    <TextInput
-                        style={Styles.body}
-                        placeholder="Address"
-                        onChangeText={address => setAddress(address)}
-                        value={address}
-                        placeholderTextColor={AppStyles.color.grey}
-                        underlineColorAndroid="transparent"
-                        autoFocus={true}
-                        selection={{ start: 0 }}
 
-                    />
-                </View>
-            </View>
-            <Text style={Styles.text}>Total Price: {totalprice}</Text>
+
             <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+                    <Text style={{ width: 60 }}>Address : </Text>
+                    <View style={Styles.InputContainer}>
+                        <TextInput
+                            style={Styles.body}
+                            placeholder="Address"
+                            onChangeText={address => setAddress(address)}
+                            value={address}
+                            placeholderTextColor={AppStyles.color.grey}
+                            underlineColorAndroid="transparent"
+                            autoFocus={true}
+                            selection={{ start: 0 }}
+
+                        />
+                    </View>
+                </View>
                 <FlatList
                     showsVerticalScrollIndicator
                     extraData={result}
@@ -102,6 +103,7 @@ const CartScreen = ({ navigation }) => {
                     }}
                 />
                 <View style={Styles.button}>
+                    <Text style={Styles.text}>Total Price: {totalprice}</Text>
                     <Button title='Proceed to Pay' type="outline" onPress={() => navigation.navigate('TipsyStripe', { totalprice, idArr: id, orderAddress: address })} />
                 </View>
             </ScrollView>
