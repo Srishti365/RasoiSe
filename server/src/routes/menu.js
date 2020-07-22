@@ -198,26 +198,6 @@ router.route("/chef/:query")
 
     })
 
-// router.route("/new")
-//     .get((req, res, next) => {
-//         var geocoder = NodeGeocoder(options);
-//         geocoder.geocode(req.body.location).then(function (loc) {
-//             console.log(loc)
-//             Chef.aggregate()
-//                 .near({
-//                     near: {
-//                         type: "Point",
-//                         coordinates: [loc[0].longitude, loc[0].latitude]
-//                     },
-//                     maxDistance: 300000,
-//                     spherical: true,
-//                     distanceField: "dis"
-//                 })
-//                 .then(function (exes) {
-//                     res.send(exes);
-//                 });
-//         });
-//     })
 
 router.route("/time")
     .get(async (req, res, next) => {
