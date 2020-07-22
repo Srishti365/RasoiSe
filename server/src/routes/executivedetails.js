@@ -112,7 +112,7 @@ router.route("/viewroute")
                             distance = ((response.data.routes[0].distance) / 1000).toFixed(1) + " km"
 
 
-                            res.send({ "route": response.data.routes[0].geometry, "exec_loc": [exe_lat, exe_long], "pickup_loc": [pick_lat, pick_long], "dest_loc": [dest_lat, dest_long], "time_taken": time_taken, "distance": distance })
+                            res.send({ "route": response.data.routes[0].geometry, "exec_loc": [exe_lat, exe_long], "pickup_loc": [pick_lat, pick_long], "dest_loc": [dest_lat, dest_long], "time_taken": time_taken, "distance": distance, "exeadd": req.user.address, "chefadd": data.chef.location, "destadd": data.delivery_add })
 
                         })
                         .catch(error => {
