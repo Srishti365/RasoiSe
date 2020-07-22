@@ -278,7 +278,7 @@ router.route("/viewallreviews")
     .post(async (req, res, next) => {
         try {
             //req.body={id:chefs id}
-            await Review.find({ chef: req.body.id }).then(async function (data) {
+            await Review.find({ chef: req.body.id }).populate({ path: 'user', model: User }).then(async function (data) {
                 res.send({ reviews: data })
             })
 
