@@ -17,9 +17,11 @@ const models = require('../models/models')
 Chef = models.chef;
 Menu = models.menu;
 Rating = models.rating;
+Review = models.review;
 
 const options = require('../../location_creds');
 const cons = require("consolidate");
+const { review } = require("../models/models");
 
 
 //-----------------------calculating current time---------------------
@@ -215,7 +217,7 @@ router.route("/changerating")
                     rating1 = new Rating({
                         chef: req.body.id,
                         user: req.user._id,
-                        rating: req.body.rate
+                        rating: parseInt(req.body.rate)
                     })
 
                     await rating1.save()
@@ -263,6 +265,101 @@ router.route("/changerating")
 
 
             })
+
+
+        } catch (error) {
+            next(error);
+        }
+    })
+
+
+//view all reviews of a chef
+router.route("/viewallreviews")
+    .post(async (req, res, next) => {
+        try {
+            //req.body={id:chefs id}
+            await Review.find({ chef: req.body.id }).then(async function (data) {
+                res.send({ reviews: data })
+            })
+
+        } catch (error) {
+            next(error);
+        }
+
+    })
+
+
+//view our rating
+router.route("/viewyourrating")
+    .post(async (req, res, next) => {
+        try {
+            //req.body={id:chefs id}
+            rate = 0
+            await Rating.find({ chef: req.body.id, user: req.user._id }).then(async function (data) {
+                if (data.length == 0) {
+                    rate = 0
+                }
+                else {
+                    rate = data[0].rating
+                }
+                res.send({ rating: rate })
+            })
+
+        } catch (error) {
+            next(error);
+        }
+
+    })
+
+//view your review
+router.route("/viewyourreview")
+    .post(async (req, res, next) => {
+        try {
+            //req.body={id:chefs id}
+            review1 = ""
+            await Review.find({ chef: req.body.id, user: req.user._id }).then(async function (data) {
+                if (data.length == 0) {
+                    review1 = ""
+                }
+                else {
+                    review1 = data[0].review
+                }
+                res.send({ rev: review1 })
+            })
+
+        } catch (error) {
+            next(error);
+        }
+
+    })
+
+
+//Review Chef
+
+router.route("/reviewchef")
+    .post(async (req, res, next) => {
+        try {
+            // req.body={id:chef's id,review:user's entered review}
+            //check if user has already reviewed the chef-update otherwise create new
+            await Review.find({ user: req.user._id, chef: req.body.id }).then(async function (data) {
+                if (data.length == 0) {
+                    console.log('create new')
+                    review1 = new Review({
+                        chef: req.body.id,
+                        user: req.user._id,
+                        review: req.body.review
+                    })
+
+                    await review1.save()
+
+                }
+                else {
+                    data[0].review = req.body.review;
+                    await data[0].save()
+                    console.log('update')
+                }
+            })
+            res.send("review saved!")
 
 
         } catch (error) {
