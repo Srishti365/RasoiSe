@@ -37,6 +37,23 @@ function getTime() {
 }
 //-------------------------------------------------------------------
 
+//-----------------------------change 24 to 12----------------
+
+function tConvert(time) {
+    if (time == "12:00:00") return "12 PM"
+    if (time == "24:00:00" || time == "00:00:00") return "12 AM"
+    time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+    if (time.length > 1) {
+        time = time.slice(1, 4);
+        time[5] = +time[0] < 12 ? ' AM' : ' PM';
+        time[0] = +time[0] % 12 || 12;
+    }
+    return time.join('');
+}
+
+//---------------------------------------------------------
+
 
 router.route("/")
     .get((req, res, next) => {
@@ -147,21 +164,30 @@ router.route("/chef/:query")
     .get(async (req, res, next) => {
         try {
             current_time = getTime()
+            availability = 'no'
+            slots = []
             menu = await Menu.find({ chef: req.params.query })
 
             // chef_details = await Chef.findById(req.params.query)
 
             await Chef.findById(req.params.query).then(async function (chef_details) {
                 await chef_details;
-                availability = 'yes'
-                if (current_time > chef_details.start_time && current_time < chef_details.end_time) {
-                    availability = 'yes'
-                }
-                else {
-                    availability = 'no'
+
+                for (var interval of chef_details.slot) {
+                    start_time = interval.split('-')[0]
+                    end_time = interval.split('-')[1]
+
+                    if (current_time > start_time && current_time < end_time) {
+                        availability = 'yes'
+
+                    }
+                    start_conv = tConvert(start_time)
+                    end_conv = tConvert(end_time)
+                    slots.push(start_conv + " to " + end_conv)
+
                 }
 
-                res.send({ chef_details: chef_details, menu: menu, availability: availability })
+                res.send({ chef_details: chef_details, menu: menu, availability: availability, slots: slots })
             })
 
 
@@ -196,21 +222,13 @@ router.route("/chef/:query")
 router.route("/time")
     .get(async (req, res, next) => {
         try {
-            start = "05:10:10";
-            end = "10:20:45";
 
-            // var today = new Date();
-            // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            ss = "07:15:10-10:15:10"
+            console.log(ss.split('-'))
 
-            time = getTime()
-            if (time > start && time < end) {
-                console.log("yes")
-            }
-            else {
-                console.log("no")
-            }
-
-            res.send({ "current time": time })
+            time = '24:00:00'
+            timec = tConvert(time)
+            res.send(timec)
 
         } catch (error) {
             next(error);
