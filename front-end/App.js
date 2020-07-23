@@ -4,7 +4,6 @@ import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import SignoutScreen from './src/screens/SignoutScreen';
 import SigninScreen from './src/screens/SigninScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import ChefSigninScreen from './src/screens/ChefSigninScreen';
@@ -34,6 +33,7 @@ import ConfirmedOrders from './src/ChefSide/ConfirmedOrders';
 import OrderHistoryScreen from './src/ChefSide/OrderHistory';
 import RateReviewScreen from './src/screens/RateReviewScreen';
 import MyOrders from './src/screens/MyOrders';
+
 
 import PaymentCompleteScreen from './src/screens/PaymentCompleteScreen';
 
@@ -151,15 +151,7 @@ const switchNavigator = createSwitchNavigator({
       }
     },
     Cart:CartScreen,
-    Paypal: PaypalScreen,
-    Signout: {
-      screen: SignoutScreen,
-      navigationOptions: {
-        title: "SignOut",
-        drawerIcon: ({ tinColor }) => <Feather name="log-out" size={16} color={tinColor} />
-      }
-    }
-
+    Paypal: PaypalScreen
   }, {
     contentComponent: props => <SideBar {...props} />,
 

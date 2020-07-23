@@ -84,8 +84,8 @@ const CartScreen = ({ navigation }) => {
 
 
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
-                    <Text style={{ width: 60 }}>Address : </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20,marginHorizontal:15,borderWidth:1,borderRadius:5,backgroundColor:'white',borderColor:'rgb(220,220,220)',elevation:10}}>
+                    <Text style={{ width: 60,marginLeft:10 }}>Address : </Text>
                     <View style={Styles.InputContainer}>
                         <TextInput
                             style={Styles.body}
@@ -137,12 +137,16 @@ const CartScreen = ({ navigation }) => {
                     activeOpacity={0.8}
                     onPress={() => navigation.navigate('Search')}
                 >
-                    <TouchableOpacity style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+                        onPress={() => navigation.navigate('ResultsShow')}
+                    >
                         <Text>CANCEL</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={{ flex: 1, borderLeftWidth: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgb(145, 253, 255)', borderColor: 'rgb(230,230,230)' }}
                         activeOpacity={0.8}
-                        onPress={() => navigation.navigate('TipsyStripe', { totalprice, idArr: id, orderAddress: address })}
+                        onPress={() => {
+                            {totalprice!=0 ? navigation.navigate('TipsyStripe', { totalprice, idArr: id, orderAddress: address }) : alert('Nothing in the Cart')}
+                        }}
                     >
                         <Text style={{ color: 'white', fontSize: 16 }}>PAY</Text>
                     </TouchableOpacity>
@@ -168,12 +172,12 @@ const Styles = StyleSheet.create({
         paddingRight: 20,
     },
     InputContainer: {
-        width: 280,
+        width: 250,
         marginLeft: 5,
         marginTop: 5,
-        borderBottomWidth: 1,
         borderRadius: 5,
         borderColor: AppStyles.color.grey,
+
     },
 });
 
