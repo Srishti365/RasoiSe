@@ -74,92 +74,104 @@ router.route("/")
     });
 
 //view all menu items
-// router.route("/viewallmenu")
-//     .post(async (req, res, next) => {
-//         try {
-//             //req.body={id:chefs id}
-//             await Review.find({ chef: req.body.id }).populate({ path: 'user', model: User }).then(async function (data) {
-//                 res.send({ reviews: data })
-//             })
+router.route("/viewallchefs")
+    .post(async (req, res, next) => {
+        try {
+            //req.body={lat:currentlat, long:currentlong}
+            await req.body
+            // console.log(req.body)
+            await await Chef.aggregate()
+                .near({
+                    near: {
+                        type: "Point",
+                        coordinates: [req.body.long, req.body.lat]
+                    },
+                    maxDistance: 300000,
+                    spherical: true,
+                    distanceField: "dis"
+                }).then(async function (chefs) {
+                    res.send({ chefs: chefs })
+                })
 
-//         } catch (error) {
-//             next(error);
-//         }
+        } catch (error) {
+            next(error);
+        }
 
-//     })
+    })
 
-router.route("/search/:query")
+router.route("/search")
     .post(async (req, res, next) => {
         try {
             // ---------------------------------------------------
-            console.log(req.params.query)
             console.log("search", req.body)
             lat = 25.637979
             long = 85.0985654
             var geocoder = NodeGeocoder(options);
-            geocoder.geocode(req.body.address).then(async function (loc) {
-
-                if (req.body.location == "current") {
-                    console.log("here")
-                    lat = req.body.lat;
-                    long = req.body.long;
-                }
-                else {
+            if (req.body.location == "current") {
+                console.log("current address")
+                lat = req.body.lat;
+                long = req.body.long;
+            }
+            else {
+                await geocoder.geocode(req.body.address).then(async function (loc) {
+                    console.log("typed address")
                     lat = loc[0].latitude;
                     long = loc[0].longitude;
-                }
-                Chef.aggregate()
-                    .near({
-                        near: {
-                            type: "Point",
-                            coordinates: [long, lat]
-                        },
-                        maxDistance: 300000,
-                        spherical: true,
-                        distanceField: "dis"
-                    })
-                    .then(async function (filter_chefs) {
-                        var chefs = [];
-                        var set1 = new Set()
-                        await Menu.find({ name: new RegExp(req.params.query.toLowerCase()) }).then(function (result) {
-                            // console.log(result)
-                            for (var i of result) {
-                                set1.add((i.chef._id).toString())
 
-                            }
+
+                });
+            }
+
+            await Chef.aggregate()
+                .near({
+                    near: {
+                        type: "Point",
+                        coordinates: [long, lat]
+                    },
+                    maxDistance: 300000,
+                    spherical: true,
+                    distanceField: "dis"
+                })
+                .then(async function (filter_chefs) {
+                    var chefs = [];
+                    var set1 = new Set()
+                    await Menu.find({ name: new RegExp(req.body.query.toLowerCase()) }).then(function (result) {
+                        // console.log(result)
+                        for (var i of result) {
+                            set1.add((i.chef._id).toString())
+
+                        }
+                    })
+
+                    //search with name
+                    for (var i of filter_chefs) {
+                        n = (i.name).toString().toLowerCase()
+                        if (n.includes(req.body.query.toLowerCase())) {
+                            set1.add((i._id).toString())
+
+                        }
+
+                    }
+
+                    for (var i of filter_chefs) {
+                        idd = (i._id).toString()
+                        if (set1.has(idd)) {
+                            await Chef.findById(i).then(async function (data) {
+                                chefs.push(data)
+
+                            });
+                        }
+                    }
+
+                    chefs = sortObjectsArray(chefs, 'rating', 'desc');
+                    // console.log(chefs)
+                    geocoder.reverse({ lat: lat, lon: long })
+                        .then((data) => {
+                            // console.log("chefs", chefs)
+                            res.send({ chefs: chefs, location: data[0].formattedAddress })
                         })
 
-                        //search with name
-                        for (var i of filter_chefs) {
-                            n = (i.name).toString().toLowerCase()
-                            if (n.includes(req.params.query.toLowerCase())) {
-                                set1.add((i._id).toString())
-
-                            }
-
-                        }
-
-                        for (var i of filter_chefs) {
-                            idd = (i._id).toString()
-                            if (set1.has(idd)) {
-                                await Chef.findById(i).then(async function (data) {
-                                    chefs.push(data)
-
-                                });
-                            }
-                        }
-
-                        chefs = sortObjectsArray(chefs, 'rating', 'desc');
-                        // console.log(chefs)
-                        geocoder.reverse({ lat: lat, lon: long })
-                            .then((data) => {
-                                // console.log("chefs", chefs)
-                                res.send({ chefs: chefs, location: data[0].formattedAddress })
-                            })
-
-                    });
-            });
-
+                });
 
         } catch (error) {
             next(error);

@@ -15,7 +15,7 @@ const Api_key = 'kwfqzzg4RYxI2TYTdDXARWD-Cmvxk2kcP4KaHj84RQw';
 
 
 const SearchScreen = () => {
-    const [term, setTerm] = useState('noodles');
+    const [term, setTerm] = useState('');
     const [searchApi, results, errorMessage, location, address] = useResults();
 
     const [value, setValue] = useState(address)
@@ -37,7 +37,7 @@ const SearchScreen = () => {
 
     useEffect(() => {
 
-    },[value])
+    }, [value])
 
     const storeAddress = async (val) => {
         await AsyncStorage.setItem('address', val)
@@ -51,7 +51,7 @@ const SearchScreen = () => {
                 setAdd([])
                 setValue(item.label)
                 storeAddress(item.label)
-                searchApi(term,item.label)
+                searchApi(term, item.label, "typed")
             }}
         >
             <Entypo name="location-pin" size={24} color="black" />
@@ -77,7 +77,7 @@ const SearchScreen = () => {
                             <SearchBarScreen
                                 term={term}
                                 onTermChange={newTerm => setTerm(newTerm)}
-                                onTermSubmit={() => searchApi(term,address)}
+                                onTermSubmit={() => searchApi(term, address, "typed")}
                             />
                         </View>
                         <TouchableOpacity activeOpacity={0.8} onPress={() => {
@@ -88,7 +88,7 @@ const SearchScreen = () => {
                     </View>
                 )}
             >
-                <View style={{ backgroundColor: results.length == 0 ? 'white' : 'rgb(240,240,240)'}}>
+                <View style={{ backgroundColor: results.length == 0 ? 'white' : 'rgb(240,240,240)' }}>
                     <TriggeringView style={{}}>
                         {errorMessage ? <Text>{errorMessage}</Text> : null}
 
@@ -112,12 +112,12 @@ const SearchScreen = () => {
                         >
                             <View style={{ backgroundColor: 'rgb(250,250,250)', height: '100%' }}>
                                 <Text style={{ fontSize: 17, marginTop: 10, borderBottomWidth: 1, paddingBottom: 10, borderColor: 'rgb(242,242,242)' }}>    Your Location</Text>
-                                <AddressBar address={value} />
+                                <AddressBar address={address} />
                                 <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, borderBottomWidth: 1, paddingBottom: 10, borderColor: 'rgb(242,242,242)' }} activeOpacity={0.8}
                                     onPress={() => {
                                         setValue(address)
                                         storeAddress(address)
-                                        searchApi(term,address)
+                                        searchApi(term, address, 'typed')
                                     }}
                                 >
                                     <MaterialIcons name="location-searching" size={24} color="red" style={{ marginLeft: 15 }} />
