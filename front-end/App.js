@@ -37,6 +37,8 @@ import MyOrders from './src/screens/MyOrders';
 
 import PaymentCompleteScreen from './src/screens/PaymentCompleteScreen';
 
+console.disableYellowBox = true;
+
 const chefStack = createStackNavigator({
   chefPage: {
     screen: createBottomTabNavigator({
@@ -144,14 +146,14 @@ const switchNavigator = createSwitchNavigator({
         drawerIcon: ({ tinColor }) => <Feather name="user" size={16} color={tinColor} />
       }
     },
-    MyOrders:{
-      screen:MyOrders,
-      navigationOptions:{
-        title:'Orders'
+    MyOrders: {
+      screen: MyOrders,
+      navigationOptions: {
+        title: 'Orders'
       }
     },
-    Cart:CartScreen,
-    Paypal: PaypalScreen,
+    Cart: CartScreen,
+
     Signout: {
       screen: SignoutScreen,
       navigationOptions: {

@@ -22,7 +22,7 @@ const ResultsShowScreen = ({ navigation }) => {
         // console.log('inside get result');
         // console.log(id);
         const response = await trackerApi.get(`/home/chef/${id}`);
-        console.log('chef',response.data);
+        console.log('chef', response.data);
         setResult(response.data);
     };
 
@@ -56,14 +56,14 @@ const ResultsShowScreen = ({ navigation }) => {
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
             <NavigationEvents onDidFocus={() => getResult(id)} />
             <StatusBar backgroundColor='#EA3C53' />
-            <ImageBackground source={require('../../assets/bg2.jpeg')} style={{ width: '100%' }}>
+            <ImageBackground source={require('../../assets/bg3.jpeg')} style={{ width: '100%' }}>
                 <SafeAreaView style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
                     <NavigationEvents onDidFocus={() => getResult(id)} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10, marginTop: 5 }}>
                         <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Search')}>
                             <AntDesign name='arrowleft' color='white' size={24} />
                         </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={0.8} style={{ marginLeft: 'auto', marginRight: 20 }} onPress={() => navigation.navigate('RateReview', { chefId: result.chef_details._id, chefName: result.chef_details.name, chef_profile :result.chef_details })} >
+                        <TouchableOpacity activeOpacity={0.8} style={{ marginLeft: 'auto', marginRight: 20 }} onPress={() => navigation.navigate('RateReview', { chefId: result.chef_details._id, chefName: result.chef_details.name, chef_profile: result.chef_details })} >
                             <Feather name='edit' color='white' size={24} />
                         </TouchableOpacity>
                         <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 10 }} onPress={() => navigation.navigate('Cart')}>

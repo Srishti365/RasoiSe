@@ -69,23 +69,32 @@ const SearchScreen = () => {
             <HeaderImageScrollView
                 showsVerticalScrollIndicator={false}
                 maxHeight={400}
-                minHeight={200}
+                minHeight={230}
+                minOverlayOpacity={0.3}
+                maxOverlayOpacity={0.5}
                 headerImage={require('../../assets/bg2.jpeg')}
                 renderFixedForeground={() => (
-                    <View style={{ marginTop: 10, flexDirection: 'row' }}>
-                        <View style={{ width: width - 40, marginRight: -5 }}>
-                            <SearchBarScreen
-                                term={term}
-                                onTermChange={newTerm => setTerm(newTerm)}
-                                onTermSubmit={() => searchApi(term, address, "typed")}
-                            />
+                    <>
+                        <View style={{ marginTop: 10, flexDirection: 'row' }}>
+                            <View style={{ width: width - 40, marginRight: -5 }}>
+                                <SearchBarScreen
+                                    term={term}
+                                    onTermChange={newTerm => setTerm(newTerm)}
+                                    onTermSubmit={() => searchApi(term, address, "typed")}
+                                />
+                            </View>
+                            <TouchableOpacity activeOpacity={0.8} onPress={() => {
+                                refRBSheet.current.open()
+                            }}>
+                                <Entypo name="location-pin" size={40} color="white" style={{ marginTop: 8 }} />
+                            </TouchableOpacity>
+
                         </View>
-                        <TouchableOpacity activeOpacity={0.8} onPress={() => {
-                            refRBSheet.current.open()
-                        }}>
-                            <Entypo name="location-pin" size={40} color="white" style={{ marginTop: 8 }} />
-                        </TouchableOpacity>
-                    </View>
+                        <View style={{ marginLeft: 15, marginTop: 40 }}>
+                            <Text style={{ color: 'white', fontSize: 45, fontWeight: 'bold' }} >RasoiSe</Text>
+                            <Text style={{ color: 'white', marginTop: 6, fontSize: 15 }} >Enjoy Homemade Delicacies.</Text>
+                        </View>
+                    </>
                 )}
             >
                 <View style={{ backgroundColor: results.length == 0 ? 'white' : 'rgb(240,240,240)' }}>
