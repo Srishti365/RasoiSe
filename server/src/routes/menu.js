@@ -99,11 +99,10 @@ router.route("/viewallchefs")
 
     })
 
-router.route("/search/:query")
+router.route("/search")
     .post(async (req, res, next) => {
         try {
             // ---------------------------------------------------
-            console.log(req.params.query)
             console.log("search", req.body)
             lat = 25.637979
             long = 85.0985654
@@ -136,7 +135,7 @@ router.route("/search/:query")
                 .then(async function (filter_chefs) {
                     var chefs = [];
                     var set1 = new Set()
-                    await Menu.find({ name: new RegExp(req.params.query.toLowerCase()) }).then(function (result) {
+                    await Menu.find({ name: new RegExp(req.body.query.toLowerCase()) }).then(function (result) {
                         // console.log(result)
                         for (var i of result) {
                             set1.add((i.chef._id).toString())
@@ -147,7 +146,7 @@ router.route("/search/:query")
                     //search with name
                     for (var i of filter_chefs) {
                         n = (i.name).toString().toLowerCase()
-                        if (n.includes(req.params.query.toLowerCase())) {
+                        if (n.includes(req.body.query.toLowerCase())) {
                             set1.add((i._id).toString())
 
                         }
