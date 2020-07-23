@@ -26,7 +26,7 @@ const SearchScreen = () => {
         if (value.length > 2) {
             const response = await axios.get(`https://autocomplete.geocoder.ls.hereapi.com/6.2/suggest.json?apiKey=${Api_key}&query=${value}`)
             const data = response.data.suggestions
-            console.log(data)
+            // console.log(data)
             setAdd(data);
         }
         if (value.length <= 2) {
@@ -35,8 +35,8 @@ const SearchScreen = () => {
     }
 
 
-    const storeAddress = async(val) => {
-        await AsyncStorage.setItem('address',val)
+    const storeAddress = async (val) => {
+        await AsyncStorage.setItem('address', val)
     }
 
     const renderItem = ({ item }) => (
@@ -55,6 +55,7 @@ const SearchScreen = () => {
     )
 
     const keyExtractor = (item, index) => index.toString()
+    // console.log(value)
 
 
     return (
@@ -109,7 +110,7 @@ const SearchScreen = () => {
                                 <AddressBar address={value} />
                                 <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, borderBottomWidth: 1, paddingBottom: 10, borderColor: 'rgb(242,242,242)' }} activeOpacity={0.8}
                                     onPress={() => {
-                                        setValue(address)   
+                                        setValue(address)
                                         storeAddress(address)
                                     }}
                                 >
