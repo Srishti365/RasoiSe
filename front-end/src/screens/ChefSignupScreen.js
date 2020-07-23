@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Text, View, StyleSheet, TextInput, FlatList } from "react-native";
+import { Text, View, StyleSheet, TextInput, FlatList, KeyboardAvoidingView } from "react-native";
 import Button from "react-native-button";
 import { NavigationEvents } from 'react-navigation';
 import { AppStyles } from "../AppStyles";
@@ -21,6 +21,7 @@ const ChefSignupScreen = ({ navigation }) => {
     const [result,setResult] = useState([]);
     const [phone,setPhone] = useState()
 
+    const keyExtractor = (item, index) => index.toString()
 
     const handleAddress = (location) => {
       setLocation(location)
@@ -54,7 +55,7 @@ const ChefSignupScreen = ({ navigation }) => {
 
    
     return(
-        <View style={styles.container}>
+        <KeyboardAvoidingView style={styles.container} behavior='height'>
           <NavigationEvents 
                 onWillBlur={clearErrorMessage}
           />
@@ -139,21 +140,20 @@ const ChefSignupScreen = ({ navigation }) => {
             />
           : null }
         </View>
-      </View>
+      </KeyboardAvoidingView>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      alignItems: "center"
+      alignItems: "center",
+      flex:1
     },
     title: {
       fontSize: AppStyles.fontSize.title,
       fontWeight: "bold",
       color: AppStyles.color.tint,
-      marginTop: 20,
-      marginBottom: 20
+      marginTop: 10
     },
     leftTitle: {
       alignSelf: "stretch",
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     },
     InputContainer: {
       width: AppStyles.textInputWidth.main,
-      marginTop: 30,
+      marginTop: 25,
       borderWidth: 1,
       borderStyle: "solid",
       borderColor: AppStyles.color.grey,
