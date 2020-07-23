@@ -192,6 +192,26 @@ router.route("/dish/")
 
     })
 
+//filter dishes of a chef with category
+router.route("/filterdish/")
+    .post(async (req, res, next) => {
+        try {
+            // req.body={chefid:chefs id, filter:veg/nonveg}
+
+            await Menu.find({ chef: req.body.chefid, category: "veg" }).then(async function (data) {
+                res.send({ dishes: data })
+            })
+
+        } catch (error) {
+            next(error);
+        }
+
+    })
+
+
+
+
+
 //add time slot code here
 //view all dishes by a particular chef and chef details
 router.route("/chef/:query")
