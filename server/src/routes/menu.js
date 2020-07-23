@@ -179,12 +179,23 @@ router.route("/search")
     })
 
 //page to display particular dishes by a chef(ef chicken dishes by tonio)    
-router.route("/dish/")
-    .get(async (req, res, next) => {
+router.route("/yourdishes")
+    .post(async (req, res, next) => {
         try {
-            await Menu.find({ chef: req.body.chefid, name: new RegExp(req.body.menu) }).then(async function (data) {
-                res.send({ dishes: data })
-            })
+
+            //req.body={chefid,query,toggle:on or off}
+            key = req.body.toggle
+            if (key == "on") {
+                await Menu.find({ chef: req.body.chefid, name: new RegExp(req.body.query), category: "veg" }).then(async function (data) {
+                    res.send({ dishes: data })
+                })
+
+            } else {
+                await Menu.find({ chef: req.body.chefid, name: new RegExp(req.body.query) }).then(async function (data) {
+                    res.send({ dishes: data })
+                })
+
+            }
 
         } catch (error) {
             next(error);
