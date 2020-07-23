@@ -9,7 +9,7 @@ import axios from 'axios';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
 import HeaderImageScrollView, { TriggeringView } from 'react-native-image-header-scroll-view';
-
+import { FoodCarousel } from '../components/FoodCarousel';
 
 const Api_key = 'kwfqzzg4RYxI2TYTdDXARWD-Cmvxk2kcP4KaHj84RQw';
 
@@ -68,7 +68,7 @@ const SearchScreen = () => {
             <StatusBar backgroundColor='#EA3C53' />
             <HeaderImageScrollView
                 showsVerticalScrollIndicator={false}
-                maxHeight={400}
+                maxHeight={380}
                 minHeight={230}
                 minOverlayOpacity={0.3}
                 maxOverlayOpacity={0.5}
@@ -91,14 +91,22 @@ const SearchScreen = () => {
 
                         </View>
                         <View style={{ marginLeft: 15, marginTop: 40 }}>
-                            <Text style={{ color: 'white', fontSize: 45, fontWeight: 'bold' }} >RasoiSe</Text>
+                            <Text style={{ color: 'white', fontSize: 45, fontWeight: 'bold' }} ><Text style={{ color: '#e6b800' }}>R</Text>asoi<Text style={{ color: '#e6b800' }}>S</Text>e</Text>
                             <Text style={{ color: 'white', marginTop: 6, fontSize: 15 }} >Enjoy Homemade Delicacies.</Text>
                         </View>
                     </>
                 )}
             >
                 <View style={{ backgroundColor: results.length == 0 ? 'white' : 'rgb(240,240,240)' }}>
+
                     <TriggeringView style={{}}>
+                        <Text style={{ fontSize: 23, fontWeight: 'bold', marginLeft: 15, marginTop: 20, marginBottom: 15 }} >Most Popular</Text>
+                        <View style={{ margin: 5 }}>
+                            <FoodCarousel />
+                        </View>
+                        <View>
+                            <Text style={{ fontSize: 23, fontWeight: 'bold', marginLeft: 15, marginTop: 32 }}>Chefs Near You</Text>
+                        </View>
                         {errorMessage ? <Text>{errorMessage}</Text> : null}
 
                         {results.length == 0 ?
