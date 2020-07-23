@@ -15,7 +15,7 @@ const Api_key = 'kwfqzzg4RYxI2TYTdDXARWD-Cmvxk2kcP4KaHj84RQw';
 
 
 const SearchScreen = () => {
-    const [term, setTerm] = useState('noodles');
+    const [term, setTerm] = useState('');
     const [searchApi, results, errorMessage, location, address] = useResults();
 
     const [value, setValue] = useState(address)
@@ -27,7 +27,7 @@ const SearchScreen = () => {
         if (value.length > 2) {
             const response = await axios.get(`https://autocomplete.geocoder.ls.hereapi.com/6.2/suggest.json?apiKey=${Api_key}&query=${value}`)
             const data = response.data.suggestions
-            console.log(data)
+            // console.log(data)
             setAdd(data);
         }
         if (value.length <= 2) {
@@ -37,10 +37,10 @@ const SearchScreen = () => {
 
     useEffect(() => {
 
-    },[value])
+    }, [value])
 
-    const storeAddress = async(val) => {
-        await AsyncStorage.setItem('address',val)
+    const storeAddress = async (val) => {
+        await AsyncStorage.setItem('address', val)
     }
 
     const renderItem = ({ item }) => (
@@ -51,7 +51,7 @@ const SearchScreen = () => {
                 setAdd([])
                 setValue(item.label)
                 storeAddress(item.label)
-                searchApi(term,item.label,"typed")
+                searchApi(term, item.label, "typed")
             }}
         >
             <Entypo name="location-pin" size={24} color="black" />
@@ -60,6 +60,7 @@ const SearchScreen = () => {
     )
 
     const keyExtractor = (item, index) => index.toString()
+    // console.log(value)
 
 
     return (
@@ -76,7 +77,7 @@ const SearchScreen = () => {
                             <SearchBarScreen
                                 term={term}
                                 onTermChange={newTerm => setTerm(newTerm)}
-                                onTermSubmit={() => searchApi(term,address,"typed")}
+                                onTermSubmit={() => searchApi(term, address, "typed")}
                             />
                         </View>
                         <TouchableOpacity activeOpacity={0.8} onPress={() => {
@@ -87,7 +88,7 @@ const SearchScreen = () => {
                     </View>
                 )}
             >
-                <View style={{ backgroundColor: results.length == 0 ? 'white' : 'rgb(240,240,240)'}}>
+                <View style={{ backgroundColor: results.length == 0 ? 'white' : 'rgb(240,240,240)' }}>
                     <TriggeringView style={{}}>
                         {errorMessage ? <Text>{errorMessage}</Text> : null}
 
@@ -114,9 +115,9 @@ const SearchScreen = () => {
                                 <AddressBar address={address} />
                                 <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, borderBottomWidth: 1, paddingBottom: 10, borderColor: 'rgb(242,242,242)' }} activeOpacity={0.8}
                                     onPress={() => {
-                                        setValue(address)   
+                                        setValue(address)
                                         storeAddress(address)
-                                        searchApi(term,address,'typed')
+                                        searchApi(term, address, 'typed')
                                     }}
                                 >
                                     <MaterialIcons name="location-searching" size={24} color="red" style={{ marginLeft: 15 }} />

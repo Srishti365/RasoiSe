@@ -5,6 +5,8 @@ import trackerApi from '../api/tracker';
 import CartHelper from '../components/CartHelper';
 import { AppStyles } from '../AppStyles';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+import { NavigationEvents } from 'react-navigation';
+
 
 const CartScreen = ({ navigation }) => {
     const [result, setResult] = useState(null);
@@ -19,10 +21,11 @@ const CartScreen = ({ navigation }) => {
         try {
             console.log('viewCart');
             const response = await trackerApi.get('/cart/view');
+            console.log(response.status);
             const data = response.data.cart;
             const total = response.data.total_price;
             setResult(data);
-            console.log('resultssss',response.data)
+            // console.log('resultssss',response.data)
             setTotalprice(total);
             const idList = []
             for (i = 0; i < data.length; i++) {
@@ -40,19 +43,20 @@ const CartScreen = ({ navigation }) => {
         }
     };
 
-    const editItem = async(orderItemId,cartId,quantity) => {
-        const response = await trackerApi.post('/cart/editcart',{orderitemid:orderItemId,quantity,cartid:cartId})
-        console.log(response.data);
+    const editItem = async (orderItemId, cartId, quantity) => {
+        const response = await trackerApi.post('/cart/editcart', { orderitemid: orderItemId, quantity, cartid: cartId })
+        // console.log(response.data);
         viewCart();
     }
 
     const RemoveItem = async (removeId) => {
         try {
 
-            console.log('hii');
+            console.log('remove item');
 
             const response = await trackerApi.post('/cart/remove', { id: removeId });
-            console.log(result);
+            // console.log(result);
+            console.log(response.status);
 
         }
         catch (err) {
@@ -76,6 +80,7 @@ const CartScreen = ({ navigation }) => {
 
     return (
         <View>
+            {/* <NavigationEvents onDidFocus={() => viewCart()} /> */}
 
 
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -95,6 +100,10 @@ const CartScreen = ({ navigation }) => {
                         />
                     </View>
                 </View>
+                {/* <CartHelper result={item} callback={(id) => {
+                                RemoveItem(id);
+                                viewCart();
+                            }} onEdit={(orderItemId, cartId, quantity) => editItem(orderItemId, cartId, quantity)} /> */}
                 <FlatList
                     showsVerticalScrollIndicator
                     extraData={result}
@@ -102,40 +111,40 @@ const CartScreen = ({ navigation }) => {
                     keyExtractor={(result) => result._id}
                     renderItem={({ item }) => {
                         return (
-                            <CartHelper result={item} callback={(id) => {
+                            <CartHelper callback={(id) => {
                                 RemoveItem(id);
                                 viewCart();
-                            }}  onEdit={(orderItemId,cartId,quantity) => editItem(orderItemId,cartId,quantity)}/>
+                            }} result={item} onEdit={(orderItemId, cartId, quantity) => editItem(orderItemId, cartId, quantity)} />
                         )
                     }}
                 />
-                <Text style={{marginLeft:25,marginTop:20,color:'gray'}}>Price Details</Text>
-                <Card containerStyle={{borderWidth:0,marginHorizontal:10,borderRadius:10,marginTop:5}}>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={{color:'gray',fontSize:16}}>Sub Total</Text>
-                        <Text style={{marginLeft:'auto'}}><FontAwesome name='rupee' size={15}/> {totalprice}</Text>
+                <Text style={{ marginLeft: 25, marginTop: 20, color: 'gray' }}>Price Details</Text>
+                <Card containerStyle={{ borderWidth: 0, marginHorizontal: 10, borderRadius: 10, marginTop: 5 }}>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={{ color: 'gray', fontSize: 16 }}>Sub Total</Text>
+                        <Text style={{ marginLeft: 'auto' }}><FontAwesome name='rupee' size={15} /> {totalprice}</Text>
                     </View>
-                    <View style={{flexDirection:'row',marginTop:5,paddingBottom:10,borderBottomWidth:1,borderColor:'rgb(240,240,240)'}}>
-                        <Text style={{color:'gray',fontSize:16}}>Delivery</Text>
-                        <Text style={{marginLeft:'auto',color:'rgb(145, 253, 255)'}}> FREE</Text>
+                    <View style={{ flexDirection: 'row', marginTop: 5, paddingBottom: 10, borderBottomWidth: 1, borderColor: 'rgb(240,240,240)' }}>
+                        <Text style={{ color: 'gray', fontSize: 16 }}>Delivery</Text>
+                        <Text style={{ marginLeft: 'auto', color: 'rgb(145, 253, 255)' }}> FREE</Text>
                     </View>
-                    <View style={{flexDirection:'row',marginTop:15}}>
-                        <Text style={{fontSize:17}}>Total Payable Amount</Text>
-                        <Text style={{marginLeft:'auto',fontWeight:'bold'}}><FontAwesome name='rupee' size={15}/> {totalprice}</Text>
+                    <View style={{ flexDirection: 'row', marginTop: 15 }}>
+                        <Text style={{ fontSize: 17 }}>Total Payable Amount</Text>
+                        <Text style={{ marginLeft: 'auto', fontWeight: 'bold' }}><FontAwesome name='rupee' size={15} /> {totalprice}</Text>
                     </View>
                 </Card>
-                <View style={{width:Dimensions.get('window').width-20,height:50,borderWidth:2,marginHorizontal:10,marginTop:20,borderRadius:5,flexDirection:'row',borderColor:'rgb(230,230,230)',marginBottom:20}}
+                <View style={{ width: Dimensions.get('window').width - 20, height: 50, borderWidth: 2, marginHorizontal: 10, marginTop: 20, borderRadius: 5, flexDirection: 'row', borderColor: 'rgb(230,230,230)', marginBottom: 20 }}
                     activeOpacity={0.8}
                     onPress={() => navigation.navigate('Search')}
                 >
-                    <TouchableOpacity style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                    <TouchableOpacity style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <Text>CANCEL</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{flex:1,borderLeftWidth:1,justifyContent:'center',alignItems:'center',backgroundColor:'rgb(145, 253, 255)',borderColor:'rgb(230,230,230)'}}
+                    <TouchableOpacity style={{ flex: 1, borderLeftWidth: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgb(145, 253, 255)', borderColor: 'rgb(230,230,230)' }}
                         activeOpacity={0.8}
                         onPress={() => navigation.navigate('TipsyStripe', { totalprice, idArr: id, orderAddress: address })}
                     >
-                        <Text style={{color:'white',fontSize:16}}>PAY</Text>
+                        <Text style={{ color: 'white', fontSize: 16 }}>PAY</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
