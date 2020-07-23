@@ -51,7 +51,7 @@ const SearchScreen = () => {
                 setAdd([])
                 setValue(item.label)
                 storeAddress(item.label)
-                searchApi(term,item.label)
+                searchApi(term,item.label,"typed")
             }}
         >
             <Entypo name="location-pin" size={24} color="black" />
@@ -76,7 +76,7 @@ const SearchScreen = () => {
                             <SearchBarScreen
                                 term={term}
                                 onTermChange={newTerm => setTerm(newTerm)}
-                                onTermSubmit={() => searchApi(term,address)}
+                                onTermSubmit={() => searchApi(term,address,"typed")}
                             />
                         </View>
                         <TouchableOpacity activeOpacity={0.8} onPress={() => {
@@ -111,12 +111,12 @@ const SearchScreen = () => {
                         >
                             <View style={{ backgroundColor: 'rgb(250,250,250)', height: '100%' }}>
                                 <Text style={{ fontSize: 17, marginTop: 10, borderBottomWidth: 1, paddingBottom: 10, borderColor: 'rgb(242,242,242)' }}>    Your Location</Text>
-                                <AddressBar address={value} />
+                                <AddressBar address={address} />
                                 <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, borderBottomWidth: 1, paddingBottom: 10, borderColor: 'rgb(242,242,242)' }} activeOpacity={0.8}
                                     onPress={() => {
                                         setValue(address)   
                                         storeAddress(address)
-                                        searchApi(term,address)
+                                        searchApi(term,address,'typed')
                                     }}
                                 >
                                     <MaterialIcons name="location-searching" size={24} color="red" style={{ marginLeft: 15 }} />

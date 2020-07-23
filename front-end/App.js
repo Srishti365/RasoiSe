@@ -33,6 +33,7 @@ import OrdersList from './src/ChefSide/OrdersList';
 import ConfirmedOrders from './src/ChefSide/ConfirmedOrders';
 import OrderHistoryScreen from './src/ChefSide/OrderHistory';
 import RateReviewScreen from './src/screens/RateReviewScreen';
+import MyOrders from './src/screens/MyOrders';
 
 import PaymentCompleteScreen from './src/screens/PaymentCompleteScreen';
 
@@ -141,6 +142,12 @@ const switchNavigator = createSwitchNavigator({
       navigationOptions: {
         title: "Profile",
         drawerIcon: ({ tinColor }) => <Feather name="user" size={16} color={tinColor} />
+      }
+    },
+    MyOrders:{
+      screen:MyOrders,
+      navigationOptions:{
+        title:'Orders'
       }
     },
     Cart:CartScreen,
