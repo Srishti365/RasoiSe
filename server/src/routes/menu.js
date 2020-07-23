@@ -74,19 +74,29 @@ router.route("/")
     });
 
 //view all menu items
-// router.route("/viewallmenu")
-//     .post(async (req, res, next) => {
-//         try {
-//             //req.body={id:chefs id}
-//             await Review.find({ chef: req.body.id }).populate({ path: 'user', model: User }).then(async function (data) {
-//                 res.send({ reviews: data })
-//             })
+router.route("/viewallchefs")
+    .post(async (req, res, next) => {
+        try {
+            //req.body={lat:currentlat, long:currentlong}
+            await req.body
+            await await Chef.aggregate()
+                .near({
+                    near: {
+                        type: "Point",
+                        coordinates: [req.body.long, req.body.lat]
+                    },
+                    maxDistance: 300000,
+                    spherical: true,
+                    distanceField: "dis"
+                }).then(async function (chefs) {
+                    res.send({ chefs: chefs })
+                })
 
-//         } catch (error) {
-//             next(error);
-//         }
+        } catch (error) {
+            next(error);
+        }
 
-//     })
+    })
 
 router.route("/search/:query")
     .post(async (req, res, next) => {
