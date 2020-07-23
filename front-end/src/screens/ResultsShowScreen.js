@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TextInput, TouchableOpacity, StatusBar, ImageBackground, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Switch, Image, TextInput, TouchableOpacity, StatusBar, ImageBackground, SafeAreaView } from 'react-native';
 import trackerApi from '../api/tracker';
 import ResultShowDetail from '../components/ResultShowDetails';
 import { AntDesign, Entypo, Feather } from '@expo/vector-icons';
@@ -13,22 +13,34 @@ import { NavigationEvents } from 'react-navigation';
 
 const ResultsShowScreen = ({ navigation }) => {
     const [result, setResult] = useState(null);
+    const [veg, setVeg] = useState([]);
     const id = navigation.getParam('id');
+    const searchTerm = navigation.getParam('searchTerm');
+    const [isEnabled, setIsEnabled] = useState(false);
 
 
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
 
     const getResult = async (id) => {
         // console.log('inside get result');
         // console.log(id);
         const response = await trackerApi.get(`/home/chef/${id}`);
-        console.log('chef', response.data);
+        // console.log('chef', response.data);
         setResult(response.data);
     };
+
+    const getVegOnly = async (id) => {
+        const response = await trackerApi.post('/home/filterdish/', { chefid: id });
+        // console.log('veg only', response.data);
+        setVeg(response.data.dishes);
+
+    }
 
     useEffect(() => {
         // console.log('inside use effect', id);
         getResult(id);
+        getVegOnly(id);
     }, []);
 
 
@@ -128,18 +140,50 @@ const ResultsShowScreen = ({ navigation }) => {
                 </SafeAreaView>
             </ImageBackground>
             <ScrollView showsVerticalScrollIndicator={false} style={{ borderTopLeftRadius: 30, borderTopRightRadius: 30, marginTop: -30, backgroundColor: 'rgb(250,250,250)', elevation: 25 }}>
-                <View style={{ marginTop: 30, backgroundColor: 'rgb(250,250,250)' }}>
+                <View style={{ marginTop: 30, backgroundColor: 'rgb(250,250,250)', flexDirection: 'row', marginLeft: 20 }}>
+                    <Text style={{ alignSelf: 'flex-end', fontSize: 15, marginBottom: 13, color: '#737373' }} >Veg Only</Text>
+                    <Switch
+                        trackColor={{ false: "#767577", true: "#77b300" }}
+                        thumbColor={isEnabled ? "#f4f3f4" : "#f4f3f4"}
+                        onValueChange={toggleSwitch}
+                        value={isEnabled}
+                        style={{ alignSelf: 'flex-end', marginBottom: 10, marginLeft: 8 }}
+                    />
+                    <Text style={{ alignSelf: 'flex-end', fontSize: 15, marginBottom: 13, color: '#737373' }} >Search Relevant</Text>
+                    <Switch
+                        trackColor={{ false: "#767577", true: "#66b3ff" }}
+                        thumbColor={isEnabled ? "#f4f3f4" : "#f4f3f4"}
+                        onValueChange={toggleSwitch}
+                        value={isEnabled}
+                        style={{ alignSelf: 'flex-end', marginBottom: 10, marginLeft: 8 }}
+                    />
 
                 </View>
-                <FlatList
-                    data={result.menu}
-                    keyExtractor={(result) => result._id}
-                    renderItem={({ item }) => {
-                        return <View>
-                            <ResultShowDetail result={item} availability={result.availability} />
-                        </View>
-                    }}
-                />
+
+                {
+                    isEnabled ?
+                        <FlatList
+                            data={veg}
+                            keyExtractor={(result) => veg._id}
+                            renderItem={({ item }) => {
+                                return <View>
+                                    <ResultShowDetail result={item} availability={result.availability} />
+                                </View>
+                            }}
+                        />
+                        :
+                        <FlatList
+                            data={result.menu}
+                            keyExtractor={(result) => result._id}
+                            renderItem={({ item }) => {
+                                return <View>
+                                    <ResultShowDetail result={item} availability={result.availability} />
+                                </View>
+                            }}
+                        />
+                }
+
+
             </ScrollView>
         </View>
     );
