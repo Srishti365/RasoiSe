@@ -7,6 +7,7 @@ export default () => {
     const [results, setResults] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
     const [address,setAddress] = useState('Piprali Road, Sikar, Rajasthan');
+    const [id,setId] = useState(0)
     const [location, setLocation] = useState(
 
         {
@@ -15,7 +16,7 @@ export default () => {
                 "altitude": 0,
                 "heading": 0,
                 "latitude": 27.6199571,
-                "longitude": 75.1605576,
+                "longitude": -112.1605576,
                 "speed": 0
             },
             "mocked": false,
@@ -29,10 +30,12 @@ export default () => {
             await requestPermissionsAsync();
             await watchPositionAsync({
                 accuracy: Accuracy.BestForNavigation,
-                timeInterval:1000,
+                timeInterval:1,
                 distanceInterval:10
-            }, (location)=> {
-                setLocation(location);
+            }, (pos)=> {
+                console.log('position',pos)
+                setLocation(pos);
+                setId(1)
             })
         } catch (e) {
             setErrorMessage(e);
@@ -45,8 +48,8 @@ export default () => {
             console.log('search result',searchTerm,add,loc);
             setErrorMessage(null)
             setResults([])
-            console.log('hii')
-            const response = await trackerApi.post(`/home/search/${searchTerm}`,{ lat:location.coords.latitude, long:location.coords.longitude , location:loc, address:add });
+            console.log('searchTerm',searchTerm)
+            const response = await trackerApi.post(`/home/search`,{ query:searchTerm,lat:location.coords.latitude, long:location.coords.longitude , location:loc, address:add });
             // console.log(response.data.chefs);
             console.log('response',response.data);
             setResults(response.data.chefs);
@@ -65,8 +68,8 @@ export default () => {
 
     useEffect(() => {
         startWatching();
-        searchApi('noodles',address,"current");
-    }, []);
+        searchApi('',address,"current");
+    }, [id]);
 
     return [searchApi, results, errorMessage, location, address];
 };
