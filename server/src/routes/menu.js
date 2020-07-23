@@ -98,11 +98,11 @@ router.route("/viewallchefs")
 
     })
 
-router.route("/search/:query")
+router.route("/search")
     .post(async (req, res, next) => {
         try {
             // ---------------------------------------------------
-            console.log(req.params.query)
+            console.log(req.body.query)
             console.log("search", req.body)
             lat = 25.637979
             long = 85.0985654
