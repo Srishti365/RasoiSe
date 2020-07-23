@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, StatusBar, FlatList } from 'react-native';
+import { NavigationEvents } from 'react-navigation';
 import trackerApi from '../api/tracker';
 import PendingList from '../Components/PendingList';
 
@@ -35,6 +36,9 @@ const PendingOrders = ({ navigation }) => {
     return (
         <View>
             <StatusBar backgroundColor='#EA3C53' />
+            <NavigationEvents 
+                onWillFocus={fetchResult}
+            />
             <FlatList
                 showsVerticalScrollIndicator={true}
                 data={result}

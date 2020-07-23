@@ -26,7 +26,7 @@ const InProcessScreen = ({ navigation }) => {
             const response = await trackerApi.post('/execdetails/confirmdelivery', { id: orderId });
             console.log(response.data);
             viewInprocess();
-
+            navigation.navigate('Pending')
 
         }
         catch (err) {

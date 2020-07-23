@@ -40,12 +40,13 @@ export default () => {
     }
 
 
-    const searchApi = async (searchTerm) => {
+    const searchApi = async (searchTerm, add) => {
         try {
+            // console.log(add);
             setErrorMessage(null)
             setResults([])
             console.log('hii')
-            const response = await trackerApi.post(`/home/search/${searchTerm}`, { lat: location.coords.latitude, long: location.coords.longitude, location: "current" });
+            const response = await trackerApi.post(`/home/search/${searchTerm}`, { lat: location.coords.latitude, long: location.coords.longitude, location: "current", address: add });
             // console.log(response.data.chefs);
             console.log('response', response.data);
             setResults(response.data.chefs);
@@ -64,7 +65,7 @@ export default () => {
 
     useEffect(() => {
         startWatching();
-        searchApi('noodles');
+        searchApi('noodles', address);
     }, []);
 
     return [searchApi, results, errorMessage, location, address];
