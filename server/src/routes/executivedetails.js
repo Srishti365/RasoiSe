@@ -189,5 +189,19 @@ router.route("/time")
     })
 
 
+router.route('/profile')
+    .get(async (req, res, next) => {
+        try {
+
+            await Executive.find({ _id: req.user._id }).then(async function (data) {
+
+                res.send({ profile: data })
+            })
+        } catch (error) {
+            next(error);
+        }
+    })
+
+
 
 module.exports = router;

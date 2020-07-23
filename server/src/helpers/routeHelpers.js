@@ -51,13 +51,12 @@ module.exports = {
          })
     },
 
-    editProfile: {
+    editChefProfile: {
         authSchema: Joi.object().keys({
-            firstname: Joi.string().required(),
-            lastname: Joi.string().required(),
-            contactno :Joi.number().min(1000000000).max(9999999999).required(),
-            address: Joi.string().required()
-         
+            name: Joi.string().required(),
+            email: Joi.string().email().required(),
+            phone :Joi.number().min(1000000000).max(9999999999).required(),
+            password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()      
         })
     },
     checkEmail:{
