@@ -33,6 +33,7 @@ import ConfirmedOrders from './src/ChefSide/ConfirmedOrders';
 import OrderHistoryScreen from './src/ChefSide/OrderHistory';
 import RateReviewScreen from './src/screens/RateReviewScreen';
 import MyOrders from './src/screens/MyOrders';
+import EditProfile from './src/ChefSide/EditProfile';
 
 
 import PaymentCompleteScreen from './src/screens/PaymentCompleteScreen';
@@ -105,7 +106,8 @@ const chefStack = createStackNavigator({
   },
   OrderHistory: {
     screen: OrderHistoryScreen
-  }
+  },
+  Edit:EditProfile
 })
 
 
