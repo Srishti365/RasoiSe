@@ -30,7 +30,7 @@ const VerifyScreen = ({ navigation }) => {
 
 
     return (
-        <View>
+        <View style={{marginTop:20}}>
             <Input placeholder="Enter code" value={state} onChangeText={setState} onEndEditing={() => VerifyEmail(state)} />
             {errorMessage ? <Text style={styles.text}>{errorMessage}</Text> : null}
         </View>
