@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, StatusBar, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, FlatList, ActivityIndicator, ScrollView } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import trackerApi from '../api/tracker';
 import PendingList from '../Components/PendingList';
@@ -49,23 +49,25 @@ const PendingOrders = ({ navigation }) => {
         <View>
             {visible ?
                 <View>
-                    <StatusBar backgroundColor='#EA3C53' />
-                    <NavigationEvents
-                        onWillFocus={fetchResult}
-                    />
-                    <View style={{height:55,justifyContent:'center',backgroundColor:'rgb(220,220,220)'}}>
-                        <Text style={{marginLeft:20,fontSize:17}}>Pending Orders</Text>
-                    </View>
-                    <FlatList
-                        showsVerticalScrollIndicator={true}
-                        data={result}
-                        keyExtractor={(result) => { result._id }}
-                        renderItem={({ item }) => {
-                            return (
-                                <PendingList result={item} onPick={(id) => confirmPickup(id)} onShowDirections={(id) => navigation.navigate('Map', { orderId: id })} />
-                            )
-                        }}
-                    />
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                        <StatusBar backgroundColor='#EA3C53' />
+                        <NavigationEvents
+                            onWillFocus={fetchResult}
+                        />
+                        <View style={{height:55,justifyContent:'center',backgroundColor:'rgb(220,220,220)'}}>
+                            <Text style={{marginLeft:20,fontSize:17}}>Pending Orders</Text>
+                        </View>
+                        <FlatList
+                            showsVerticalScrollIndicator={true}
+                            data={result}
+                            keyExtractor={(result) => { result._id }}
+                            renderItem={({ item }) => {
+                                return (
+                                    <PendingList result={item} onPick={(id) => confirmPickup(id)} onShowDirections={(id) => navigation.navigate('Map', { orderId: id })} />
+                                )
+                            }}
+                        />
+                    </ScrollView>
                 </View> : <ActivityIndicator size='large' style={{height:'100%',justifyContent:'center',alignItems:'center'}}/> }
         </View>
     )

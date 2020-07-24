@@ -107,26 +107,12 @@ const InProcessScreen = ({ navigation }) => {
                                  </View>
 
                             </Card>
-                            // <View style={{ marginHorizontal: 15, marginVertical: 15 }}>
-                            //     <Text>Ordered by: {item.user.name}</Text>
-
-                            //     <Text>Delivery address: {item.delivery_add}</Text>
-                            //     <Text>Customer contact: {item.user.phoneNo}</Text>
-
-                            //     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 20, marginBottom: 10 }}>
-                            //         <View>
-                            //             <Button title=' Directions ' onPress={() => navigation.navigate('Map', { orderId: item._id })} />
-                            //         </View>
-
-                            //         <View>
-                            //             <Button title=' Confirm Delivery ' color='gray' onPress={() => confirmDelivery(item._id)} />
-                            //         </View>
-                            //     </View>
-
-                            // </View>
+                           
                         )
                     }}
                 />
+                <View style={{marginBottom:100}}>
+                </View>
             </ScrollView>
         </View>
     )
