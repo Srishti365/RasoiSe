@@ -41,6 +41,9 @@ const PendingOrders = ({ navigation }) => {
             <NavigationEvents
                 onWillFocus={fetchResult}
             />
+            <View style={{height:55,justifyContent:'center',backgroundColor:'rgb(220,220,220)'}}>
+                <Text style={{marginLeft:20,fontSize:17}}>Pending Orders</Text>
+            </View>
             <FlatList
                 showsVerticalScrollIndicator={true}
                 data={result}

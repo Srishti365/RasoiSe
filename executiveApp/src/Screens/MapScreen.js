@@ -15,6 +15,7 @@ const MapScreen = ({ navigation }) => {
         try {
             const id = navigation.getParam('orderId');
             const response = await trackerApi.post('/execdetails/viewroute', { id });
+            console.log('route details',response.data);
             setResult(response.data);
             setVisible(true)
         }
@@ -37,7 +38,7 @@ const MapScreen = ({ navigation }) => {
     return (
         <>
             {visible ?
-                <Map data={result.route} dest_loc={result.dest_loc} exec_loc={result.exec_loc} pickup_loc={result.pickup_loc} time={result.time_taken} dist={result.distance} />
+                <Map data={result.route} dest_loc={result.dest_loc} exec_loc={result.exec_loc} pickup_loc={result.pickup_loc} time={result.time_taken} dist={result.distance} chef_add={result.chefadd} dest_add={result.destadd} exec_add={result.exeadd}/>
                 :
                 null
             }
