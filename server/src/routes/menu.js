@@ -186,12 +186,12 @@ router.route("/yourdishes")
             //req.body={chefid,query,toggle:on or off}
             key = req.body.toggle
             if (key == "on") {
-                await Menu.find({ chef: req.body.chefid, name: new RegExp(req.body.query), category: "veg" }).then(async function (data) {
+                await Menu.find({ chef: req.body.chefid, name: new RegExp(req.body.query.toLowerCase()), category: "veg" }).then(async function (data) {
                     res.send({ dishes: data })
                 })
 
             } else {
-                await Menu.find({ chef: req.body.chefid, name: new RegExp(req.body.query) }).then(async function (data) {
+                await Menu.find({ chef: req.body.chefid, name: new RegExp(req.body.query.toLowerCase()) }).then(async function (data) {
                     res.send({ dishes: data })
                 })
 
