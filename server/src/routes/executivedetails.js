@@ -16,7 +16,7 @@ OrderItem = models.orderItem;
 Cart = models.cart;
 
 const options = require('../../location_creds');
-
+const transporter = require('../../email_creds')
 //--------------------------find time---------
 function secondsToHms(d) {
     d = Number(d);
@@ -51,9 +51,35 @@ router.route("/confirmpickup")
         try {
             // req.body={id:id of the order}
 
-            await Cart.findById(req.body.id).then(async function (data) {
+            await Cart.findById(req.body.id).populate({ path: 'user', model: User }).populate({ path: 'chef', model: Chef }).then(async function (data) {
                 data.isPickedUp = true
                 await data.save()
+
+                //-------------send mail to user--------------------
+                const html = `Hi, ${data.user.name},
+Your order from home chef ${data.chef.name} is out for delivery !!
+Have a pleasant day`
+
+                const mailOptions = {
+                    from: 'rasoiseproject@gmail.com',
+                    to: data.user.email,
+                    subject: 'Your order has arrived',
+                    text: html
+                };
+
+                await transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                        // return res.status(422).send({ error: 'Something wrong with email!!'});
+                    } else {
+                        console.log('Email sent' + info.response);
+                    }
+                });
+
+
+                //--------------------------------------------------
+
+
             })
             res.send("pickup confirmed by exec")
 
@@ -143,9 +169,34 @@ router.route("/confirmdelivery")
         try {
             // req.body={id:id of the order}
 
-            await Cart.findById(req.body.id).then(async function (data) {
+            await Cart.findById(req.body.id).populate({ path: 'user', model: User }).populate({ path: 'chef', model: Chef }).then(async function (data) {
                 data.isDelivered = true
                 await data.save()
+
+                //-------------send mail to user--------------------
+                const html = `Hi, ${data.user.name},
+                Your order from home chef ${data.chef.name} has arrived !!
+                Have a pleasant day`
+
+                const mailOptions = {
+                    from: 'rasoiseproject@gmail.com',
+                    to: data.user.email,
+                    subject: 'Your order has arrived',
+                    text: html
+                };
+
+                await transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                        // return res.status(422).send({ error: 'Something wrong with email!!'});
+                    } else {
+                        console.log('Email sent' + info.response);
+                    }
+                });
+
+
+                //--------------------------------------------------
+
             })
             res.send("delivery confirmed by exec")
 

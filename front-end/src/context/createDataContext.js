@@ -1,5 +1,7 @@
 import React, { useReducer } from 'react';
 
+// reducers
+
 
 export default (reducer, actions, defaultValue) => {
     const Context = React.createContext();
@@ -8,7 +10,7 @@ export default (reducer, actions, defaultValue) => {
         const [state, dispatch] = useReducer(reducer, defaultValue);
 
         const boundActions = {};
-        for (let key in actions){
+        for (let key in actions) {
             boundActions[key] = actions[key](dispatch)
         }
 

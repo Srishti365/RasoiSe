@@ -17,9 +17,12 @@ OrderItem = models.orderItem;
 Cart = models.cart;
 
 
+const transporter = require('../../email_creds')
+
 const options = require('../../location_creds');
 const cons = require('consolidate');
 // Executive = require('../models/Executive');
+
 
 //add menu item for chef
 router.route("/addmenuitem")
@@ -152,7 +155,7 @@ router.route("/confirmorder")
             //req.bod={id:id of the particular cartitem}
             timetaken = 10;
             await req.body;
-            await Cart.findById(req.body.id).then(async function (data) {
+            await Cart.findById(req.body.id).populate({ path: 'user', model: User }).populate({ path: 'chef', model: Chef }).then(async function (data) {
                 data.confirmedByChef = true
 
                 //------------assign exec here-----------------------
@@ -170,7 +173,8 @@ router.route("/confirmorder")
                         spherical: true,
                         distanceField: "dis"
                     }).then(async function (exes) {
-
+                        exec_email = "sahilchoudhary74306@gmail.com"
+                        exec_name = "Erwin smith"
                         // console.log("executive has been assigned")
                         // console.log(exes)
                         if (exes.length == 0) {
@@ -178,9 +182,43 @@ router.route("/confirmorder")
                         }
                         else {
                             data.executive = exes[0]._id
+                            exec_email = exes[0].email
+                            exec_name = exes[0].name
+
                         }
 
+                        console.log(exec_email)
+
+                        //----------------send mail to exec----------------------------
+
+
+                        const html = `Hi, Executive ${exec_name},
+                    You have been assigned to pick up orders from home chef ${data.chef.name} at ${data.chef.location} 
+                    Delivery Location: ${data.user.name} at ${data.delivery_add}
+                    Please reach there asap and confirm after successful delivery.
+                    Have a pleasant day`
+
+                        const mailOptions = {
+                            from: 'rasoiseproject@gmail.com',
+                            to: exec_email,
+                            subject: 'Delivery Notification',
+                            text: html
+                        };
+
+                        await transporter.sendMail(mailOptions, function (error, info) {
+                            if (error) {
+                                console.log(error);
+                                // return res.status(422).send({ error: 'Something wrong with email!!'});
+                            } else {
+                                console.log('Email sent' + info.response);
+                            }
+                        });
+
+
+                        //-------------------------------------------------------------
+
                     });
+
 
 
                 // -----------------------------------------------------

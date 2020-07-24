@@ -9,6 +9,8 @@ import {
 } from 'react-native'
 import PropTypes from 'prop-types'
 
+// payment button component
+
 export default class Button extends PureComponent {
     static propTypes = {
         text: PropTypes.string.isRequired,

@@ -13,6 +13,7 @@ import { FoodCarousel } from '../components/FoodCarousel';
 
 const Api_key = 'kwfqzzg4RYxI2TYTdDXARWD-Cmvxk2kcP4KaHj84RQw';
 
+// main page and after search is made
 
 const SearchScreen = () => {
     const [term, setTerm] = useState('');

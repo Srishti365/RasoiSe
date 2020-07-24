@@ -9,6 +9,8 @@ import trackerApi from '../api/tracker';
 import HeaderImageScrollView, { TriggeringView } from 'react-native-image-header-scroll-view';
 import * as Animatable from 'react-native-animatable';
 
+// Menu screen where chef can add, edit and remove dishes
+
 const Menu = ({ navigation }) => {
 
     const [visible, setVisible] = useState(false)
@@ -32,7 +34,7 @@ const Menu = ({ navigation }) => {
     const fetchResult = async () => {
         try {
             const response = await trackerApi.get('/cook/viewmenu');
-            console.log('response', response.data);
+            // console.log('response', response.data);
             setResult(response.data.dishes)
         }
         catch (err) {
@@ -49,12 +51,12 @@ const Menu = ({ navigation }) => {
             setPrice(0)
             const response = await trackerApi.post('/cook/viewparticularmenu', { id: id });
             const data = response.data.menuitem
-            console.log(data)
+            // console.log(data)
             setName(data.name)
             setCategory(data.category)
             setDescription(data.description)
             setPrice(data.price)
-            console.log(data.price)
+            // console.log(data.price)
             setEditResult(data)
         }
         catch (err) {
@@ -64,10 +66,10 @@ const Menu = ({ navigation }) => {
 
 
     const editMenu = async () => {
-        console.log('hii')
+        // console.log('hii')
         try {
             const response = await trackerApi.post('/cook/editmenuitem', { id, name, category, description, price });
-            console.log('hii')
+            // console.log('hii')
             fetchResult()
             setEditVisible(false)
             setName('')
@@ -84,7 +86,7 @@ const Menu = ({ navigation }) => {
     const fetchProfile = async () => {
         try {
             const response = await trackerApi.get('/cook/profile');
-            console.log('response', response.data);
+            // console.log('response', response.data);
             setProfile(response.data.profile[0])
         }
         catch (err) {
@@ -95,9 +97,9 @@ const Menu = ({ navigation }) => {
 
     const RemoveItem = async (id) => {
         try {
-            console.log(changeRef);
+            // console.log(changeRef);
             const response = await trackerApi.post('/cook/removemenuitem', { id: id });
-            console.log(response);
+            // console.log(response);
             fetchResult()
             setDeleteVisible(false)
         }
@@ -109,10 +111,10 @@ const Menu = ({ navigation }) => {
 
     const handleOnSubmit = async () => {
         try {
-            console.log('hii')
+            // console.log('hii')
             const response = await trackerApi.post('/cook/addmenuitem', { name, category, description, price });
             fetchResult();
-            console.log('response', response.data);
+            // console.log('response', response.data);
             toggle();
             setName('');
             setPrice(0);
@@ -132,8 +134,8 @@ const Menu = ({ navigation }) => {
 
 
 
-    console.log('profile', profile)
-    console.log('price', price)
+    // console.log('profile', profile)
+    // console.log('price', price)
 
     if (profile == null) {
         return (

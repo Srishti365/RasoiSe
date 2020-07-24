@@ -4,6 +4,8 @@ import trackerApi from '../api/tracker';
 import { Card } from 'react-native-elements';
 import { Entypo, FontAwesome } from '@expo/vector-icons';
 
+// rendering dishes to be cooked in a particular order
+
 const OrdersList = ({ navigation }) => {
     const [err, setErr] = useState('');
     const [ordersList, setOrdersList] = useState({});
@@ -14,7 +16,7 @@ const OrdersList = ({ navigation }) => {
         try {
             const orderId = navigation.getParam('id');
             const response = await trackerApi.post('/cook/viewparticularorder', { id: orderId });
-            console.log('list', response.data.orders);
+            // console.log('list', response.data.orders);
             setOrdersList(response.data.orders);
             setVisible(true)
 
@@ -30,7 +32,7 @@ const OrdersList = ({ navigation }) => {
     const confirmOrder = async () => {
         try {
             const orderId = navigation.getParam('id');
-            console.log('order id', orderId)
+            // console.log('order id', orderId)
             const response = await trackerApi.post('/cook/confirmorder', { id: orderId });
             // console.log(response.data);
             navigation.navigate('Orders');

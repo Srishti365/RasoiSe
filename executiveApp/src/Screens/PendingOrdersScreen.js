@@ -4,6 +4,8 @@ import { NavigationEvents } from 'react-navigation';
 import trackerApi from '../api/tracker';
 import PendingList from '../Components/PendingList';
 
+// Rendering list of orders yet to be picked up
+
 const PendingOrders = ({ navigation }) => {
 
     const [result, setResult] = useState([])
@@ -11,7 +13,7 @@ const PendingOrders = ({ navigation }) => {
     const fetchResult = async () => {
         try {
             const response = await trackerApi.get('/execdetails/viewpending');
-            console.log('ye result h', response.data);
+            // console.log('ye result h', response.data);
             setResult(response.data.orders);
         } catch (err) {
             console.log(err);
@@ -20,9 +22,9 @@ const PendingOrders = ({ navigation }) => {
 
     const confirmPickup = async (id) => {
         try {
-            console.log('hii',id)
+            // console.log('hii',id)
             const response = await trackerApi.post('/execdetails/confirmpickup', { id: id });
-            console.log(response);
+            // console.log(response);
             fetchResult();
         } catch (err) {
             console.log(err);
@@ -36,7 +38,7 @@ const PendingOrders = ({ navigation }) => {
     return (
         <View>
             <StatusBar backgroundColor='#EA3C53' />
-            <NavigationEvents 
+            <NavigationEvents
                 onWillFocus={fetchResult}
             />
             <FlatList
@@ -45,7 +47,7 @@ const PendingOrders = ({ navigation }) => {
                 keyExtractor={(result) => { result._id }}
                 renderItem={({ item }) => {
                     return (
-                        <PendingList result={item} onPick={(id) => confirmPickup(id)} onShowDirections={(id) => navigation.navigate('Map', { orderId: id})}/>
+                        <PendingList result={item} onPick={(id) => confirmPickup(id)} onShowDirections={(id) => navigation.navigate('Map', { orderId: id })} />
                     )
                 }}
             />

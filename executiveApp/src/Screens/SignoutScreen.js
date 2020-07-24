@@ -1,15 +1,17 @@
-import React,{ useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Text, View, AsyncStorage } from 'react-native';
 
-const signout = async() => {
+// Executive logout
+
+const signout = async () => {
     await AsyncStorage.removeItem('token');
     await AsyncStorage.removeItem('email');
     navigation.navigate('Signin')
 }
 
-const SignoutScreen = ({navigation}) => {
+const SignoutScreen = ({ navigation }) => {
 
-    const signout = async() => {
+    const signout = async () => {
         await AsyncStorage.removeItem('token');
         await AsyncStorage.removeItem('email');
         navigation.navigate('Signin')
@@ -17,9 +19,9 @@ const SignoutScreen = ({navigation}) => {
 
     useEffect(() => {
         signout()
-    },[])
+    }, [])
 
-    return(
+    return (
         null
     )
 }

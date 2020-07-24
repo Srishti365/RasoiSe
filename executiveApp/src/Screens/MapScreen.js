@@ -3,10 +3,12 @@ import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import Map from '../Components/Map';
 import trackerApi from '../api/tracker';
 
+// Navigation to Map
+
 const MapScreen = ({ navigation }) => {
     const [err, setErr] = useState('')
     const [result, setResult] = useState({});
-    const [visible,setVisible] = useState(false)
+    const [visible, setVisible] = useState(false)
 
 
     const viewRoute = async () => {
@@ -30,13 +32,13 @@ const MapScreen = ({ navigation }) => {
 
     console.log(result);
 
-    
+
 
     return (
         <>
-            {visible ? 
-                <Map data={result.route} dest_loc={result.dest_loc} exec_loc={result.exec_loc} pickup_loc={result.pickup_loc} time={result.time_taken} dist={result.distance}/>
-            :
+            {visible ?
+                <Map data={result.route} dest_loc={result.dest_loc} exec_loc={result.exec_loc} pickup_loc={result.pickup_loc} time={result.time_taken} dist={result.distance} />
+                :
                 null
             }
         </>

@@ -3,6 +3,8 @@ import createDataContext from './createDataContext';
 import trackerApi from '../api/tracker';
 import { navigate } from '../navigationRef';
 
+// authentication context
+
 const authReducer = (state, action) => {
     switch (action.type) {
         case 'add_err':
@@ -29,8 +31,8 @@ const tryLocalSignin = dispatch => async () => {
     const token = await AsyncStorage.getItem('token');
     const method = await AsyncStorage.getItem('method')
     if (token) {
-        console.log(token);
-        if(method == 'User') {
+        // console.log(token);
+        if (method == 'User') {
             dispatch({ type: 'signin', payload: token });
             navigate('mainflow');
         } else {
@@ -70,13 +72,13 @@ const chefSignup = (dispatch) => {
     return async ({ name, location, email, password, phone }) => {
         // make api request to sign up with that email and password
         try {
-            const response = await trackerApi.post('/chef/signup', { name, location, email, password , phone});
+            const response = await trackerApi.post('/chef/signup', { name, location, email, password, phone });
             // await AsyncStorage.setItem('token', response.data.token);
             dispatch({ type: 'chefSignup' });
 
             navigate('ChefSignin')
         } catch (err) {
-            console.log('error',err);
+            console.log('error', err);
             dispatch({ type: 'add_err', payload: err.response.data.error });
         }
 
