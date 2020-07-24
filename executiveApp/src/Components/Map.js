@@ -26,7 +26,7 @@ const Map = ({ data, pickup_loc, dest_loc, exec_loc, time, dist }) => {
                     strokeWidth={3} 
                 />
 
-                <Marker coordinate={{ latitude: exec_loc[0], longitude: exec_loc[1] }} />
+                <Marker coordinate={{ latitude: exec_loc[0], longitude: exec_loc[1] }}/>
                 <Marker coordinate={{ latitude: dest_loc[0], longitude: dest_loc[1] }} />
                 <Marker coordinate={{ latitude: pickup_loc[0], longitude: pickup_loc[1] }} />
 
