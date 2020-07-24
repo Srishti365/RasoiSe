@@ -11,6 +11,8 @@ import { NavigationEvents } from 'react-navigation';
 // Geocoder.init("AIzaSyA4R47lkG-0zcnpIYdX4pWeJocfmTI8Ujs"); 
 // Geocoder.init("AIzaSyA4R47lkG-0zcnpIYdX4pWeJocfmTI8Ujs", {language : "en"});
 
+// displaying all the dishes made by a particular chef
+
 const ResultsShowScreen = ({ navigation }) => {
     const [result, setResult] = useState(null);
     const [err, setErr] = useState('');
@@ -35,7 +37,7 @@ const ResultsShowScreen = ({ navigation }) => {
                     k = "on";
                 }
                 const response = await trackerApi.post('/home/yourdishes', { chefid: id, query: searchTerm, toggle: k });
-                console.log('relevance', response.data);
+                // console.log('relevance', response.data);
                 setIsEnabled(previousState => !previousState);
                 setRelevant(response.data.dishes);
             }
@@ -61,7 +63,7 @@ const ResultsShowScreen = ({ navigation }) => {
                     k = "off";
                 }
                 const response = await trackerApi.post('/home/yourdishes', { chefid: id, query: searchTerm, toggle: k });
-                console.log('relevance', response.data);
+                // console.log('relevance', response.data);
                 setIsRel(true);
                 setRelevant(response.data.dishes);
             }

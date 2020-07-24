@@ -6,6 +6,8 @@ import trackerApi from '../api/tracker';
 import { EvilIcons, Entypo } from '@expo/vector-icons';
 import { Context as AuthContext } from '../context/AuthContext';
 
+// chef profile rendering
+
 const Profile = ({ navigation }) => {
 
     const [result, setResult] = useState(null);
@@ -55,7 +57,7 @@ const Profile = ({ navigation }) => {
                 <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'space-around', marginBottom: 20 }}>
                     <Button title='Order History' type='outline' titleStyle={{ color: 'gray', fontSize: 15 }} onPress={() => navigation.navigate('OrderHistory')} />
                     <Button title='Contact Us' type='outline' titleStyle={{ color: 'gray', fontSize: 15 }} />
-                    <Button title='Edit Profile' type='outline' titleStyle={{ color: 'gray', fontSize: 15 }} onPress={() => navigation.navigate('Edit', {profile:result})}/>
+                    <Button title='Edit Profile' type='outline' titleStyle={{ color: 'gray', fontSize: 15 }} onPress={() => navigation.navigate('Edit', { profile: result })} />
                 </View>
                 <Rating imageSize={24} readonly startingValue={result.rating} />
                 <View style={{ marginTop: 30, width: 150, alignSelf: 'center' }}>

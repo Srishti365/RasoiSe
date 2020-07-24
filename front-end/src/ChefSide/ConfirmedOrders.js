@@ -5,6 +5,8 @@ import { NavigationEvents } from 'react-navigation';
 import ConfirmedOrdersList from '../components/ConfirmedOrdersList';
 import { Card } from 'react-native-elements';
 
+// rendering orders confirmed by chef to be picked up
+
 const ConfirmedOrders = () => {
     const [err, setErr] = useState('');
     const [result, setResult] = useState([]);
@@ -14,7 +16,7 @@ const ConfirmedOrders = () => {
         try {
 
             const response = await trackerApi.get('/cook/viewconfirmed');
-            console.log('response', response.data.orders);
+            // console.log('response', response.data.orders);
             setResult(response.data.orders);
 
         }

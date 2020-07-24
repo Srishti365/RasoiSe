@@ -6,6 +6,8 @@ import trackerApi from '../api/tracker';
 import { EvilIcons, Entypo, AntDesign } from '@expo/vector-icons';
 import { Context as AuthContext } from '../context/AuthContext';
 
+// user profile screen
+
 const ProfileScreen = ({ navigation }) => {
 
     const [result, setResult] = useState(null);
@@ -15,7 +17,7 @@ const ProfileScreen = ({ navigation }) => {
         try {
             const response = await trackerApi.get('/cart/profile');
             const data = response.data.profile[0]
-            console.log(data)
+            // console.log(data)
             setResult(data)
         }
         catch (err) {
@@ -36,8 +38,8 @@ const ProfileScreen = ({ navigation }) => {
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{ height: 1000 }}>
                 <ImageBackground source={require('../../assets/bg2.jpeg')} style={{ height: 250, width }}>
-                    <TouchableOpacity style={{marginLeft:20,marginTop:10}} activeOpacity={0.8} onPress={() => navigation.navigate('Search')}>
-                        <AntDesign name='arrowleft' size={24} color='white'/>
+                    <TouchableOpacity style={{ marginLeft: 20, marginTop: 10 }} activeOpacity={0.8} onPress={() => navigation.navigate('Search')}>
+                        <AntDesign name='arrowleft' size={24} color='white' />
                     </TouchableOpacity>
                 </ImageBackground>
                 <Image style={styles.imageStyle} source={require('../../assets/profile.png')} />
@@ -56,7 +58,7 @@ const ProfileScreen = ({ navigation }) => {
                 <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'space-around', marginBottom: 20 }}>
                     <Button title='Order History' type='outline' titleStyle={{ color: 'gray', fontSize: 15 }} onPress={() => navigation.navigate('MyOrders')} />
                     <Button title='Contact Us' type='outline' titleStyle={{ color: 'gray', fontSize: 15 }} />
-                    <Button title='Edit Profile' type='outline' titleStyle={{ color: 'gray', fontSize: 15 }} onPress={() => navigation.navigate('EditProfile', {profile:result})}/>
+                    <Button title='Edit Profile' type='outline' titleStyle={{ color: 'gray', fontSize: 15 }} onPress={() => navigation.navigate('EditProfile', { profile: result })} />
                 </View>
                 <View style={{ marginTop: 30, width: 150, alignSelf: 'center' }}>
                     <Button title='Log Out' buttonStyle={{ backgroundColor: 'rgb(255, 119, 0)' }} onPress={signout} />

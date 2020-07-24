@@ -6,6 +6,7 @@ import { string } from 'prop-types';
 import trackerApi from '../api/tracker';
 import { set } from 'react-native-reanimated';
 
+// rendering items in the menu helper component
 
 const ResultShowDetail = ({ result, availability }) => {
     const [quantity, setQuantity] = useState(0);
@@ -16,7 +17,7 @@ const ResultShowDetail = ({ result, availability }) => {
             // console.log(id, quantity);
             const response = await trackerApi.post('/cart/add', { menuitemid: id, quantity: quantity, chefid: result.chef });
             // console.log(response.data.chefs);
-            console.log(response.data);
+            // console.log(response.data);
         }
         catch (err) {
             console.log(err);
@@ -25,7 +26,7 @@ const ResultShowDetail = ({ result, availability }) => {
     }
 
     // console.log(result)
-    console.log('avail', availability);
+    // console.log('avail', availability);
 
     return (
         <>

@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView } from '
 import ResultsDetail from './ResultsDetail';
 import { withNavigation } from 'react-navigation';
 
+// search result helper component
+
 const ResultsList = ({ title, results, navigation, location, searchTerm }) => {
     if (!results.length) {
         return null;
@@ -11,13 +13,13 @@ const ResultsList = ({ title, results, navigation, location, searchTerm }) => {
 
     return (
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-            
+
             <FlatList
                 data={results}
                 keyExtractor={(result) => result._id}
                 renderItem={({ item, index }) => {
                     return (
-                        <ResultsDetail result={item} index={index} callback={()=> {navigation.navigate('ResultsShow', { id: item._id, location:location , searchTerm:searchTerm})}}/>
+                        <ResultsDetail result={item} index={index} callback={() => { navigation.navigate('ResultsShow', { id: item._id, location: location, searchTerm: searchTerm }) }} />
                     )
                 }}
             />

@@ -7,6 +7,7 @@ import { AppStyles } from '../AppStyles';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import { NavigationEvents } from 'react-navigation';
 
+// cart rendering screen
 
 const CartScreen = ({ navigation }) => {
     const [result, setResult] = useState(null);
@@ -19,9 +20,9 @@ const CartScreen = ({ navigation }) => {
 
     const viewCart = async () => {
         try {
-            console.log('viewCart');
+            // console.log('viewCart');
             const response = await trackerApi.get('/cart/view');
-            console.log(response.status);
+            // console.log(response.status);
             const data = response.data.cart;
             const total = response.data.total_price;
             setResult(data);
@@ -84,8 +85,8 @@ const CartScreen = ({ navigation }) => {
 
 
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20,marginHorizontal:15,borderWidth:1,borderRadius:5,backgroundColor:'white',borderColor:'rgb(220,220,220)',elevation:10}}>
-                    <Text style={{ width: 60,marginLeft:10 }}>Address : </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, marginHorizontal: 15, borderWidth: 1, borderRadius: 5, backgroundColor: 'white', borderColor: 'rgb(220,220,220)', elevation: 10 }}>
+                    <Text style={{ width: 60, marginLeft: 10 }}>Address : </Text>
                     <View style={Styles.InputContainer}>
                         <TextInput
                             style={Styles.body}
@@ -145,7 +146,7 @@ const CartScreen = ({ navigation }) => {
                     <TouchableOpacity style={{ flex: 1, borderLeftWidth: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgb(145, 253, 255)', borderColor: 'rgb(230,230,230)' }}
                         activeOpacity={0.8}
                         onPress={() => {
-                            {totalprice!=0 ? navigation.navigate('TipsyStripe', { totalprice, idArr: id, orderAddress: address }) : alert('Nothing in the Cart')}
+                            { totalprice != 0 ? navigation.navigate('TipsyStripe', { totalprice, idArr: id, orderAddress: address }) : alert('Nothing in the Cart') }
                         }}
                     >
                         <Text style={{ color: 'white', fontSize: 16 }}>PAY</Text>

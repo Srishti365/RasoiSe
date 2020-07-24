@@ -7,6 +7,7 @@ import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import StarRating from 'react-native-star-rating';
 import trackerApi from '../api/tracker';
 
+// ratings and review screen
 
 const RateReviewScreen = ({ navigation }) => {
     const [err, setErr] = useState('');
@@ -34,7 +35,7 @@ const RateReviewScreen = ({ navigation }) => {
             // console.log('inside view all')
             const chefId = navigation.getParam('chefId');
             const chefName = navigation.getParam('chefName');
-            console.log("abc", chefName);
+            // console.log("abc", chefName);
             setChefid(chefId);
             setChefname(chefName);
 
@@ -53,7 +54,7 @@ const RateReviewScreen = ({ navigation }) => {
     const viewRating = async () => {
         try {
             const response = await trackerApi.post('/home/viewyourrating', { id: chefid });
-            console.log(response.data);
+            // console.log(response.data);
             setStars(response.data.rating);
             setRateVisible(true);
         }

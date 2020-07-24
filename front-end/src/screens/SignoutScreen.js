@@ -6,6 +6,8 @@ import Spacer from '../components/Spacer';
 import { Context as AuthContext } from '../context/AuthContext';
 import { FontAwesome } from '@expo/vector-icons';
 
+// user sign out
+
 const SignoutScreen = () => {
   const { signout } = useContext(AuthContext);
 

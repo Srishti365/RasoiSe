@@ -3,12 +3,14 @@ import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import MapView, { Polyline, Marker } from 'react-native-maps'
 const polyline = require('@mapbox/polyline');
 
+// Rendering Map to display routes to executive
+
 const Map = ({ data, pickup_loc, dest_loc, exec_loc, time, dist }) => {
 
     let points = polyline.decode(data)
     let coords = points.map((point, index) => ({ latitude: point[0], longitude: point[1] }))
 
-    console.log(pickup_loc,dest_loc,exec_loc)
+    // console.log(pickup_loc, dest_loc, exec_loc)
 
     return (
         <View style={styles.container}>
@@ -23,7 +25,7 @@ const Map = ({ data, pickup_loc, dest_loc, exec_loc, time, dist }) => {
                 <Polyline
                     coordinates={coords}
                     strokeColor="red"
-                    strokeWidth={3} 
+                    strokeWidth={3}
                 />
 
                 <Marker coordinate={{ latitude: exec_loc[0], longitude: exec_loc[1] }} />
@@ -32,8 +34,8 @@ const Map = ({ data, pickup_loc, dest_loc, exec_loc, time, dist }) => {
 
             </MapView>
             <View style={styles.distanceContainer}>
-                <Text style={{color:'white',fontSize:17}}>Distance : {dist} </Text>
-                <Text style={{color:'white',fontSize:17}}>Estimated time : {time}</Text>
+                <Text style={{ color: 'white', fontSize: 17 }}>Distance : {dist} </Text>
+                <Text style={{ color: 'white', fontSize: 17 }}>Estimated time : {time}</Text>
             </View>
 
         </View>
@@ -54,15 +56,15 @@ const styles = StyleSheet.create({
     distanceContainer: {
         marginVertical: 20,
         backgroundColor: "transparent",
-        position:'absolute',
-        bottom:0,
-        width:'80%',
-        height:60,
-        justifyContent:'center',
-        alignItems:'center',
-        borderRadius:10,
-        backgroundColor:'rgb(255, 119, 0)',
-        
+        position: 'absolute',
+        bottom: 0,
+        width: '80%',
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        backgroundColor: 'rgb(255, 119, 0)',
+
     }
 })
 

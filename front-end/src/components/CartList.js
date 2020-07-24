@@ -5,6 +5,8 @@ import Dialog, { DialogContent, SlideAnimation, DialogTitle, DialogButton, Dialo
 
 import trackerApi from '../api/tracker';
 
+// rendering single item from list of items in the cart
+
 const CartList = ({ result, callback, onEdit }) => {
     const [serr, setErr] = useState('')
     const [quantity, setQuantity] = useState(result.quantity)
@@ -14,17 +16,17 @@ const CartList = ({ result, callback, onEdit }) => {
 
 
     const decreament = () => {
-        console.log('decreament')
+        // console.log('decreament')
         if (quantity > 1) {
             setQuantity(quantity - 1)
         } else if (quantity == 1) {
-            console.log('hii')
+            // console.log('hii')
             callback(result._id)
         }
     }
 
     const increament = () => {
-        console.log('increament')
+        // console.log('increament')
         setQuantity(quantity + 1)
     }
 
