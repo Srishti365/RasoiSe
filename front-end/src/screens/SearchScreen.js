@@ -9,7 +9,7 @@ import axios from 'axios';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
 import HeaderImageScrollView, { TriggeringView } from 'react-native-image-header-scroll-view';
-
+import { FoodCarousel } from '../components/FoodCarousel';
 
 const Api_key = 'kwfqzzg4RYxI2TYTdDXARWD-Cmvxk2kcP4KaHj84RQw';
 
@@ -68,28 +68,45 @@ const SearchScreen = () => {
             <StatusBar backgroundColor='#EA3C53' />
             <HeaderImageScrollView
                 showsVerticalScrollIndicator={false}
-                maxHeight={400}
-                minHeight={200}
+                maxHeight={380}
+                minHeight={230}
+                minOverlayOpacity={0.3}
+                maxOverlayOpacity={0.5}
                 headerImage={require('../../assets/bg2.jpeg')}
                 renderFixedForeground={() => (
-                    <View style={{ marginTop: 10, flexDirection: 'row' }}>
-                        <View style={{ width: width - 40, marginRight: -5 }}>
-                            <SearchBarScreen
-                                term={term}
-                                onTermChange={newTerm => setTerm(newTerm)}
-                                onTermSubmit={() => searchApi(term, address, "typed")}
-                            />
+                    <>
+                        <View style={{ marginTop: 10, flexDirection: 'row' }}>
+                            <View style={{ width: width - 40, marginRight: -5 }}>
+                                <SearchBarScreen
+                                    term={term}
+                                    onTermChange={newTerm => setTerm(newTerm)}
+                                    onTermSubmit={() => searchApi(term, address, "typed")}
+                                />
+                            </View>
+                            <TouchableOpacity activeOpacity={0.8} onPress={() => {
+                                refRBSheet.current.open()
+                            }}>
+                                <Entypo name="location-pin" size={40} color="white" style={{ marginTop: 8 }} />
+                            </TouchableOpacity>
+
                         </View>
-                        <TouchableOpacity activeOpacity={0.8} onPress={() => {
-                            refRBSheet.current.open()
-                        }}>
-                            <Entypo name="location-pin" size={40} color="white" style={{ marginTop: 8 }} />
-                        </TouchableOpacity>
-                    </View>
+                        <View style={{ marginLeft: 15, marginTop: 40 }}>
+                            <Text style={{ color: 'white', fontSize: 45, fontWeight: 'bold' }} ><Text style={{ color: '#e6b800' }}>R</Text>asoi<Text style={{ color: '#e6b800' }}>S</Text>e</Text>
+                            <Text style={{ color: 'white', marginTop: 6, fontSize: 15 }} >Enjoy Homemade Delicacies.</Text>
+                        </View>
+                    </>
                 )}
             >
                 <View style={{ backgroundColor: results.length == 0 ? 'white' : 'rgb(240,240,240)' }}>
+
                     <TriggeringView style={{}}>
+                        <Text style={{ fontSize: 23, fontWeight: 'bold', marginLeft: 15, marginTop: 20, marginBottom: 15 }} >Most Popular</Text>
+                        <View style={{ margin: 5 }}>
+                            <FoodCarousel />
+                        </View>
+                        <View>
+                            <Text style={{ fontSize: 23, fontWeight: 'bold', marginLeft: 15, marginTop: 32 }}>Chefs Near You</Text>
+                        </View>
                         {errorMessage ? <Text>{errorMessage}</Text> : null}
 
                         {results.length == 0 ?

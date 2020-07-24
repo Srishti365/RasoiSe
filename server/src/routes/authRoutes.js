@@ -18,8 +18,7 @@ router.route('/signin')
 router.route('/verify')
     .post(UsersController.verify);
 
-router.route('/viewProfile')
-    .post(UsersController.viewProfile);
+
 
 
 

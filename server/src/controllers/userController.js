@@ -209,5 +209,28 @@ module.exports = {
         );
         res.json({ Message: "Password updated" });
     },
+    editProfile: async(req,res,next) => {  
+        try {
+            var { name, email, phone, password } = req.body;
+
+            password = await models.hashPassword(password);
+
+            // var chef = await Chef.find({ _id: req.user._id })
+            await User.findOneAndUpdate(
+                { "_id": req.user._id},
+                {
+                    $set: { name, password, phone, email }
+                },
+                function(err, res) {
+                    if (err) throw err;
+                }
+            );
+
+            res.send('Updated!!')
+    
+        } catch (error) {
+            next(error);
+        }
+    }
     
 }

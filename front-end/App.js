@@ -4,7 +4,6 @@ import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import SignoutScreen from './src/screens/SignoutScreen';
 import SigninScreen from './src/screens/SigninScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import ChefSigninScreen from './src/screens/ChefSigninScreen';
@@ -20,7 +19,7 @@ import SearchScreen from './src/screens/SearchScreen';
 import ResetPasswordScreen from './src/screens/ResetPasswordScreen';
 import OtpScreen from './src/screens/OtpScreen';
 import NewPasswordScreen from './src/screens/NewPasswordScreen';
-import { Feather, Entypo, Ionicons } from '@expo/vector-icons';
+import { Feather, Entypo, Ionicons, AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import ResultsShowScreen from './src/screens/ResultsShowScreen';
 import CartScreen from './src/screens/CartScreen';
 import WelcomeScreen from './src/screens/WelcomeScreen';
@@ -34,8 +33,12 @@ import ConfirmedOrders from './src/ChefSide/ConfirmedOrders';
 import OrderHistoryScreen from './src/ChefSide/OrderHistory';
 import RateReviewScreen from './src/screens/RateReviewScreen';
 import MyOrders from './src/screens/MyOrders';
+import EditProfile from './src/ChefSide/EditProfile';
+import EditUserProfile from './src/screens/EditUserProfile';
 
 import PaymentCompleteScreen from './src/screens/PaymentCompleteScreen';
+
+console.disableYellowBox = true;
 
 const chefStack = createStackNavigator({
   chefPage: {
@@ -105,7 +108,8 @@ const chefStack = createStackNavigator({
   },
   OrderHistory: {
     screen: OrderHistoryScreen
-  }
+  },
+  Edit: EditProfile
 })
 
 
@@ -124,41 +128,47 @@ const switchNavigator = createSwitchNavigator({
   }),
   chefflow: chefStack,
   mainflow: createDrawerNavigator({
-    searchflow: createStackNavigator({
-      Search: SearchScreen,
-      ResultsShow: {
-        screen: ResultsShowScreen,
-        navigationOptions: {
-          headerShown: false
-        }
-      },
-      RateReview: RateReviewScreen,
-      Cart: CartScreen,
-      TipsyStripe: TipsyStripeScreen,
-      PaymentComplete: PaymentCompleteScreen
-    }),
-    Profile: {
+    searchflow: {
+      screen: createStackNavigator({
+        Search: SearchScreen,
+        ResultsShow: {
+          screen: ResultsShowScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        },
+        RateReview: RateReviewScreen,
+        Cart: CartScreen,
+        TipsyStripe: TipsyStripeScreen,
+        PaymentComplete: PaymentCompleteScreen,
+        EditProfile:EditUserProfile
+      }),
+      navigationOptions:{
+        title:'Search',
+        drawerIcon: ({ tinColor }) => <FontAwesome5 name="search" size={20} color={tinColor} />
+      }
+    },
+    ProfileScreen: {
       screen: ProfileScreen,
       navigationOptions: {
         title: "Profile",
         drawerIcon: ({ tinColor }) => <Feather name="user" size={16} color={tinColor} />
       }
     },
-    MyOrders:{
-      screen:MyOrders,
-      navigationOptions:{
-        title:'Orders'
+    MyOrders: {
+      screen: MyOrders,
+      navigationOptions: {
+        title: 'Orders',
+        drawerIcon: ({ tinColor }) => <Ionicons name="md-reorder" size={20} color={tinColor} />
       }
     },
-    Cart:CartScreen,
-    Paypal: PaypalScreen,
-    Signout: {
-      screen: SignoutScreen,
+    Cart: {
+      screen: CartScreen,
       navigationOptions: {
-        title: "SignOut",
-        drawerIcon: ({ tinColor }) => <Feather name="log-out" size={16} color={tinColor} />
+        title : "Cart",
+        drawerIcon: ({ tinColor }) => <AntDesign name="shoppingcart" size={20} color={tinColor} />
       }
-    }
+    },
 
   }, {
     contentComponent: props => <SideBar {...props} />,

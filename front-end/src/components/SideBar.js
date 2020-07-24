@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import {View, Text, StyleSheet, ScrollView, ImageBackground, Image, AsyncStorage } from 'react-native';
+import {View, Text, StyleSheet, ScrollView, ImageBackground, Image, AsyncStorage, TouchableOpacity, StatusBar } from 'react-native';
 import {DrawerNavigatorItems} from 'react-navigation-drawer';
+import { Context as AuthContext} from '../context/AuthContext';
 
-import {Ionicons} from '@expo/vector-icons';
+import { Ionicons, Feather} from '@expo/vector-icons';
 
 class Foo{
     async doStuff(){
@@ -14,25 +15,36 @@ class Foo{
 let foo = new Foo()
 var email = foo.doStuff()
 
-export default Sidebar = props => (
-    <ScrollView>
-        <ImageBackground 
-            source={require('../../assets/image.png')} 
-            style={{width:undefined, padding:16, paddingTop:40}}>
+export default Sidebar = (props) => {
 
-            <Image source={require('../../assets/profile.png')} style={styles.profile} />
-            <Text style={styles.name}> {email} </Text>
+    const { signout } = useContext(AuthContext);
 
-            <View style={{ flexDirection: "row"}}>
-                <Text style={styles.followers}>734 followers</Text>
-                <Ionicons name="md-people" size={16} color="rgba(255,255,255, 0.8)"></Ionicons>
+    return (
+        <ScrollView>
+            <StatusBar backgroundColor='#EA3C53' />
+            <ImageBackground 
+                source={require('../../assets/image.png')} 
+                style={{width:undefined, padding:16, paddingTop:40}}>
+
+                <Image source={require('../../assets/profile.png')} style={styles.profile} />
+                <Text style={styles.name}> {email} </Text>
+
+                <View style={{ flexDirection: "row"}}>
+                    <Text style={styles.followers}>734 followers</Text>
+                    <Ionicons name="md-people" size={16} color="rgba(255,255,255, 0.8)"></Ionicons>
+                </View>
+            </ImageBackground>
+            <View style={styles.container}>
+                <DrawerNavigatorItems {...props} />
+                <TouchableOpacity style={{marginHorizontal:10,flexDirection:'row',alignItems:'center',height:50,borderRadius:5}} onPress={signout} activeOpacity={0.9}>
+                    <Feather name='log-out' size={20} style={{marginLeft:15}}/>
+                    <Text style={{fontWeight:'bold',marginLeft:35}}>SignOut</Text>
+                </TouchableOpacity>
             </View>
-        </ImageBackground>
-        <View style={styles.container}>
-            <DrawerNavigatorItems {...props} />
-        </View>
-    </ScrollView>
-);
+        </ScrollView>
+    )
+}
+
 
 
 const styles = StyleSheet.create({

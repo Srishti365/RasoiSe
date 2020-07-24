@@ -6,7 +6,8 @@ const User = mongoose.model('User');
 const Executive = mongoose.model('Executive')
 const router = express.Router();
 router.use(requireAuth);
-
+const { validateBody, editChefProfile } = require('../helpers/routeHelpers');
+const ChefController = require('../controllers/chefController');
 
 const models = require('../models/models')
 
@@ -242,6 +243,8 @@ router.route('/profile')
     })
 
 
+router.route('/editProfile')
+    .post(validateBody(editChefProfile.authSchema), ChefController.editProfile);
 
 
 

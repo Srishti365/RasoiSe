@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TextInput, TouchableOpacity, StatusBar, ImageBackground, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Switch, Image, TextInput, TouchableOpacity, StatusBar, ImageBackground, SafeAreaView } from 'react-native';
 import trackerApi from '../api/tracker';
 import ResultShowDetail from '../components/ResultShowDetails';
 import { AntDesign, Entypo, Feather } from '@expo/vector-icons';
@@ -13,22 +13,88 @@ import { NavigationEvents } from 'react-navigation';
 
 const ResultsShowScreen = ({ navigation }) => {
     const [result, setResult] = useState(null);
+    const [err, setErr] = useState('');
+    const [veg, setVeg] = useState([]);
     const id = navigation.getParam('id');
+    const searchTerm = navigation.getParam('searchTerm');
+    const [isEnabled, setIsEnabled] = useState(false);
+    const [isRel, setIsRel] = useState(false);
+    const [relevant, setRelevant] = useState([]);
 
 
+    // const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+    const toggleSwitch = async () => {
+        try {
+            if (isRel) {
+                let k;
+                if (isEnabled) {
+                    k = "off";
+                }
+                else {
+                    k = "on";
+                }
+                const response = await trackerApi.post('/home/yourdishes', { chefid: id, query: searchTerm, toggle: k });
+                console.log('relevance', response.data);
+                setIsEnabled(previousState => !previousState);
+                setRelevant(response.data.dishes);
+            }
+            else {
+                setIsEnabled(previousState => !previousState);
+            }
+        }
+        catch (err) {
+            console.log(err);
+            setErr('Something went wrong');
+        }
+    }
+
+
+    const toggleRelevant = async () => {
+        try {
+            if (!isRel) {
+                let k;
+                if (isEnabled) {
+                    k = "on";
+                }
+                else {
+                    k = "off";
+                }
+                const response = await trackerApi.post('/home/yourdishes', { chefid: id, query: searchTerm, toggle: k });
+                console.log('relevance', response.data);
+                setIsRel(true);
+                setRelevant(response.data.dishes);
+            }
+            else {
+                setIsRel(previousState => !previousState);
+            }
+        }
+        catch (err) {
+            console.log(err);
+            setErr('Something went wrong');
+        }
+    }
 
 
     const getResult = async (id) => {
         // console.log('inside get result');
         // console.log(id);
         const response = await trackerApi.get(`/home/chef/${id}`);
-        console.log('chef',response.data);
+        // console.log('chef', response.data);
         setResult(response.data);
     };
+
+    const getVegOnly = async (id) => {
+        const response = await trackerApi.post('/home/filterdish/', { chefid: id });
+        // console.log('veg only', response.data);
+        setVeg(response.data.dishes);
+
+    }
 
     useEffect(() => {
         // console.log('inside use effect', id);
         getResult(id);
+        getVegOnly(id);
     }, []);
 
 
@@ -56,14 +122,14 @@ const ResultsShowScreen = ({ navigation }) => {
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
             <NavigationEvents onDidFocus={() => getResult(id)} />
             <StatusBar backgroundColor='#EA3C53' />
-            <ImageBackground source={require('../../assets/bg2.jpeg')} style={{ width: '100%' }}>
+            <ImageBackground source={require('../../assets/bg3.jpeg')} style={{ width: '100%' }}>
                 <SafeAreaView style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
                     <NavigationEvents onDidFocus={() => getResult(id)} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10, marginTop: 5 }}>
                         <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Search')}>
                             <AntDesign name='arrowleft' color='white' size={24} />
                         </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={0.8} style={{ marginLeft: 'auto', marginRight: 20 }} onPress={() => navigation.navigate('RateReview', { chefId: result.chef_details._id, chefName: result.chef_details.name, chef_profile :result.chef_details })} >
+                        <TouchableOpacity activeOpacity={0.8} style={{ marginLeft: 'auto', marginRight: 20 }} onPress={() => navigation.navigate('RateReview', { chefId: result.chef_details._id, chefName: result.chef_details.name, chef_profile: result.chef_details })} >
                             <Feather name='edit' color='white' size={24} />
                         </TouchableOpacity>
                         <TouchableOpacity activeOpacity={0.8} style={{ marginRight: 10 }} onPress={() => navigation.navigate('Cart')}>
@@ -128,18 +194,72 @@ const ResultsShowScreen = ({ navigation }) => {
                 </SafeAreaView>
             </ImageBackground>
             <ScrollView showsVerticalScrollIndicator={false} style={{ borderTopLeftRadius: 30, borderTopRightRadius: 30, marginTop: -30, backgroundColor: 'rgb(250,250,250)', elevation: 25 }}>
-                <View style={{ marginTop: 30, backgroundColor: 'rgb(250,250,250)' }}>
+                <View style={{ marginTop: 30, backgroundColor: 'rgb(250,250,250)', flexDirection: 'row', marginLeft: 20 }}>
+                    <Text style={{ alignSelf: 'flex-end', fontSize: 15, marginBottom: 13, color: '#737373' }} >Veg Only</Text>
+                    <Switch
+                        trackColor={{ false: "#767577", true: "#77b300" }}
+                        thumbColor={isEnabled ? "#f4f3f4" : "#f4f3f4"}
+                        onValueChange={toggleSwitch}
+                        value={isEnabled}
+                        style={{ alignSelf: 'flex-end', marginBottom: 10, marginLeft: 8 }}
+                    />
+                    <Text style={{ alignSelf: 'flex-end', fontSize: 15, marginBottom: 13, color: '#737373' }} >Search Relevant</Text>
+                    <Switch
+                        trackColor={{ false: "#767577", true: "#66b3ff" }}
+                        thumbColor={isRel ? "#f4f3f4" : "#f4f3f4"}
+                        onValueChange={toggleRelevant}
+                        value={isRel}
+                        style={{ alignSelf: 'flex-end', marginBottom: 10, marginLeft: 8 }}
+                    />
 
                 </View>
-                <FlatList
-                    data={result.menu}
-                    keyExtractor={(result) => result._id}
-                    renderItem={({ item }) => {
-                        return <View>
-                            <ResultShowDetail result={item} availability={result.availability} />
-                        </View>
-                    }}
-                />
+
+
+
+                {
+                    !isEnabled && !isRel ?
+
+                        <FlatList
+                            data={result.menu}
+                            keyExtractor={(result) => result._id}
+                            renderItem={({ item }) => {
+                                return <View>
+                                    <ResultShowDetail result={item} availability={result.availability} />
+                                </View>
+                            }}
+                        />
+
+                        :
+
+                        (
+                            isRel ?
+
+                                <FlatList
+                                    data={relevant}
+                                    keyExtractor={(result) => relevant._id}
+                                    renderItem={({ item }) => {
+                                        return <View>
+                                            <ResultShowDetail result={item} availability={result.availability} />
+                                        </View>
+                                    }}
+                                />
+
+
+                                :
+                                <FlatList
+                                    data={veg}
+                                    keyExtractor={(result) => veg._id}
+                                    renderItem={({ item }) => {
+                                        return <View>
+                                            <ResultShowDetail result={item} availability={result.availability} />
+                                        </View>
+                                    }}
+                                />
+
+                        )
+                }
+
+
             </ScrollView>
         </View>
     );

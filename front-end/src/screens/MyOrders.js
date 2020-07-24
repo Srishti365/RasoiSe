@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, FlatList } from 'react-native';
+import { Text, View, StyleSheet, FlatList, ScrollView, ActivityIndicator } from 'react-native';
 import trackerApi from '../api/tracker';
 import UserOrderList from '../components/UserOrderList';
 
@@ -28,20 +28,24 @@ const MyOrders = () => {
             <View style={{height:60,backgroundColor:'rgb(245,245,245)',justifyContent:'center'}}>
                 <Text style={{color:'rgb(180,180,180)',marginLeft:20,fontSize:17}}>Your Orders</Text>
             </View>
-            {visible ? 
-                 <FlatList 
-                 showsVerticalScrollIndicator
-                 keyExtractor={(result) => result._id}
-                 data={result}
-                 renderItem={({ item }) => {
-                     return (
-                        <UserOrderList result={item}/>
-                     )
-                 }}
-             />
-             : null
-            }
-            
+            <ScrollView showsVerticalScrollIndicator={false}>
+                {visible ? 
+                    <FlatList 
+                        showsVerticalScrollIndicator
+                        keyExtractor={(result) => result._id}
+                        data={result}
+                        renderItem={({ item }) => {
+                            return (
+                                <UserOrderList result={item}/>
+                            )
+                        }}
+                    />
+                : <ActivityIndicator size='large' style={{height:'100%',justifyContent:'center',alignItems:'center'}}/>
+                }   
+                <View style={{marginBottom:100}}>
+
+                </View>
+            </ScrollView>        
         </View>
     )
 }

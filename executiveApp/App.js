@@ -21,9 +21,7 @@ const TabNavigator = createBottomTabNavigator(
     Pending: PendingOrders,
     InProcess: InProcessScreen,
     History: History,
-    Profile: ProfileScreen,
-    SignOut: SignoutScreen,
-
+    Profile: ProfileScreen
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -66,6 +64,7 @@ const AppStack = createStackNavigator({
     }
   },
   Map: MapScreen,
+  Signout:SignoutScreen
 })
 
 const AuthStack = createSwitchNavigator({

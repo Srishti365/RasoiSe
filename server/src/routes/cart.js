@@ -9,6 +9,7 @@ const User = mongoose.model('User');
 const router = express.Router();
 router.use(requireAuth);
 
+
 const models = require('../models/models')
 
 Chef = models.chef;
@@ -180,9 +181,6 @@ router.route("/remove")
             next(error);
         }
     })
-
-
-
 
 
 
