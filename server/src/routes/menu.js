@@ -73,7 +73,7 @@ router.route("/")
         }
     });
 
-//view all menu items
+//view all Chefs in the vicinity
 router.route("/viewallchefs")
     .post(async (req, res, next) => {
         try {
@@ -99,22 +99,24 @@ router.route("/viewallchefs")
 
     })
 
+
+// Search for home chefs acc to location and sort them acc to rating
 router.route("/search")
     .post(async (req, res, next) => {
         try {
-            // ---------------------------------------------------
-            console.log("search", req.body)
+
+
             lat = 25.637979
             long = 85.0985654
             var geocoder = NodeGeocoder(options);
             if (req.body.location == "current") {
-                console.log("current address")
+
                 lat = req.body.lat;
                 long = req.body.long;
             }
             else {
                 await geocoder.geocode(req.body.address).then(async function (loc) {
-                    console.log("typed address")
+
                     lat = loc[0].latitude;
                     long = loc[0].longitude;
 
@@ -178,13 +180,13 @@ router.route("/search")
         }
     })
 
-//page to display particular dishes by a chef(ef chicken dishes by tonio)    
+//page to display particular dishes by a chef(example chicken dishes by tonio)    
 router.route("/yourdishes")
     .post(async (req, res, next) => {
         try {
 
             //req.body={chefid,query,toggle:on or off}
-            console.log('search rel', req.body);
+
             key = req.body.toggle
             if (key == "on") {
                 await Menu.find({ chef: req.body.chefid, name: new RegExp(req.body.query.toLowerCase()), category: "veg" }).then(async function (data) {
@@ -222,10 +224,7 @@ router.route("/filterdish/")
 
 
 
-
-
-//add time slot code here
-//view all dishes by a particular chef and chef details
+//View all dishes by a particular chef
 router.route("/chef/:query")
     .get(async (req, res, next) => {
         try {
@@ -265,7 +264,7 @@ router.route("/chef/:query")
     })
 
 
-//change average rating when a user rates
+//change average rating of chef when a user rates
 router.route("/changerating")
     .post(async (req, res, next) => {
         try {
@@ -351,7 +350,7 @@ router.route("/viewallreviews")
     })
 
 
-//view our rating
+//view your rating
 router.route("/viewyourrating")
     .post(async (req, res, next) => {
         try {

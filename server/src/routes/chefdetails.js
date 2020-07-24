@@ -152,7 +152,7 @@ router.route("/viewparticularorder")
 router.route("/confirmorder")
     .post(async (req, res, next) => {
         try {
-            //req.bod={id:id of the particular cartitem}
+            //req.body={id:id of the particular cartitem}
             timetaken = 10;
             await req.body;
             await Cart.findById(req.body.id).populate({ path: 'user', model: User }).populate({ path: 'chef', model: Chef }).then(async function (data) {
