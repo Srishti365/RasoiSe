@@ -1,9 +1,11 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 
+// Tunnel for connecting to backend through expo
+
 const instance = axios.create({
 
-    baseURL: 'http://d867b3a12c02.ngrok.io'
+    baseURL: 'http://d4730c47dccd.ngrok.io'
 
 });
 

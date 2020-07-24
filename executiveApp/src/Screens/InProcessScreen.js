@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, FlatList, ScrollView, Button } from 'react-nati
 import trackerApi from '../api/tracker';
 import { NavigationEvents } from 'react-navigation';
 
+// Rendering orders that have been picked up but yet to be delivered
 
 const InProcessScreen = ({ navigation }) => {
     const [err, setErr] = useState('');
@@ -24,7 +25,7 @@ const InProcessScreen = ({ navigation }) => {
         try {
             // console.log('order id', orderId);
             const response = await trackerApi.post('/execdetails/confirmdelivery', { id: orderId });
-            console.log(response.data);
+            // console.log(response.data);
             viewInprocess();
             navigation.navigate('Pending')
 

@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
 import trackerApi from '../api/tracker';
 import { NavigationEvents } from 'react-navigation';
 
+// Rendering previous deliveries done by the executive
+
 const History = () => {
     const [err, setErr] = useState('');
     const [result, setResult] = useState([]);

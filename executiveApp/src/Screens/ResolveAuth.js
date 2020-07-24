@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { AsyncStorage } from 'react-native';
 
+// Executive authentication
+
 
 const ResolveAuthScreen = ({ navigation }) => {
 

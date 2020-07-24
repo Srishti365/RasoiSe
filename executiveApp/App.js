@@ -14,6 +14,8 @@ import InProcessScreen from './src/Screens/InProcessScreen';
 import MapScreen from './src/Screens/MapScreen';
 
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+console.disableYellowBox = true;
+
 
 
 const TabNavigator = createBottomTabNavigator(
@@ -64,7 +66,7 @@ const AppStack = createStackNavigator({
     }
   },
   Map: MapScreen,
-  Signout:SignoutScreen
+  Signout: SignoutScreen
 })
 
 const AuthStack = createSwitchNavigator({

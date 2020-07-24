@@ -1,7 +1,9 @@
-import React, {useState, useDebugValue} from 'react';
+import React, { useState, useDebugValue } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Input } from 'react-native-elements';
 import trackerApi from '../api/tracker';
+
+// user verification after sending otp here
 
 const VerifyScreen = ({ navigation }) => {
     const [state, setState] = useState('')
@@ -16,20 +18,20 @@ const VerifyScreen = ({ navigation }) => {
     // }
 
     const VerifyEmail = async (state) => {
-        try{
+        try {
             const response = await trackerApi.post('/verify', { email, token: state });
             navigation.navigate('Signin');
-        
-        }catch(err){
+
+        } catch (err) {
             setErrorMessage(err.response.data.error);
         }
-        
+
     }
 
 
-    return(
+    return (
         <View>
-            <Input placeholder="Enter code" value={state} onChangeText={setState} onEndEditing={()=>VerifyEmail(state)}/>
+            <Input placeholder="Enter code" value={state} onChangeText={setState} onEndEditing={() => VerifyEmail(state)} />
             {errorMessage ? <Text style={styles.text}>{errorMessage}</Text> : null}
         </View>
     )
@@ -42,8 +44,8 @@ VerifyScreen.navigationOptions = () => {
 };
 
 const styles = StyleSheet.create({
-    text:{
-        fontSize:20
+    text: {
+        fontSize: 20
     }
 });
 

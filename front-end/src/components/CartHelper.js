@@ -3,6 +3,8 @@ import { View, FlatList, Text, StyleSheet, ScrollView, AsyncStorage } from 'reac
 import CartList from './CartList';
 import { Card } from 'react-native-elements';
 
+// cart item list helper component
+
 const CartHelper = ({ result, callback, onEdit }) => {
 
     // console.log('cart helper', result)

@@ -4,6 +4,8 @@ import { Card, Rating } from 'react-native-elements';
 import Communications from 'react-native-communications';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
+// rendering single item in the menu
+
 
 const ResultsDetail = ({ result, index, callback }) => {
     // console.log(result.image);

@@ -3,6 +3,8 @@ import { AsyncStorage } from 'react-native';
 import trackerApi from '../api/tracker';
 import { requestPermissionsAsync, watchPositionAsync, Accuracy } from 'expo-location';
 
+// search results hooks
+
 export default () => {
     const [results, setResults] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
@@ -45,13 +47,13 @@ export default () => {
 
     const searchApi = async (searchTerm, add, loc) => {
         try {
-            console.log('search result', searchTerm, add, loc);
+            // console.log('search result', searchTerm, add, loc);
             setErrorMessage(null)
             setResults([])
-            console.log('searchTerm', searchTerm)
+            // console.log('searchTerm', searchTerm)
             const response = await trackerApi.post(`/home/search`, { query: searchTerm, lat: location.coords.latitude, long: location.coords.longitude, location: loc, address: add });
             // console.log(response.data.chefs);
-            console.log('response', response.data);
+            // console.log('response', response.data);
             setResults(response.data.chefs);
             setAddress(response.data.location);
             await AsyncStorage.setItem('address', response.data.location)

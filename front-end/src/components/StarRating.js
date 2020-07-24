@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import StarRating from 'react-native-star-rating';
 
+// star rating render component
+
 
 class Ratings extends Component {
 

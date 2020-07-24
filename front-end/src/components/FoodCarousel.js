@@ -7,7 +7,7 @@ const ITEM_HORIZONTAL_MARGIN = 15;
 const ITEM_WIDTH = SLIDE_WIDTH + ITEM_HORIZONTAL_MARGIN * 2;
 const SLIDER_WIDTH = viewportWidth;
 
-
+// front page carousel component
 
 export class FoodCarousel extends Component {
     _renderItem = ({ item, index }) => {
