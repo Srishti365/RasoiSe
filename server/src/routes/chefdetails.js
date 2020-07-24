@@ -193,9 +193,8 @@ router.route("/confirmorder")
 
 
                         const html = `Hi, Executive ${exec_name},
-                    You have been assigned to pick up orders of chef 
-                       ${data.chef.name} at ${data.chef.location} 
-                       and deliver it to ${data.user.name} at ${data.delivery_add}
+                    You have been assigned to pick up orders from home chef ${data.chef.name} at ${data.chef.location} 
+                    Delivery Location: ${data.user.name} at ${data.delivery_add}
                     Please reach there asap and confirm after successful delivery.
                     Have a pleasant day`
 
