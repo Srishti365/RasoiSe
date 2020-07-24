@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import {View, Text, StyleSheet, ScrollView, ImageBackground, Image, AsyncStorage, TouchableOpacity } from 'react-native';
+import {View, Text, StyleSheet, ScrollView, ImageBackground, Image, AsyncStorage, TouchableOpacity, StatusBar } from 'react-native';
 import {DrawerNavigatorItems} from 'react-navigation-drawer';
 import { Context as AuthContext} from '../context/AuthContext';
 
@@ -21,6 +21,7 @@ export default Sidebar = (props) => {
 
     return (
         <ScrollView>
+            <StatusBar backgroundColor='#EA3C53' />
             <ImageBackground 
                 source={require('../../assets/image.png')} 
                 style={{width:undefined, padding:16, paddingTop:40}}>
@@ -37,7 +38,7 @@ export default Sidebar = (props) => {
                 <DrawerNavigatorItems {...props} />
                 <TouchableOpacity style={{marginHorizontal:10,flexDirection:'row',alignItems:'center',height:50,borderRadius:5}} onPress={signout} activeOpacity={0.9}>
                     <Feather name='log-out' size={20} style={{marginLeft:15}}/>
-                    <Text style={{fontWeight:'bold',marginLeft:40}}>SignOut</Text>
+                    <Text style={{fontWeight:'bold',marginLeft:35}}>SignOut</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>

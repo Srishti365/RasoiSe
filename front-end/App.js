@@ -19,7 +19,7 @@ import SearchScreen from './src/screens/SearchScreen';
 import ResetPasswordScreen from './src/screens/ResetPasswordScreen';
 import OtpScreen from './src/screens/OtpScreen';
 import NewPasswordScreen from './src/screens/NewPasswordScreen';
-import { Feather, Entypo, Ionicons } from '@expo/vector-icons';
+import { Feather, Entypo, Ionicons, AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import ResultsShowScreen from './src/screens/ResultsShowScreen';
 import CartScreen from './src/screens/CartScreen';
 import WelcomeScreen from './src/screens/WelcomeScreen';
@@ -34,7 +34,7 @@ import OrderHistoryScreen from './src/ChefSide/OrderHistory';
 import RateReviewScreen from './src/screens/RateReviewScreen';
 import MyOrders from './src/screens/MyOrders';
 import EditProfile from './src/ChefSide/EditProfile';
-
+import EditUserProfile from './src/screens/EditUserProfile';
 
 import PaymentCompleteScreen from './src/screens/PaymentCompleteScreen';
 
@@ -128,20 +128,27 @@ const switchNavigator = createSwitchNavigator({
   }),
   chefflow: chefStack,
   mainflow: createDrawerNavigator({
-    searchflow: createStackNavigator({
-      Search: SearchScreen,
-      ResultsShow: {
-        screen: ResultsShowScreen,
-        navigationOptions: {
-          headerShown: false
-        }
-      },
-      RateReview: RateReviewScreen,
-      Cart: CartScreen,
-      TipsyStripe: TipsyStripeScreen,
-      PaymentComplete: PaymentCompleteScreen
-    }),
-    Profile: {
+    searchflow: {
+      screen: createStackNavigator({
+        Search: SearchScreen,
+        ResultsShow: {
+          screen: ResultsShowScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        },
+        RateReview: RateReviewScreen,
+        Cart: CartScreen,
+        TipsyStripe: TipsyStripeScreen,
+        PaymentComplete: PaymentCompleteScreen,
+        EditProfile:EditUserProfile
+      }),
+      navigationOptions:{
+        title:'Search',
+        drawerIcon: ({ tinColor }) => <FontAwesome5 name="search" size={20} color={tinColor} />
+      }
+    },
+    ProfileScreen: {
       screen: ProfileScreen,
       navigationOptions: {
         title: "Profile",
@@ -151,10 +158,17 @@ const switchNavigator = createSwitchNavigator({
     MyOrders: {
       screen: MyOrders,
       navigationOptions: {
-        title: 'Orders'
+        title: 'Orders',
+        drawerIcon: ({ tinColor }) => <Ionicons name="md-reorder" size={20} color={tinColor} />
       }
     },
-    Cart: CartScreen,
+    Cart: {
+      screen: CartScreen,
+      navigationOptions: {
+        title : "Cart",
+        drawerIcon: ({ tinColor }) => <AntDesign name="shoppingcart" size={20} color={tinColor} />
+      }
+    },
 
   }, {
     contentComponent: props => <SideBar {...props} />,

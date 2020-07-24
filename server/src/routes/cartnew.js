@@ -10,6 +10,9 @@ router.use(requireAuth);
 const models = require('../models/models');
 const cons = require('consolidate');
 
+const { validateBody, editChefProfile } = require('../helpers/routeHelpers');
+const UserController = require('../controllers/userController');
+
 Chef = models.chef;
 Menu = models.menu;
 OrderItem = models.orderItem;
@@ -286,5 +289,23 @@ router.route("/viewallorders")
         }
 
     })
+
+
+router.route('/profile')
+    .get(async (req, res, next) => {
+        try {
+            
+            await User.find({ _id: req.user._id }).then(async function (data) {
+
+                res.send({ profile: data })
+            })
+        } catch (error) {
+            next(error);
+        }
+    })
+
+router.route('/editProfile')
+    .post(validateBody(editChefProfile.authSchema), UserController.editProfile);
+
 
 module.exports = router;
