@@ -189,7 +189,7 @@ router.route("/editcart")
     })
 
 
-//confirm payment
+//checkout and update cart
 router.route("/checkout")
     .post(async (req, res, next) => {
         try {
@@ -294,7 +294,7 @@ router.route("/viewallorders")
 router.route('/profile')
     .get(async (req, res, next) => {
         try {
-            
+
             await User.find({ _id: req.user._id }).then(async function (data) {
 
                 res.send({ profile: data })

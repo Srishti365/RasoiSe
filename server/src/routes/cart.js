@@ -34,7 +34,7 @@ function getTime() {
 }
 //-------------------------------------------------------------------
 
-
+//add items to cart
 router.route("/add")
     .post(async (req, res, next) => {
         try {
@@ -125,6 +125,8 @@ router.route("/add")
             next(error);
         }
     });
+
+//view cart items
 
 router.route("/view")
     .post(async (req, res, next) => {

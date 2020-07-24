@@ -10,13 +10,9 @@ const bcrypt = require('bcrypt');
 
 const transporter = require('../../email_creds')
 
-// const transporter = nodemailer.createTransport({
-//     service:'gmail',
-//     auth: { 
-//         user: 'projectrasoise@gmail.com',
-//         pass: 'R00t1234'
-//     }
-// });
+
+
+//functions for user registration, authentication and login
 
 function makeid(length) {
     var result = '';

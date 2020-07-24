@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const models = require('../models/Executive');
 Executive = models.Executive;
 
+//functions for executive authentication and login
 
 module.exports = {
     signIn: async (req, res) => {

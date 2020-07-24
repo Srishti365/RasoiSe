@@ -6,6 +6,8 @@ Chef = models.chef;
 const options = require('../../location_creds')
 var geocoder = NodeGeocoder(options);
 
+//functions for chef registration, authentication and login
+
 module.exports = {
     signUp: async (req, res) => {
         var { email, password, location, name, phone } = req.body;
@@ -83,7 +85,7 @@ module.exports = {
             return res.status(422).send({ error: 'Invalid password or email' });
         }
     },
-    editProfile: async(req,res,next) => {  
+    editProfile: async (req, res, next) => {
         try {
             var { name, email, phone, password } = req.body;
 
@@ -91,17 +93,17 @@ module.exports = {
 
             // var chef = await Chef.find({ _id: req.user._id })
             await Chef.findOneAndUpdate(
-                { "_id": req.user._id},
+                { "_id": req.user._id },
                 {
                     $set: { name, password, phone, email }
                 },
-                function(err, res) {
+                function (err, res) {
                     if (err) throw err;
                 }
             );
 
             res.send('Updated!!')
-    
+
         } catch (error) {
             next(error);
         }
