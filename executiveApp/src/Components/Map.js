@@ -29,7 +29,7 @@ const Map = ({ data, pickup_loc, dest_loc, exec_loc, time, dist, chef_add, dest_
                 />
 
                 <Marker coordinate={{ latitude: exec_loc[0], longitude: exec_loc[1] }} title={exec_add} description='Executive location'/>
-                <Marker coordinate={{ latitude: dest_loc[0], longitude: dest_loc[1] }} title={dest_add} description='Deliveryç location'/>
+                <Marker coordinate={{ latitude: dest_loc[0], longitude: dest_loc[1] }} title={dest_add} description='Delivery location'/>
                 <Marker coordinate={{ latitude: pickup_loc[0], longitude: pickup_loc[1] }} title={chef_add} description='Pickup location'/>
 
             </MapView>

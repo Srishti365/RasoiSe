@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, FlatList, Dimensions, StatusBar } from 'react-native';
 import { Card } from 'react-native-elements';
 import trackerApi from '../api/tracker';
 import { Entypo } from '@expo/vector-icons';
@@ -33,10 +33,18 @@ const History = () => {
     }, []);
 
     // console.log(result);
+    if(result.length==0){
+        return (
+            <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                <Text>You don't have any orders yet.</Text>
+            </View>
+        )
+    }
 
 
     return (
         <View>
+            <StatusBar backgroundColor='#EA3C53' />
             <NavigationEvents onDidFocus={() => viewHistory()} />
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{height:55,justifyContent:'center'}}>

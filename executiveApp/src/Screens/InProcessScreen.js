@@ -41,7 +41,13 @@ const InProcessScreen = ({ navigation }) => {
         viewInprocess();
     }, []);
 
-    // console.log(result);
+    if(result.length==0){
+        return (
+            <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                <Text>No orders in transit.</Text>
+            </View>
+        )
+    }
 
 
     return (
@@ -68,8 +74,12 @@ const InProcessScreen = ({ navigation }) => {
                                         <Text style={{marginLeft:'auto',marginRight:10,width:'50%'}}>{item.delivery_add}</Text>
                                     </View>
                                     <View style={{flexDirection:'row',alignItems:'center',marginTop:10}}>
-                                        <Text style={{color:'gray'}}>Customer's email</Text>
-                                        <Text style={{marginLeft:'auto',marginRight:10,width:'50%'}}>{item.user.email}</Text>
+                                        <Text style={{color:'gray'}}>Customer's name</Text>
+                                        <Text style={{marginLeft:'auto',marginRight:10,width:'50%'}}>{item.user.name}</Text>
+                                    </View>
+                                    <View style={{flexDirection:'row',alignItems:'center',marginTop:10}}>
+                                        <Text style={{color:'gray'}}>Customer's phoneNo</Text>
+                                        <Text style={{marginLeft:'auto',marginRight:10,width:'50%'}}>{item.user.phoneNo}</Text>
                                     </View>
                                 </View>
                                 <View style={{borderBottomWidth:1,borderColor:'rgb(240,240,240)',paddingBottom:10}}>
@@ -78,7 +88,7 @@ const InProcessScreen = ({ navigation }) => {
                                         <Text style={{marginLeft:'auto',marginRight:10,width:'50%'}}>{item.chef.location}</Text>
                                     </View>
                                     <View style={{flexDirection:'row',alignItems:'center',marginTop:10}}>
-                                        <Text style={{color:'gray'}}>Customer's email</Text>
+                                        <Text style={{color:'gray'}}>Chef name</Text>
                                         <Text style={{marginLeft:'auto',marginRight:10,width:'50%'}}>{item.chef.name}</Text>
                                     </View>
                                 </View>
