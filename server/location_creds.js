@@ -1,7 +1,7 @@
 
 const options = {
-    provider: 'mapquest',
-    apiKey: 'FAXiomAqy1FnrWy8JkGHW4ejgrP3jtKs', // for Mapquest, OpenCage, Google Premier
+    provider: 'add provider',  //google, mapquest etc
+    apiKey: 'add api key', // for Mapquest, OpenCage, Google Premier
     formatter: null // 'gpx', 'string', ...
 };
 

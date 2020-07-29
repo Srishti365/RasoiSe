@@ -9,7 +9,7 @@ router.use(requireAuth);
 
 const Stripe = require('stripe');
 const cons = require("consolidate");
-const stripe = Stripe('sk_test_51H6GbzGRyyytHUwO4kNXW9obCRJzoKmK03xdx7P52zzQk6431gnA9YSya87cFCRdkeEUZhIdeQ997KENiJgVpIWO00GBdp4BQ2');
+const stripe = Stripe('add stripe id');
 
 
 Cart = models.cart;

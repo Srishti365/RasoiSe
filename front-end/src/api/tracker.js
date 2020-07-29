@@ -5,7 +5,7 @@ import { AsyncStorage } from 'react-native';
 
 const instance = axios.create({
 
-    baseURL: 'http://1cea31089663.ngrok.io'
+    baseURL: 'insert ngrok tracker url'
 
 });
 

@@ -4,7 +4,7 @@ import { AsyncStorage } from 'react-native';
 // Ngrok tunnel for connecting to backend through expo
 
 const instance = axios.create({
-    baseURL: 'http://d4730c47dccd.ngrok.io'
+    baseURL: 'insert ngrok tracker url'
 });
 
 instance.interceptors.request.use(

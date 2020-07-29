@@ -9,9 +9,9 @@ const requireAuth = require('../middlewares/requireAuth');
 paypal.configure({
     mode: "sandbox", //sandbox or live
     client_id:
-        "AeED_KTQJTjxa87CECItTZp2xS1MRlpubqlluq0jkoq9jNqsED6U5RFjWNBZw3clnUF5LJ7f9oMleIy0",
+        "add id",
     client_secret:
-        "EMub9pj8Ji5UtjoKB4r-1ZldEiMy0GWGnj8v2i60OuX3-0FIDI6QvtULXNE3uNBE9iDGq9hBEuNRFs6e"
+        "add secret"
 });
 
 
@@ -23,7 +23,7 @@ router.get("/", (req, res) => {
 router.get("/paypal", (req, res) => {
     // console.log('hii');
     // console.log(req.params.token)
-    
+
     var create_payment_json = {
         intent: "sale",
         payer: {
@@ -55,7 +55,7 @@ router.get("/paypal", (req, res) => {
         ]
     };
 
-    paypal.payment.create(create_payment_json, function(error, payment) {
+    paypal.payment.create(create_payment_json, function (error, payment) {
         if (error) {
             throw error;
         } else {
@@ -82,7 +82,7 @@ router.get("/success", (req, res) => {
         ]
     };
 
-    paypal.payment.execute(paymentId, execute_payment_json, function(
+    paypal.payment.execute(paymentId, execute_payment_json, function (
         error,
         payment
     ) {
